@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Shuttle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: rgb(30, 110, 233);
+    }
+
+    .search-results-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgb(30, 110, 233);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+	
+	#search-info-container {
+	  display: flex;
+	  flex-direction: column;
+	  gap: 10px;
+	}
+
+	.search-info-item {
+	  display: flex;
+	  align-items: center;
+	  font-weight: bold;
+	  color: rgb(30, 110, 233);
+	}
+
+	.search-info-item label {
+	  font-weight: bold;
+	  color: black
+	}
+	table {
+	  margin: 0 auto;
+	  text-align: left;
+	}
+    
+  </style>
+</head>
+<body>
+  <div class="search-results-container">
+    <h1>Select Shuttle</h1>
+	<div id="search-info-container">
+	  <div class="search-info-item">
+	  <table><tr>
+	  <th>
+
+		<span id="pickup-location">N/A</span>
+		</th>
+	  </div>
+	  <th><label> - </label></th>
+	  <th>
+	  <div class="search-info-item">
+
+		<span id="dropoff-location">N/A</span>
+	  </th></tr></table>
+	  </div>
+	</div>
+    <div id="search-info"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Shuttle</th>
+          <th>Pickup</th>
+          <th>Dropoff</th>
+          <th>Departure Time</th>
+          <th>Duration</th>
+          <th>Price</th>
+          <th>Book</th>
+        </tr>
+      </thead>
+      <tbody id="shuttle-results"></tbody>
+    </table>
+	<br>
+	<table id="search-results-table">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Departure Frequency (Days)</th>
+        <th>Departure Frequency (Minutes)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- The search results will be dynamically inserted here -->
+    </tbody>
+  </table>
+  </div>
+
+  <script>
+  
+    // Retrieve the query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const pickupLocation = urlParams.get('pickup');
+    const dropoffLocation = urlParams.get('dropoff');
+    const date = urlParams.get('date');
+    const time = urlParams.get('time');
+
+    // Display the search information
+	const pickupLocationElement = document.getElementById('pickup-location');
+	const dropoffLocationElement = document.getElementById('dropoff-location');
+
+	pickupLocationElement.textContent = pickupLocation || 'N/A';
+	dropoffLocationElement.textContent = dropoffLocation || 'N/A';
+
+    // Fetch the shuttle data (replace with your actual data fetching logic)
+    const shuttleData = [
+      {
+        shuttle: 'Shuttle A',
+        pickup: pickupLocation || 'N/A',
+        dropoff: dropoffLocation || 'N/A',
+        departureTime: '9:00 AM',
+        duration: '45 min',
+        price: '$20'
+      },
+      {
+        shuttle: 'Shuttle B',
+        pickup: pickupLocation || 'N/A',
+        dropoff: dropoffLocation || 'N/A',
+        departureTime: '10:30 AM',
+        duration: '1 hour',
+        price: '$25'
+      },
+      {
+        shuttle: 'Shuttle C',
+        pickup: pickupLocation || 'N/A',
+        dropoff: dropoffLocation || 'N/A',
+        departureTime: '11:00 AM',
+        duration: '30 min',
+        price: '$15'
+      }
+    ];
+
+    // Populate the shuttle results table
+    const shuttleResultsElement = document.getElementById('shuttle-results');
+    shuttleData.forEach(shuttle => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${shuttle.shuttle}</td>
+        <td>${shuttle.pickup}</td>
+        <td>${shuttle.dropoff}</td>
+        <td>${shuttle.departureTime}</td>
+        <td>${shuttle.duration}</td>
+        <td>${shuttle.price}</td>
+        <td><button>Book</button></td>
+      `;
+      shuttleResultsElement.appendChild(row);
+    });
+  </script>
+  <script type="module">
+    import routes from './routes.js';
+
+    // Function to populate the search results table
+    function populateSearchResults() {
+      const searchResultsTable = document.getElementById('search-results-table');
+      const tbody = searchResultsTable.getElementsByTagName('tbody')[0];
+
+      // Clear any existing search results
+      tbody.innerHTML = '';
+
+      // Iterate through the routes and add them to the table
+      routes.forEach(route => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${route.from}</td>
+          <td>${route.to}</td>
+          <td>${route.departureFrequency.days}</td>
+          <td>${route.departureFrequency.minutes}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Call the populateSearchResults function to display the search results
+    populateSearchResults();
+  </script>
+</body>
+</html>

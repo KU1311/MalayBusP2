@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Shuttle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: rgb(30, 110, 233);
+    }
+
+    .booking-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgb(30, 110, 233);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div class="booking-container">
+    <h1>Hello <span id="username"></span>, <br>Book your Shuttle</h1>
+    <form id="booking-form">
+      <div class="form-group">
+        <label for="pickup-location">Pickup Location:</label>
+        <select id="pickup-location" required></select>
+      </div>
+      <div class="form-group">
+        <label for="dropoff-location">Dropoff Location:</label>
+        <select id="dropoff-location" required></select>
+      </div>
+      
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <script src="location_options.js"></script>
+  <script>
+    // Retrieve the username from the query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+
+    // Display the username on the page
+    document.getElementById('username').textContent = username;
+
+    // Populate the pickup and dropoff location options
+    populateLocationOptions();
+
+    // Update the dropoff location options based on the selected pickup location
+    document.getElementById('pickup-location').addEventListener('change', () => {
+      populateDropoffOptions();
+    });
+
+    // Handle the form submission
+    const bookingForm = document.getElementById('booking-form');
+    bookingForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const pickupLocation = document.getElementById('pickup-location').value;
+      const dropoffLocation = document.getElementById('dropoff-location').value;
+
+      const queryParams = new URLSearchParams({
+        username: username,
+        pickup: pickupLocation,
+        dropoff: dropoffLocation,
+        // Include any other relevant parameters here
+      });
+
+      window.location.href = `search-results.html?${queryParams.toString()}`;
+    });
+  </script>
+</body>
+</html>

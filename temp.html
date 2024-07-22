@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Results</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Search Results</h1>
+  <table id="search-results-table">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Departure Frequency (Days)</th>
+        <th>Departure Frequency (Minutes)</th>
+		<th>Quota</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- The search results will be dynamically inserted here -->
+    </tbody>
+  </table><script type="module">
+  import { getRoutes } from './routes.js';
+
+  async function populateSearchResults() {
+    const routes = await getRoutes();
+    const searchResultsTable = document.getElementById('search-results-table');
+    const tbody = searchResultsTable.getElementsByTagName('tbody')[0];
+
+    // Clear any existing search results
+    tbody.innerHTML = '';
+
+    // Iterate through the routes and add them to the table
+    routes.forEach(route => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${route.From}</td>
+        <td>${route.To}</td>
+        <td>${route.departureFrequency.days}</td>
+        <td>${route.departureFrequency.minutes}</td>
+		<td>${route.Quota}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  populateSearchResults();
+</script>
+</body>
+</html>
+

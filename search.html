@@ -1,0 +1,36 @@
+<!-- search.html -->
+<form id="search-form">
+  <label for="pickup-location">Pickup Location:</label>
+  <input type="text" id="pickup-location" name="pickup" required>
+
+  <label for="dropoff-location">Dropoff Location:</label>
+  <input type="text" id="dropoff-location" name="dropoff" required>
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date" required>
+
+  <label for="time">Time:</label>
+  <input type="time" id="time" name="time" required>
+
+  <button type="submit">Search</button>
+</form>
+
+<script>
+  const searchForm = document.getElementById('search-form');
+  searchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const pickupLocation = document.getElementById('pickup-location').value;
+    const dropoffLocation = document.getElementById('dropoff-location').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+
+    const queryParams = new URLSearchParams({
+      pickup: pickupLocation,
+      dropoff: dropoffLocation,
+      date: date,
+      time: time
+    });
+
+    window.location.href = `search-results.html?${queryParams.toString()}`;
+  });
+</script>
