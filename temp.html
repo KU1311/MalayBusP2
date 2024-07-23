@@ -29,6 +29,8 @@
         <th>Departure Frequency (Days)</th>
         <th>Departure Frequency (Minutes)</th>
 		<th>Quota</th>
+		<th>Midstops</th>
+		<th>Departure Time</th>
       </tr>
     </thead>
     <tbody>
@@ -54,6 +56,8 @@
         <td>${route.departureFrequency.days}</td>
         <td>${route.departureFrequency.minutes}</td>
 		<td>${route.Quota}</td>
+		<td>${route.midstop}</td>
+		<td>${route.deptTime}</td>
       `;
       tbody.appendChild(row);
     });
