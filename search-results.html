@@ -104,11 +104,11 @@
 	
 	<div id="details">
 	<label>Frequency: </label>
-	<span id="frequency-days">N/A</span>, 
+	<span id="frequency-days">N/A</span>
 	<span id="frequency-minutes">N/A</span>
 	</div>
 	
-    <div id="search-info"></div>
+    
 
 	
   </div>
@@ -132,13 +132,8 @@
 <script type="module">
   import { getRoutes } from './routes.js';
 
-  async function populateSearchResults() {
+async function displayFrequencyDetails() {
   const routes = await getRoutes();
-  const searchResultsTable = document.getElementById('search-results-table');
-  const tbody = searchResultsTable.getElementsByTagName('tbody')[0];
-
-  // Clear any existing search results
-  tbody.innerHTML = '';
 
   // Get the pickup and dropoff locations from the HTML
   const pickupLocationElement = document.getElementById('pickup-location');
@@ -149,36 +144,22 @@
   const frequencyDaysElement = document.getElementById('frequency-days');
   const frequencyMinutesElement = document.getElementById('frequency-minutes');
 
+  let foundMatch = false;
   routes.forEach(route => {
     if (route.From === pickupLocation && route.To === dropoffLocation) {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${route.From}</td>
-        <td>${route.To}</td>
-        <td>${route.departureFrequency.days}</td>
-        <td>${route.departureFrequency.minutes}</td>
-        <td>${route.Quota}</td>
-      `;
-      tbody.appendChild(row);
-
-      frequencyDaysElement.textContent = route.departureFrequency.days;
-      frequencyMinutesElement.textContent = route.departureFrequency.minutes;
+      foundMatch = true;
+      frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
+      frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
     }
   });
 
-  if (tbody.children.length === 0) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td colspan="5">No matching route found.</td>
-    `;
-    tbody.appendChild(row);
-
+  if (!foundMatch) {
     frequencyDaysElement.textContent = 'N/A';
     frequencyMinutesElement.textContent = 'N/A';
   }
 }
 
-  populateSearchResults();
+  displayFrequencyDetails();
 </script>
 </body>
 </html>
