@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Search Results</title>
+  <title>Search Results v1.02</title>
   <style>
     table {
       width: 100%;
@@ -56,8 +56,8 @@
         <td>${route.departureFrequency.days}</td>
         <td>${route.departureFrequency.minutes}</td>
 		<td>${route.Quota}</td>
-		<td>${route.midstopList}</td>
-		<td>${route.departureTimeList}</td>
+		<td>${route.Midstops.join(', ')}</td>
+		<td>${route.DepartureTime.join(', ')}</td>
       `;
       tbody.appendChild(row);
     });
