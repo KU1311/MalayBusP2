@@ -6,18 +6,16 @@ export async function getRoutes() {
 
   // Parse the CSV data into an array of route objects
   return data.trim().split('\n').slice(1).map(row => {
-    const [id,from, to, departureFrequencyDays, departureFrequencyMinutes, quota, midstops, dept_time] = row.split(',');
+    const [id,from, to, departureFrequencyDays, departureFrequencyMinutes, quota, midstop, depttime] = row.split(',');
     return {
-	id: id,
+	  id: id,
       From: from,
       To: to,
       departureFrequency: {
         days: departureFrequencyDays,
         minutes: departureFrequencyMinutes
       },
-      Quota: quota,
-	Midstops: midstops,
-	  Dept_time: dept_time
+      Quota: quota
     };
   });
 }
