@@ -8,7 +8,7 @@ export async function getRoutes() {
   return data.trim().split('\n').slice(1).map(row => {
     const [id,from, to, departureFrequencyDays, departureFrequencyMinutes, quota, midstops, dept_time] = row.split(',');
     return {
-	  id: id,
+	id: id,
       From: from,
       To: to,
       departureFrequency: {
@@ -16,7 +16,7 @@ export async function getRoutes() {
         minutes: departureFrequencyMinutes
       },
       Quota: quota,
-	  Midstops: Midstops,
+	Midstops: midstops,
 	  Dept_time: dept_time
     };
   });
