@@ -62,6 +62,7 @@
 	.search-info-item {
 	  display: flex;
 	  align-items: center;
+	  font-size: 48px;
 	  font-weight: bold;
 	  color: rgb(30, 110, 233);
 	}
@@ -73,8 +74,12 @@
 	table {
 	  margin: 0 auto;
 	  text-align: left;
+
+	th, td {
+	  padding: 8px;	
+	  text-align: left;
+	  border-bottom: 1px solid #ddd;
 	}
-    
   </style>
 </head>
 <body>
@@ -96,45 +101,25 @@
 	  </th></tr></table>
 	  </div>
 	</div>
+	
+	<div id="details">
+	<label>Frequency: </label>
+	<span id="frequency-days">N/A</span>, 
+	<span id="frequency-minutes">N/A</span>
+	</div>
+	
     <div id="search-info"></div>
-    <table>
-      <thead>
-        <tr>
-          <th>Shuttle</th>
-          <th>Pickup</th>
-          <th>Dropoff</th>
-          <th>Departure Time</th>
-          <th>Duration</th>
-          <th>Price</th>
-          <th>Book</th>
-        </tr>
-      </thead>
-      <tbody id="shuttle-results"></tbody>
-    </table>
-	<br>
-	<table id="search-results-table">
-    <thead>
-      <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>Departure Frequency (Days)</th>
-        <th>Departure Frequency (Minutes)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- The search results will be dynamically inserted here -->
-    </tbody>
-  </table>
+
+	
   </div>
 
-  <script>
+<script>
   
     // Retrieve the query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const pickupLocation = urlParams.get('pickup');
     const dropoffLocation = urlParams.get('dropoff');
-    const date = urlParams.get('date');
-    const time = urlParams.get('time');
+
 
     // Display the search information
 	const pickupLocationElement = document.getElementById('pickup-location');
@@ -142,77 +127,58 @@
 
 	pickupLocationElement.textContent = pickupLocation || 'N/A';
 	dropoffLocationElement.textContent = dropoffLocation || 'N/A';
+	
+</script>
+<script type="module">
+  import { getRoutes } from './routes.js';
 
-    // Fetch the shuttle data (replace with your actual data fetching logic)
-    const shuttleData = [
-      {
-        shuttle: 'Shuttle A',
-        pickup: pickupLocation || 'N/A',
-        dropoff: dropoffLocation || 'N/A',
-        departureTime: '9:00 AM',
-        duration: '45 min',
-        price: '$20'
-      },
-      {
-        shuttle: 'Shuttle B',
-        pickup: pickupLocation || 'N/A',
-        dropoff: dropoffLocation || 'N/A',
-        departureTime: '10:30 AM',
-        duration: '1 hour',
-        price: '$25'
-      },
-      {
-        shuttle: 'Shuttle C',
-        pickup: pickupLocation || 'N/A',
-        dropoff: dropoffLocation || 'N/A',
-        departureTime: '11:00 AM',
-        duration: '30 min',
-        price: '$15'
-      }
-    ];
+  async function populateSearchResults() {
+  const routes = await getRoutes();
+  const searchResultsTable = document.getElementById('search-results-table');
+  const tbody = searchResultsTable.getElementsByTagName('tbody')[0];
 
-    // Populate the shuttle results table
-    const shuttleResultsElement = document.getElementById('shuttle-results');
-    shuttleData.forEach(shuttle => {
+  // Clear any existing search results
+  tbody.innerHTML = '';
+
+  // Get the pickup and dropoff locations from the HTML
+  const pickupLocationElement = document.getElementById('pickup-location');
+  const dropoffLocationElement = document.getElementById('dropoff-location');
+  const pickupLocation = pickupLocationElement.textContent;
+  const dropoffLocation = dropoffLocationElement.textContent;
+
+  const frequencyDaysElement = document.getElementById('frequency-days');
+  const frequencyMinutesElement = document.getElementById('frequency-minutes');
+
+  routes.forEach(route => {
+    if (route.From === pickupLocation && route.To === dropoffLocation) {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${shuttle.shuttle}</td>
-        <td>${shuttle.pickup}</td>
-        <td>${shuttle.dropoff}</td>
-        <td>${shuttle.departureTime}</td>
-        <td>${shuttle.duration}</td>
-        <td>${shuttle.price}</td>
-        <td><button>Book</button></td>
+        <td>${route.From}</td>
+        <td>${route.To}</td>
+        <td>${route.departureFrequency.days}</td>
+        <td>${route.departureFrequency.minutes}</td>
+        <td>${route.Quota}</td>
       `;
-      shuttleResultsElement.appendChild(row);
-    });
-  </script>
-  <script type="module">
-    import routes from './routes.js';
+      tbody.appendChild(row);
 
-    // Function to populate the search results table
-    function populateSearchResults() {
-      const searchResultsTable = document.getElementById('search-results-table');
-      const tbody = searchResultsTable.getElementsByTagName('tbody')[0];
-
-      // Clear any existing search results
-      tbody.innerHTML = '';
-
-      // Iterate through the routes and add them to the table
-      routes.forEach(route => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${route.from}</td>
-          <td>${route.to}</td>
-          <td>${route.departureFrequency.days}</td>
-          <td>${route.departureFrequency.minutes}</td>
-        `;
-        tbody.appendChild(row);
-      });
+      frequencyDaysElement.textContent = route.departureFrequency.days;
+      frequencyMinutesElement.textContent = route.departureFrequency.minutes;
     }
+  });
 
-    // Call the populateSearchResults function to display the search results
-    populateSearchResults();
-  </script>
+  if (tbody.children.length === 0) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td colspan="5">No matching route found.</td>
+    `;
+    tbody.appendChild(row);
+
+    frequencyDaysElement.textContent = 'N/A';
+    frequencyMinutesElement.textContent = 'N/A';
+  }
+}
+
+  populateSearchResults();
+</script>
 </body>
 </html>
