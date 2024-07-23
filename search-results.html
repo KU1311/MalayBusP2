@@ -107,8 +107,8 @@
 	<span id="frequency-days">N/A</span>
 	<span id="frequency-minutes">N/A</span>
 	</div>
-	
-    
+	<br>
+    <button id="view-details-btn">View Details</button>
 
 	
   </div>
@@ -143,23 +143,35 @@ async function displayFrequencyDetails() {
 
   const frequencyDaysElement = document.getElementById('frequency-days');
   const frequencyMinutesElement = document.getElementById('frequency-minutes');
+  const viewDetailsButton = document.getElementById('view-details-btn');
 
   let foundMatch = false;
+  let matchedRouteId;
   routes.forEach(route => {
-    if (route.From === pickupLocation && route.To === dropoffLocation) {
-      foundMatch = true;
-      frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
-      frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
-    }
+	if (route.From === pickupLocation && route.To === dropoffLocation) {
+	  foundMatch = true;
+	  matchedRouteId = route.id;
+	  frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
+	  frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
+	}
   });
 
-  if (!foundMatch) {
+  if (foundMatch) {
+    viewDetailsButton.style.display = 'inline-block';
+	viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, matchedRouteId));
+  } else {
     frequencyDaysElement.textContent = 'N/A';
     frequencyMinutesElement.textContent = 'N/A';
+    viewDetailsButton.style.display = 'none';
   }
 }
 
-  displayFrequencyDetails();
+
+function viewRouteDetails(pickupLocation, dropoffLocation, routeId) {
+  window.location.href = `route_details.html?pickupLocation=${encodeURIComponent(pickupLocation)}&dropoffLocation=${encodeURIComponent(dropoffLocation)}&id=${routeId}`;
+}
+displayFrequencyDetails();
+
 </script>
 </body>
 </html>
