@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Boarding Pass</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: rgb(30, 110, 233);
+    }
+
+    .boarding-pass {
+	
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+	
+	.booking-info {
+      background-color: rgb(30, 110, 233);
+      padding: 0.2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 200px;
+	  text-align: center;
+	  align-items: center;
+    }
+	
+	.booking-info-text{
+	  color: white;
+	}
+	
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+	  font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgb(30, 110, 233);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+	
+	.minortext {
+		color: #999;
+	}
+    
+	.search-info-item {
+	  display: flex;
+	  align-items: center;
+	  font-size: 48px;
+	  font-weight: bold;
+	  color: rgb(30, 110, 233);
+	}
+  </style>
+</head>
+<body>
+  <div class="boarding-pass">
+  <h1>Boarding Pass</h1>
+    <div class="passenger-info">
+      <h3 id="passenger-name">${username}</h3>
+    </div>
+	<div>
+	<table><tr>
+	  <th>
+	<div class="search-info-item">
+		<span id="pickup-location">N/A</span>
+		</th>
+	  </div>
+	  <th><label> - </label></th>
+	  <th>
+	<div class="search-info-item">
+		<span id="dropoff-location">N/A</span>
+	  </th></tr></table>
+	</div>
+	
+	
+    <div class="route-info">
+      <p id="date-info">Date:  </p>
+      <p id="time-info">Time:  </p>
+      <p id="midstops">Midstops: ${midstops}</p>
+	  
+      <p id="passenger-count">Passengers: ${passengers}</p>
+    </div>
+	<button id="booking-info">
+	<p class = "booking-info-text"> Booking No: </p>
+	<h1 class = "booking-info-text" id="booking-number">N/A</h1>
+	<p class = "booking-info-text">Please tell your number to the driver when aboarding</p>
+	</button>
+	<br>
+    <button id="view-details-btn">View Route and ETA</button>
+	
+	
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const phone = urlParams.get('phone');
+    const date = urlParams.get('date');
+    const time = urlParams.get('time');
+    const passengers = urlParams.get('passengers');
+    const midstops = urlParams.get('midstops');
+	const pickupLocation = urlParams.get('pickup');
+    const dropoffLocation = urlParams.get('dropoff');
+    const routeId = urlParams.get('id');
+
+	const pickupLocationElement = document.getElementById('pickup-location');
+	const dropoffLocationElement = document.getElementById('dropoff-location');
+    const dateElement = document.getElementById('date-info');
+    const timeElement = document.getElementById('time-info');
+
+	const viewDetailsButton = document.getElementById('view-details-btn');
+	
+	
+	if (date) {
+      dateElement.textContent = `Date: ${date}`;
+    } else {
+      dateElement.style.display = 'none';
+    }
+
+    if (time) {
+      timeElement.textContent = `Time: ${time}`;
+    } else {
+      timeElement.style.display = 'none';
+    }
+	
+	
+	pickupLocationElement.textContent = pickupLocation || 'N/A';
+	dropoffLocationElement.textContent = dropoffLocation || 'N/A';
+
+    document.getElementById('booking-number').textContent = phone;
+    document.getElementById('passenger-name').textContent = username;
+    document.getElementById('passenger-count').textContent = `Passengers: ${passengers}`;
+	//document.getElementById('date-info').textContent = `Date: ${date}`;
+    //document.getElementById('time-info').textContent = `Time: ${time}`;
+    document.getElementById('midstops').textContent = `Onboard Stop: ${midstops}`;
+	
+	viewDetailsButton.style.display = 'inline-block';
+    viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, routeId));
+	
+	function viewRouteDetails(pickupLocation, dropoffLocation, routeId) {
+      window.location.href = `route_details.html?pickupLocation=${encodeURIComponent(pickupLocation)}&dropoffLocation=${encodeURIComponent(dropoffLocation)}&id=${routeId}`;
+    }
+	
+  </script>
+</body>
+</html>
