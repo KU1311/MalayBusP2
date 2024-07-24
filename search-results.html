@@ -135,6 +135,7 @@
 	  
 	  <br>
 	  <button id="book-button">BOOK</button>
+	  <button onclick="initGoogleAPI()">Search</button>
   </div>
 
 <script>
@@ -178,6 +179,25 @@
 	});
 	
 	 
+</script>
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+	function initGoogleAPI() {
+		gapi.load('client', async () => {
+		  try {
+			await gapi.client.init({
+			  apiKey: 'AIzaSyBbI6t7iaqTr8dhiFe99V3wHx2JJ2YMFiY',
+			  clientId: '126438361027-i1nkuh5re49uev62osp98sfubbq8h6m0.apps.googleusercontent.com',
+			  discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+			});
+
+			// Your existing code that uses the gapi object
+			// ...
+		  } catch (error) {
+			console.error('Error initializing Google API:', error);
+		  }
+		});
+	  }
 </script>
 <script type="module">
     import { getRoutes } from './routes.js';
