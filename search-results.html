@@ -143,7 +143,8 @@
     const urlParams = new URLSearchParams(window.location.search);
     const pickupLocation = urlParams.get('pickup');
     const dropoffLocation = urlParams.get('dropoff');
-
+	const username = urlParams.get('username');
+	const phone = urlParams.get('phone');
 
     // Display the search information
 	const pickupLocationElement = document.getElementById('pickup-location');
@@ -256,6 +257,8 @@
 		//const idfff = document.getElementById('idf').value;
 
 		const queryParams = new URLSearchParams({
+		  username: username,
+		  phone:phone,
 		  date: formattedDate,
 		  time: selectedTime,
 		  passengers: passengers,
