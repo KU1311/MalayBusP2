@@ -263,7 +263,9 @@
 		  time: selectedTime,
 		  passengers: passengers,
 		  midstops: midstops,
-		  id: matchedRouteId
+		  id: matchedRouteId,
+		  pickup: pickupLocation,
+          dropoff: dropoffLocation,
 		});
 
 		window.location.href = `boarding.html?${queryParams.toString()}`;
