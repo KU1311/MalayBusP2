@@ -273,7 +273,7 @@
 		// Append the data to the Google Sheet
 		const spreadsheetId = '15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w';
 		const range = 'Sheet1!A2:I2';
-		const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, startstop, formattedDate, selectedTime, passengers]];
+		const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, midstops, formattedDate, selectedTime, passengers]];
 
 		// Initialize the Google API client
 		gapi.load('client', () => {
