@@ -268,7 +268,26 @@
 		  passengers: passengers
 		});
 		
-
+		
+		
+		// Load the Google API client library
+		function loadGoogleApiClient() {
+		  return new Promise((resolve, reject) => {
+			gapi.load('client', {
+			  callback: () => {
+				resolve();
+			  },
+			  onerror: (error) => {
+				reject(error);
+			  },
+			  timeout: 5000,
+			  ontimeout: () => {
+				reject(new Error('Google API client library failed to load in a timely manner.'));
+			  },
+			});
+		  });
+		}
+		
 		
 		// Append the data to the Google Sheet
 		const spreadsheetId = '15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w';
