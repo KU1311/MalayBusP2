@@ -2,7 +2,9 @@
 export async function appendToGoogleSheet(spreadsheetId, range, values) {
   try {
     await gapi.client.init({
-      apiKey: 'YOUR_API_KEY',
+      apiKey: 'AIzaSyBbI6t7iaqTr8dhiFe99V3wHx2JJ2YMFiY',
+	  clientId: '126438361027-i1nkuh5re49uev62osp98sfubbq8h6m0.apps.googleusercontent.com',
+      clientSecret: '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',
       discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
     });
 
