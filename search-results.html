@@ -259,16 +259,40 @@
 		const queryParams = new URLSearchParams({
 		  username: username,
 		  phone:phone,
-		  date: formattedDate,
-		  time: selectedTime,
-		  passengers: passengers,
-		  midstops: midstops,
 		  id: matchedRouteId,
 		  pickup: pickupLocation,
           dropoff: dropoffLocation,
+		  midstops: midstops,
+		  date: formattedDate,
+		  time: selectedTime,
+		  passengers: passengers
 		});
+		
 
-		window.location.href = `boarding.html?${queryParams.toString()}`;
+		
+		// Append the data to the Google Sheet
+		const spreadsheetId = '15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w';
+		const range = 'Sheet1!A2:I2';
+		const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, startstop, formattedDate, selectedTime, passengers]];
+
+		// Initialize the Google API client
+		gapi.load('client', () => {
+		  appendToGoogleSheet(spreadsheetId, range, values)
+			.then(() => {
+			  // Redirect the user to the boarding.html page
+			  window.location.href = `boarding.html?${queryParams.toString()}`;
+			})
+			.catch((error) => {
+			  console.error('Error appending data to Google Sheet:', error);
+			});
+		});
+		
+
+		
+		
+		
+		
+		
 	  });
 	
 		
@@ -287,8 +311,8 @@
 
     displayFrequencyDetails();
 	
-	
-	
+
+		
   </script>
 </body>
 </html>
