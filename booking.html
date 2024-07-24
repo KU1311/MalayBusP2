@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="booking-container">
-    <h1>Hello <span id="username"></span>, <br>Book your Shuttle</h1>
+    <h1>Hello <span id="username"></span>, Book your Shuttle</h1>
     <form id="booking-form">
       <div class="form-group">
         <label for="pickup-location">Pickup Location:</label>
@@ -78,6 +78,7 @@
     // Retrieve the username from the query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const username = urlParams.get('username');
+	const phone = urlParams.get('phone');
 
     // Display the username on the page
     document.getElementById('username').textContent = username;
@@ -100,6 +101,7 @@
 
       const queryParams = new URLSearchParams({
         username: username,
+		phone: phone,
         pickup: pickupLocation,
         dropoff: dropoffLocation,
         // Include any other relevant parameters here
