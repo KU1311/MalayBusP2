@@ -294,17 +294,21 @@
 		const range = 'Sheet1!A2:I2';
 		const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, midstops, formattedDate, selectedTime, passengers]];
 
-		// Initialize the Google API client
-		gapi.load('client', () => {
-		  appendToGoogleSheet(spreadsheetId, range, values)
-			.then(() => {
-			  // Redirect the user to the boarding.html page
-			  window.location.href = `boarding.html?${queryParams.toString()}`;
-			})
-			.catch((error) => {
-			  console.error('Error appending data to Google Sheet:', error);
-			});
-		});
+		// Initialize the Google API client and append the data
+		loadGoogleApiClient()
+		  .then(() => {
+			appendToGoogleSheet(spreadsheetId, range, values)
+			  .then(() => {
+				// Redirect the user to the boarding.html page
+				window.location.href = `boarding.html?${queryParams.toString()}`;
+			  })
+			  .catch((error) => {
+				console.error('Error appending data to Google Sheet:', error);
+			  });
+		  })
+		  .catch((error) => {
+			console.error('Error loading Google API client:', error);
+		  });
 		
 
 		
