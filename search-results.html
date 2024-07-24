@@ -181,7 +181,7 @@
 </script>
 <script type="module">
     import { getRoutes } from './routes.js';
-	import { appendToGoogleSheet } from './routes.js';
+	import { appendToGoogleSheet, createOrder } from './order.js';
 	
     async function displayFrequencyDetails() {
       const routes = await getRoutes();
@@ -282,10 +282,22 @@
 		gapi.load('client', async () => {
 		  try {
 			await appendToGoogleSheet(spreadsheetId, range, values);
+			// Create the order
+			await createOrder(
+			  username,
+			  phone,
+			  matchedRouteId,
+			  pickupLocation,
+			  dropoffLocation,
+			  midstops,
+			  formattedDate,
+			  selectedTime,
+			  passengers
+			);
 			// Redirect the user to the boarding.html page
 			window.location.href = `boarding.html?${queryParams.toString()}`;
 		  } catch (error) {
-			console.error('Error appending data to Google Sheet:', error);
+			console.error('Error processing the order:', error);
 		  }
 		});
 
