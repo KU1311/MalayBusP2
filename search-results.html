@@ -194,6 +194,52 @@
 			// Your existing code that uses the gapi object
 			// ...
 			
+			
+			
+			let foundMatch = false;
+			  let matchedRouteId;
+			  let matchedDepartureTimes = [];
+			  let matchedMidstops = [];
+			  routes.forEach(route => {
+				if (route.From === pickupLocation && route.To === dropoffLocation) {
+				  foundMatch = true;
+				  matchedRouteId = route.id;
+				  frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
+				  frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
+				  // Split the departure times by semicolon and trim the values
+				  matchedDepartureTimes = route.DepartureTime.map(time => time.trim());
+				  matchedMidstops = route.Midstops.map(midstop => midstop.trim());
+				  timeff.textContent = route.DepartureTime.join(', ');
+				  stopff.textContent = route.Midstops.join(', ');
+				  idff.textContent = route.id;
+				}
+			  });
+
+			  if (foundMatch) {
+				viewDetailsButton.style.display = 'inline-block';
+				viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, matchedRouteId));
+				
+				
+				
+				// Populate the time selector with the departure times
+				timeSelector.innerHTML = 'Select time';
+				matchedDepartureTimes.forEach(time => {
+				  const option = document.createElement('option');
+				  option.value = time;
+				  option.text = time;
+				  timeSelector.add(option);
+				});
+				
+				// Populate the midstop selector with the midstops
+				midsStopsSelector.innerHTML = 'Select midstop';
+				matchedMidstops.forEach(midstop => {
+				  const option = document.createElement('option');
+				  option.value = midstop;
+				  option.text = midstop;
+				  midsStopsSelector.add(option);
+				});
+			
+			
 			const range = 'Sheet1!A2:I2';
 			const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, midstops, formattedDate, selectedTime, passengers]];
 
@@ -252,48 +298,7 @@
       const timeSelector = document.getElementById('time-selector');
       const midsStopsSelector = document.getElementById('midstops-selector');
 
-      let foundMatch = false;
-      let matchedRouteId;
-      let matchedDepartureTimes = [];
-      let matchedMidstops = [];
-      routes.forEach(route => {
-        if (route.From === pickupLocation && route.To === dropoffLocation) {
-          foundMatch = true;
-          matchedRouteId = route.id;
-          frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
-          frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
-          // Split the departure times by semicolon and trim the values
-          matchedDepartureTimes = route.DepartureTime.map(time => time.trim());
-          matchedMidstops = route.Midstops.map(midstop => midstop.trim());
-          timeff.textContent = route.DepartureTime.join(', ');
-          stopff.textContent = route.Midstops.join(', ');
-          idff.textContent = route.id;
-        }
-      });
-
-      if (foundMatch) {
-        viewDetailsButton.style.display = 'inline-block';
-        viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, matchedRouteId));
-		
-		
-        
-        // Populate the time selector with the departure times
-        timeSelector.innerHTML = 'Select time';
-        matchedDepartureTimes.forEach(time => {
-          const option = document.createElement('option');
-          option.value = time;
-          option.text = time;
-          timeSelector.add(option);
-        });
-        
-        // Populate the midstop selector with the midstops
-        midsStopsSelector.innerHTML = 'Select midstop';
-        matchedMidstops.forEach(midstop => {
-          const option = document.createElement('option');
-          option.value = midstop;
-          option.text = midstop;
-          midsStopsSelector.add(option);
-        });
+      
 		
 		
 		// Add a click event listener to the "BOOK" button
