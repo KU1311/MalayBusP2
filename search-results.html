@@ -193,6 +193,35 @@
 
 			// Your existing code that uses the gapi object
 			// ...
+			
+			const range = 'Sheet1!A2:I2';
+			const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, midstops, formattedDate, selectedTime, passengers]];
+
+			// Initialize the Google API client and append the data
+			gapi.load('client', async () => {
+			  try {
+				await appendToGoogleSheet(spreadsheetId, range, values);
+				// Create the order
+				await createOrder(
+				  username,
+				  phone,
+				  matchedRouteId,
+				  pickupLocation,
+				  dropoffLocation,
+				  midstops,
+				  formattedDate,
+				  selectedTime,
+				  passengers
+				);
+				// Redirect the user to the boarding.html page
+				window.location.href = `boarding.html?${queryParams.toString()}`;
+			  } catch (error) {
+				console.error('Error processing the order:', error);
+			  }
+			});
+			
+			
+			
 		  } catch (error) {
 			console.error('Error initializing Google API:', error);
 		  }
@@ -288,38 +317,7 @@
 		  time: selectedTime,
 		  passengers: passengers
 		});
-		
-		
-		
-		
-		
-		// Append the data to the Google Sheet
-		const spreadsheetId = '15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w';
-		const range = 'Sheet1!A2:I2';
-		const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, midstops, formattedDate, selectedTime, passengers]];
 
-		// Initialize the Google API client and append the data
-		gapi.load('client', async () => {
-		  try {
-			await appendToGoogleSheet(spreadsheetId, range, values);
-			// Create the order
-			await createOrder(
-			  username,
-			  phone,
-			  matchedRouteId,
-			  pickupLocation,
-			  dropoffLocation,
-			  midstops,
-			  formattedDate,
-			  selectedTime,
-			  passengers
-			);
-			// Redirect the user to the boarding.html page
-			window.location.href = `boarding.html?${queryParams.toString()}`;
-		  } catch (error) {
-			console.error('Error processing the order:', error);
-		  }
-		});
 
 		
 		
