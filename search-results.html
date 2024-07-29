@@ -266,61 +266,6 @@
         });
 		
 		
-		
-			form.addEventListener('submit', async(e) => {
-			  e.preventDefault();
-			  btn.disabled = true;
-			  btn.innerHTML = "Loading...";
-
-			  const formData = new FormData(form);
-			  formData.append('username', username);
-			  formData.append('phone', phone); // Replace with actual phone number
-			  formData.append('id', matchedRouteId); // Replace with actual ID
-			  formData.append('pickup', pickupLocation); // Replace with actual pickup location
-			  formData.append('dropoff', dropoffLocation); // Replace with actual dropoff location
-			  formData.append('midstops', midstops); // Replace with actual midstops
-			  formData.append('date', formattedDate);
-			  formData.append('time', selectedTime); // Replace with actual time
-			  formData.append('passengers', passengers); // Replace with actual number of passengers
-				
-				
-			
-				try {
-				// Submit the form and wait for the fetch request to complete
-				await fetch(scriptURL, { method: 'POST', body: formData })
-					.then(response => {
-					  btn.disabled = false;
-					  btn.innerHTML = "BOOK";
-					  alert('Success!', response);
-					  
-					
-					})
-					.catch(error => {
-					  btn.disabled = false;
-					  btn.innerHTML = "BOOK";
-					  alert('Error!', error.message);
-					});
-					
-					
-			} catch (error) {
-			console.error('Error submitting form:', error);
-			// Handle the error, e.g., display an error message to the user
-		  }	
-			
-			
-			// -----------------------------------------
-			
-			
-			//window.location.href = `boarding.html?${queryParams.toString()}`;
-			
-			
-			
-					})
-		
-		
-		
-		
-		
 		// Add a click event listener to the "BOOK" button
 	  const bookButton = document.getElementById('book-button');
 	  bookButton.addEventListener('click', function() {
@@ -360,11 +305,56 @@
 		const timeInput = document.querySelector('#Time');
 		const checkInput = document.querySelector('#Check');
 
+		form.addEventListener('submit', async(e) => {
+		  e.preventDefault();
+		  btn.disabled = true;
+		  btn.innerHTML = "Loading...";
 
-		// Redirect to next page
-		window.location.href = `boarding.html?${queryParams.toString()}`;
-
+		  const formData = new FormData(form);
+		  formData.append('username', username);
+		  formData.append('phone', phone); // Replace with actual phone number
+		  formData.append('id', matchedRouteId); // Replace with actual ID
+		  formData.append('pickup', pickupLocation); // Replace with actual pickup location
+		  formData.append('dropoff', dropoffLocation); // Replace with actual dropoff location
+		  formData.append('midstops', midstops); // Replace with actual midstops
+		  formData.append('date', formattedDate);
+		  formData.append('time', selectedTime); // Replace with actual time
+		  formData.append('passengers', passengers); // Replace with actual number of passengers
+			
+			
 		
+			try {
+			// Submit the form and wait for the fetch request to complete
+			await fetch(scriptURL, { method: 'POST', body: formData })
+				.then(response => {
+				  btn.disabled = false;
+				  btn.innerHTML = "BOOK";
+				  alert('Success!', response);
+				  
+				
+				})
+				.catch(error => {
+				  btn.disabled = false;
+				  btn.innerHTML = "BOOK";
+				  alert('Error!', error.message);
+				});
+				
+				// Redirect to next page
+				window.location.href = `boarding.html?${queryParams.toString()}`;
+		} catch (error) {
+		console.error('Error submitting form:', error);
+		// Handle the error, e.g., display an error message to the user
+	  }	
+		
+		
+		// -----------------------------------------
+		
+		
+		//window.location.href = `boarding.html?${queryParams.toString()}`;
+		
+	
+		
+				})
 			})
 		} else {
         frequencyDaysElement.textContent = 'N/A';
@@ -372,6 +362,7 @@
         viewDetailsButton.style.display = 'none';
         timeSelector.innerHTML = '';
         midsStopsSelector.innerHTML = '';
+		alert('Error!');
       }
     }
 
