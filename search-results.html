@@ -140,7 +140,6 @@
 <div class="flex items-center h-screen w-full bg-orange-100">
     <div class="w-full bg-white rounded shadow-lg p-8 m-4 md:max-w-sm md:mx-auto">
 
-
       <form class="mb-4 flex flex-wrap justify-between" id="form" style="display: none;">
         <div class="flex flex-col w-full mb-4">
           <label class="field-label" for="Name">Name</label>
@@ -152,7 +151,7 @@
         </div>
         <input type="date" name="Time" id="Time">
         <input type="checkbox" name="Check" value="true" id="Check">
-        <button class="bg-orange-300 px-3 py-1 text-white mx-auto" type="submit" id="submit">Submit</button>
+        <button class="bg-orange-300 px-3 py-1 text-white mx-auto" type="submit" id="book-button">BOOK</button>
       </form>
     </div>
   </div>
@@ -291,13 +290,13 @@
 		// -----------------------------------------
 		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec';
 		const form = document.querySelector('#form');
-		const btn = document.querySelector('#submit');
+		const btn = document.querySelector('#book-button');
 		const nameInput = document.querySelector('#Name');
 		const messageInput = document.querySelector('#Message');
 		const timeInput = document.querySelector('#Time');
 		const checkInput = document.querySelector('#Check');
 
-		form.addEventListener('submit', e => {
+		form.addEventListener('book-button', e => {
 		  e.preventDefault();
 		  btn.disabled = true;
 		  btn.innerHTML = "Loading...";
@@ -316,12 +315,12 @@
 		  fetch(scriptURL, { method: 'POST', body: formData })
 			.then(response => {
 			  btn.disabled = false;
-			  btn.innerHTML = "Submit";
+			  btn.innerHTML = "BOOK";
 			  alert('Success!', response);
 			})
 			.catch(error => {
 			  btn.disabled = false;
-			  btn.innerHTML = "Submit";
+			  btn.innerHTML = "BOOK";
 			  alert('Error!', error.message);
 			});
 		});
