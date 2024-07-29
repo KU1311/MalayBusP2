@@ -305,7 +305,7 @@
 		const timeInput = document.querySelector('#Time');
 		const checkInput = document.querySelector('#Check');
 
-		form.addEventListener('submit', e => {
+		form.addEventListener('submit', async(e) => {
 		  e.preventDefault();
 		  btn.disabled = true;
 		  btn.innerHTML = "Loading...";
