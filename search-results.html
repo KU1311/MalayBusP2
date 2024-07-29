@@ -330,6 +330,9 @@
 				  btn.innerHTML = "BOOK";
 				  alert('Success!', response);
 				  
+				  
+				  // Redirect to next page
+					window.location.href = `boarding.html?${queryParams.toString()}`;
 				
 				})
 				.catch(error => {
@@ -338,8 +341,7 @@
 				  alert('Error!', error.message);
 				});
 				
-				// Redirect to next page
-				window.location.href = `boarding.html?${queryParams.toString()}`;
+				
 		} catch (error) {
 		console.error('Error submitting form:', error);
 		// Handle the error, e.g., display an error message to the user
