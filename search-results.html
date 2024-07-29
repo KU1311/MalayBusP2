@@ -136,24 +136,27 @@
 	  <br>
 	  <button id="book-button">BOOK</button>
   </div>
-<form id="my-form" method="POST" action="https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec">
-  <!-- Existing form fields -->
-  <input name="Email" type="email" placeholder="Email" required>
-  <input name="Name" type="text" placeholder="Name" required>
 
-  <!-- Hidden fields populated from queryParams -->
-  <input type="hidden" name="username" value="">
-  <input type="hidden" name="phone" value="">
-  <input type="hidden" name="id" value="">
-  <input type="hidden" name="pickup" value="">
-  <input type="hidden" name="dropoff" value="">
-  <input type="hidden" name="midstops" value="">
-  <input type="hidden" name="date" value="">
-  <input type="hidden" name="time" value="">
-  <input type="hidden" name="passengers" value="">
+<div class="flex items-center h-screen w-full bg-orange-100">
+    <div class="w-full bg-white rounded shadow-lg p-8 m-4 md:max-w-sm md:mx-auto">
 
-  <button type="submit">Send</button>
-</form>
+
+      <form class="mb-4 flex flex-wrap justify-between" id="form" style="display: none;">
+        <div class="flex flex-col w-full mb-4">
+          <label class="field-label" for="Name">Name</label>
+          <input class="bg-green-100 px-2 py-1 outline-none" type="text" name="Name" id="Name">
+        </div>
+        <div class="flex flex-col w-full mb-4">
+          <label class="field-label" for="Message">Message</label>
+          <textarea class="bg-green-100 px-2 py-1 outline-none" type="text" name="Message" id="Message"></textarea>
+        </div>
+        <input type="date" name="Time" id="Time">
+        <input type="checkbox" name="Check" value="true" id="Check">
+        <button class="bg-orange-300 px-3 py-1 text-white mx-auto" type="submit" id="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
 <script>
   
     // Retrieve the query parameters
@@ -285,15 +288,47 @@
 		  passengers: passengers
 		});
 		
-		const form = document.getElementById('my-form');
-		const hiddenFields = form.querySelectorAll('input[type="hidden"]');
+		// -----------------------------------------
+		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec';
+		const form = document.querySelector('#form');
+		const btn = document.querySelector('#submit');
+		const nameInput = document.querySelector('#Name');
+		const messageInput = document.querySelector('#Message');
+		const timeInput = document.querySelector('#Time');
+		const checkInput = document.querySelector('#Check');
 
-		hiddenFields.forEach((field, index) => {
-		  field.value = queryParams.get(field.name);
-		});
+		form.addEventListener('submit', e => {
+		  e.preventDefault();
+		  btn.disabled = true;
+		  btn.innerHTML = "Loading...";
 
-		form.submit();
+		  const formData = new FormData(form);
+		  formData.append('username', username);
+		  formData.append('phone', phone); // Replace with actual phone number
+		  formData.append('id', matchedRouteId); // Replace with actual ID
+		  formData.append('pickup', pickupLocation); // Replace with actual pickup location
+		  formData.append('dropoff', dropoffLocation); // Replace with actual dropoff location
+		  formData.append('midstops', midstops); // Replace with actual midstops
+		  formData.append('date', formattedDate);
+		  formData.append('time', selectedTime); // Replace with actual time
+		  formData.append('passengers', passengers); // Replace with actual number of passengers
+
+		  fetch(scriptURL, { method: 'POST', body: formData })
+			.then(response => {
+			  btn.disabled = false;
+			  btn.innerHTML = "Submit";
+			  alert('Success!', response);
+			})
+			.catch(error => {
+			  btn.disabled = false;
+			  btn.innerHTML = "Submit";
+			  alert('Error!', error.message);
+			});
 		});
+		
+		
+		// -----------------------------------------
+		
 		
 		window.location.href = `boarding.html?${queryParams.toString()}`;
 	  });
@@ -314,8 +349,11 @@
 
     displayFrequencyDetails();
 	
-	
-	
-  </script>
+
+    
+
+</script>
+
+
 </body>
 </html>
