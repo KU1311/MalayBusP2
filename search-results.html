@@ -135,7 +135,6 @@
 	  
 	  <br>
 	  <button id="book-button">BOOK</button>
-	  <button onclick="initGoogleAPI()">Search</button>
   </div>
 
 <script>
@@ -180,104 +179,9 @@
 	
 	 
 </script>
-<script src="https://apis.google.com/js/api.js"></script>
-<script>
-	function initGoogleAPI() {
-		gapi.load('client', async () => {
-		  try {
-			await gapi.client.init({
-			  apiKey: 'AIzaSyBbI6t7iaqTr8dhiFe99V3wHx2JJ2YMFiY',
-			  clientId: '126438361027-i1nkuh5re49uev62osp98sfubbq8h6m0.apps.googleusercontent.com',
-			  discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-			});
-
-			// Your existing code that uses the gapi object
-			// ...
-			
-			
-			
-			let foundMatch = false;
-			  let matchedRouteId;
-			  let matchedDepartureTimes = [];
-			  let matchedMidstops = [];
-			  routes.forEach(route => {
-				if (route.From === pickupLocation && route.To === dropoffLocation) {
-				  foundMatch = true;
-				  matchedRouteId = route.id;
-				  frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
-				  frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
-				  // Split the departure times by semicolon and trim the values
-				  matchedDepartureTimes = route.DepartureTime.map(time => time.trim());
-				  matchedMidstops = route.Midstops.map(midstop => midstop.trim());
-				  timeff.textContent = route.DepartureTime.join(', ');
-				  stopff.textContent = route.Midstops.join(', ');
-				  idff.textContent = route.id;
-				}
-			  });
-
-			  if (foundMatch) {
-				viewDetailsButton.style.display = 'inline-block';
-				viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, matchedRouteId));
-				
-				
-				
-				// Populate the time selector with the departure times
-				timeSelector.innerHTML = 'Select time';
-				matchedDepartureTimes.forEach(time => {
-				  const option = document.createElement('option');
-				  option.value = time;
-				  option.text = time;
-				  timeSelector.add(option);
-				});
-				
-				// Populate the midstop selector with the midstops
-				midsStopsSelector.innerHTML = 'Select midstop';
-				matchedMidstops.forEach(midstop => {
-				  const option = document.createElement('option');
-				  option.value = midstop;
-				  option.text = midstop;
-				  midsStopsSelector.add(option);
-				});
-			
-			
-			const range = 'Sheet1!A2:I2';
-			const values = [[username, phone, matchedRouteId, pickupLocation, dropoffLocation, midstops, formattedDate, selectedTime, passengers]];
-
-			// Initialize the Google API client and append the data
-			gapi.load('client', async () => {
-			  try {
-				await appendToGoogleSheet(spreadsheetId, range, values);
-				// Create the order
-				await createOrder(
-				  username,
-				  phone,
-				  matchedRouteId,
-				  pickupLocation,
-				  dropoffLocation,
-				  midstops,
-				  formattedDate,
-				  selectedTime,
-				  passengers
-				);
-				// Redirect the user to the boarding.html page
-				window.location.href = `boarding.html?${queryParams.toString()}`;
-			  } catch (error) {
-				console.error('Error processing the order:', error);
-			  }
-			});
-			
-			
-			
-		  } catch (error) {
-			console.error('Error initializing Google API:', error);
-		  }
-		});
-	  }
-</script>
 <script type="module">
     import { getRoutes } from './routes.js';
-	import { appendToGoogleSheet, createOrder } from './order.js';
-	
+
     async function displayFrequencyDetails() {
       const routes = await getRoutes();
 
@@ -298,7 +202,48 @@
       const timeSelector = document.getElementById('time-selector');
       const midsStopsSelector = document.getElementById('midstops-selector');
 
-      
+      let foundMatch = false;
+      let matchedRouteId;
+      let matchedDepartureTimes = [];
+      let matchedMidstops = [];
+      routes.forEach(route => {
+        if (route.From === pickupLocation && route.To === dropoffLocation) {
+          foundMatch = true;
+          matchedRouteId = route.id;
+          frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
+          frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
+          // Split the departure times by semicolon and trim the values
+          matchedDepartureTimes = route.DepartureTime.map(time => time.trim());
+          matchedMidstops = route.Midstops.map(midstop => midstop.trim());
+          timeff.textContent = route.DepartureTime.join(', ');
+          stopff.textContent = route.Midstops.join(', ');
+          idff.textContent = route.id;
+        }
+      });
+
+      if (foundMatch) {
+        viewDetailsButton.style.display = 'inline-block';
+        viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, matchedRouteId));
+		
+		
+        
+        // Populate the time selector with the departure times
+        timeSelector.innerHTML = 'Select time';
+        matchedDepartureTimes.forEach(time => {
+          const option = document.createElement('option');
+          option.value = time;
+          option.text = time;
+          timeSelector.add(option);
+        });
+        
+        // Populate the midstop selector with the midstops
+        midsStopsSelector.innerHTML = 'Select midstop';
+        matchedMidstops.forEach(midstop => {
+          const option = document.createElement('option');
+          option.value = midstop;
+          option.text = midstop;
+          midsStopsSelector.add(option);
+        });
 		
 		
 		// Add a click event listener to the "BOOK" button
@@ -323,12 +268,7 @@
 		  passengers: passengers
 		});
 
-
-		
-		
-		
-		
-		
+		window.location.href = `boarding.html?${queryParams.toString()}`;
 	  });
 	
 		
@@ -347,8 +287,8 @@
 
     displayFrequencyDetails();
 	
-
-		
+	
+	
   </script>
 </body>
 </html>
