@@ -269,6 +269,14 @@
 		// Add a click event listener to the "BOOK" button
 	  const bookButton = document.getElementById('book-button');
 	  bookButton.addEventListener('click', function() {
+	  
+		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec';
+		const form = document.querySelector('#form');
+		const btn = document.querySelector('#submit');
+	  
+		
+		
+		
 		const selectedDate = dateInput.value;
 		const formattedDate = selectedDate.replace(/-/g, '/');
 		const selectedTime = document.getElementById('time-selector').value;
@@ -289,9 +297,9 @@
 		});
 		
 		// -----------------------------------------
-		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec';
-		const form = document.querySelector('#form');
-		const btn = document.querySelector('#submit');
+		btn.click();
+		
+		
 		const nameInput = document.querySelector('#Name');
 		const messageInput = document.querySelector('#Message');
 		const timeInput = document.querySelector('#Time');
@@ -312,7 +320,10 @@
 		  formData.append('date', formattedDate);
 		  formData.append('time', selectedTime); // Replace with actual time
 		  formData.append('passengers', passengers); // Replace with actual number of passengers
-
+			
+			
+		
+		
 		  fetch(scriptURL, { method: 'POST', body: formData })
 			.then(response => {
 			  btn.disabled = false;
@@ -329,7 +340,7 @@
 		
 		// -----------------------------------------
 		
-		btn.click();
+		
 		window.location.href = `boarding.html?${queryParams.toString()}`;
 		
 	  });
