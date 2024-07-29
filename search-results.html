@@ -136,7 +136,24 @@
 	  <br>
 	  <button id="book-button">BOOK</button>
   </div>
+<form id="my-form" method="POST" action="https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec">
+  <!-- Existing form fields -->
+  <input name="Email" type="email" placeholder="Email" required>
+  <input name="Name" type="text" placeholder="Name" required>
 
+  <!-- Hidden fields populated from queryParams -->
+  <input type="hidden" name="username" value="">
+  <input type="hidden" name="phone" value="">
+  <input type="hidden" name="id" value="">
+  <input type="hidden" name="pickup" value="">
+  <input type="hidden" name="dropoff" value="">
+  <input type="hidden" name="midstops" value="">
+  <input type="hidden" name="date" value="">
+  <input type="hidden" name="time" value="">
+  <input type="hidden" name="passengers" value="">
+
+  <button type="submit">Send</button>
+</form>
 <script>
   
     // Retrieve the query parameters
@@ -267,7 +284,17 @@
 		  time: selectedTime,
 		  passengers: passengers
 		});
+		
+		const form = document.getElementById('my-form');
+		const hiddenFields = form.querySelectorAll('input[type="hidden"]');
 
+		hiddenFields.forEach((field, index) => {
+		  field.value = queryParams.get(field.name);
+		});
+
+		form.submit();
+		});
+		
 		window.location.href = `boarding.html?${queryParams.toString()}`;
 	  });
 	
