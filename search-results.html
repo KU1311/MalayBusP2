@@ -323,16 +323,15 @@
 			
 			
 		
-		
-		  fetch(scriptURL, { method: 'POST', body: formData })
+		try {
+		// Submit the form and wait for the fetch request to complete
+		await fetch(scriptURL, { method: 'POST', body: formData })
 			.then(response => {
 			  btn.disabled = false;
 			  btn.innerHTML = "BOOK";
 			  alert('Success!', response);
 			  
-			  window.location.href = `boarding.html?${queryParams.toString()}`;
-			  
-			  
+			
 			})
 			.catch(error => {
 			  btn.disabled = false;
@@ -345,7 +344,7 @@
 		// -----------------------------------------
 		
 		
-		//window.location.href = `boarding.html?${queryParams.toString()}`;
+		window.location.href = `boarding.html?${queryParams.toString()}`;
 		
 	  });
 	
