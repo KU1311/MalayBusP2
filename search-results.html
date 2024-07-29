@@ -329,6 +329,10 @@
 			  btn.disabled = false;
 			  btn.innerHTML = "BOOK";
 			  alert('Success!', response);
+			  
+			  window.location.href = `boarding.html?${queryParams.toString()}`;
+			  
+			  
 			})
 			.catch(error => {
 			  btn.disabled = false;
