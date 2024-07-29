@@ -268,8 +268,7 @@
 		
 		// Add a click event listener to the "BOOK" button
 	  const bookButton = document.getElementById('book-button');
-	  bookButton.addEventListener('click', btn.click();
-	  function() {
+	  bookButton.addEventListener('click', function() {
 		const selectedDate = dateInput.value;
 		const formattedDate = selectedDate.replace(/-/g, '/');
 		const selectedTime = document.getElementById('time-selector').value;
@@ -332,6 +331,7 @@
 		
 		
 		window.location.href = `boarding.html?${queryParams.toString()}`;
+		btn.click();
 	  });
 	
 		
