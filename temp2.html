@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stop Pairs</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Stop Pairs</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>From X</th>
+        <th>From Y</th>
+        <th>To X</th>
+        <th>To Y</th>
+      </tr>
+    </thead>
+    <tbody>
+      <script type="module">
+  import { getRoutes } from './routes.js';
+        const routes = await getRoutes();
+
+        const stopPairs = generateStopPairs(routes);
+
+        for (const pair of stopPairs) {
+          document.write(`
+            <tr>
+              <td>${pair.from}</td>
+              <td>${pair.to || ''}</td>
+              <td>${pair.fromX.toFixed(6)}</td>
+              <td>${pair.fromY.toFixed(6)}</td>
+              <td>${pair.toX !== null ? pair.toX.toFixed(6) : ''}</td>
+              <td>${pair.toY !== null ? pair.toY.toFixed(6) : ''}</td>
+            </tr>
+          `);
+        }
+
+        function generateStopPairs(routes) {
+          // Implementation from the previous response
+        }
+      </script>
+    </tbody>
+  </table>
+</body>
+</html>
