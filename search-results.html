@@ -202,7 +202,7 @@
 <script type="module">
     import { getRoutes } from './routes.js';
 
-    async function displayFrequencyDetails() {
+    function displayFrequencyDetails() {
       const routes = await getRoutes();
 
       // Get the pickup and dropoff locations from the HTML
@@ -356,16 +356,9 @@
 
 		})  // form listener end
 	})  // book button listener end
-	} else {
-	        frequencyDaysElement.textContent = 'N/A';
-	        frequencyMinutesElement.textContent = 'N/A';
-	        viewDetailsButton.style.display = 'none';
-	        timeSelector.innerHTML = '';
-	        midsStopsSelector.innerHTML = '';
-		alert('Error!');
-      }
+	} 
     }
-
+	
     function viewRouteDetails(pickupLocation, dropoffLocation, routeId) {
       window.location.href = `route_details.html?pickupLocation=${encodeURIComponent(pickupLocation)}&dropoffLocation=${encodeURIComponent(dropoffLocation)}&id=${routeId}`;
     }
