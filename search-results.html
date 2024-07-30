@@ -304,11 +304,13 @@
 		const timeInput = document.querySelector('#Time');
 		const checkInput = document.querySelector('#Check');
 
-		form.addEventListener('submit', async(e) => {
+		form.addEventListener('submit', e => {
 		  e.preventDefault();
 		  btn.disabled = true;
 		  btn.innerHTML = "Loading...";
-
+			
+			alert('Btn Clicked! Loading..');
+		  
 		  const formData = new FormData(form);
 		  formData.append('username', username);
 		  formData.append('phone', phone); // Replace with actual phone number
@@ -324,12 +326,12 @@
 		
 			try {
 			// Submit the form and wait for the fetch request to complete
-			await fetch(scriptURL, { method: 'POST', body: formData })
-				.then(response => {
+			const response = await fetch(scriptURL, { method: 'POST', body: formData });
+			
+			if (response.ok) {
 				  btn.disabled = false;
 				  btn.innerHTML = "BOOK";
 				  alert('Success!', response);
-				  
 				  
 				  // Redirect to next page
 					window.location.href = `boarding.html?${queryParams.toString()}`;
@@ -340,7 +342,7 @@
 				  btn.innerHTML = "BOOK";
 				  alert('Error!', error.message);
 				});
-				
+			
 				
 		} catch (error) {
 		console.error('Error submitting form:', error);
@@ -355,7 +357,13 @@
 
 				})
 			})
-		
+		} else {
+        frequencyDaysElement.textContent = 'N/A';
+        frequencyMinutesElement.textContent = 'N/A';
+        viewDetailsButton.style.display = 'none';
+        timeSelector.innerHTML = '';
+        midsStopsSelector.innerHTML = '';
+		alert('Error!');
       }
     }
 
