@@ -42,7 +42,7 @@ export async function getRoutes() {
 	  XY: {
 		  X: XList,
 		  Y: YList
-    };
+		}
   });
 }
 
