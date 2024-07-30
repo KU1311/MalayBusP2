@@ -202,7 +202,7 @@
 <script type="module">
     import { getRoutes } from './routes.js';
 
-    function displayFrequencyDetails() {
+    async function displayFrequencyDetails() {
       const routes = await getRoutes();
 
       // Get the pickup and dropoff locations from the HTML
@@ -288,7 +288,7 @@
 		  phone:phone,
 		  id: matchedRouteId,
 		  pickup: pickupLocation,
-          dropoff: dropoffLocation,
+          	  dropoff: dropoffLocation,
 		  midstops: midstops,
 		  date: formattedDate,
 		  time: selectedTime,
