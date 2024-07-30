@@ -79,7 +79,19 @@ async function appendToGoogleSheet(spreadsheetId, range, values) {
     // Set the access token for the API client
     gapi.client.setToken(response.access_token);
 
-    
+    // Append the data to the Google Sheet
+    const appendResponse = await gapi.client.sheets.spreadsheets.values.append({
+      spreadsheetId,
+      range,
+      valueInputOption: 'USER_ENTERED',
+      resource: {
+        values,
+      },
+    });
 
-
+    console.log('Data appended successfully!');
+  } catch (error) {
+    console.error('Error appending data to Google Sheet:', error);
+  }
+}
 
