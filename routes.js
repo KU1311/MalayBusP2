@@ -6,10 +6,11 @@ export async function getRoutes() {
 
   // Parse the CSV data into an array of route objects
   return data.trim().split('\n').slice(1).map(row => {
-    const [id, from, to, days, minutes, quota, midstops, dept_time,xy] = row.split(',');
+    const [id, from, to, days, minutes, quota, midstops, dept_time, x, y] = row.split(',');
     let midstopList = [];
     let departureTimeList = [];
-	let xyList = [];
+	let xList = [];
+	let yList = [];
 
     if (midstops && midstops.trim() !== '') {
       midstopList = midstops.split(';');
@@ -19,8 +20,12 @@ export async function getRoutes() {
       departureTimeList = dept_time.split(';');
     }
 	
-	if (xy && xy.trim() !== '') {
-      XYList = xy.split(';');
+	if (x && x.trim() !== '') {
+      XList = x.split(';');
+    }
+	
+	if (y && y.trim() !== '') {
+      YList = y.split(';');
     }
 
     return {
@@ -34,7 +39,9 @@ export async function getRoutes() {
       Quota: quota,
       Midstops: midstopList,
       DepartureTime: departureTimeList,
-	  XY: XYList
+	  XY: {
+		  X: XList,
+		  Y: YList
     };
   });
 }
