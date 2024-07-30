@@ -295,65 +295,9 @@
 		  passengers: passengers
 		});
 		
-		// -----------------------------------------
-		btn.click();
 		
 		
-		const nameInput = document.querySelector('#Name');
-		const messageInput = document.querySelector('#Message');
-		const timeInput = document.querySelector('#Time');
-		const checkInput = document.querySelector('#Check');
-
-		form.addEventListener('submit', e => {
-		  e.preventDefault();
-		  btn.disabled = true;
-		  btn.innerHTML = "Loading...";
-			
-			alert('Btn Clicked! Loading..');
-		  
-		  const formData = new FormData(form);
-		  formData.append('username', username);
-		  formData.append('phone', phone); // Replace with actual phone number
-		  formData.append('id', matchedRouteId); // Replace with actual ID
-		  formData.append('pickup', pickupLocation); // Replace with actual pickup location
-		  formData.append('dropoff', dropoffLocation); // Replace with actual dropoff location
-		  formData.append('midstops', midstops); // Replace with actual midstops
-		  formData.append('date', formattedDate);
-		  formData.append('time', selectedTime); // Replace with actual time
-		  formData.append('passengers', passengers); // Replace with actual number of passengers
-			
-			
-		
-			try {
-			// Submit the form and wait for the fetch request to complete
-			const response = await fetch(scriptURL, { method: 'POST', body: formData });
-			
-			if (response.ok) {
-				  btn.disabled = false;
-				  btn.innerHTML = "BOOK";
-				  alert('Success!', response);
-				  
-				  // Redirect to next page
-					window.location.href = `boarding.html?${queryParams.toString()}`;
-				
-				})
-				.catch(error => {
-				  btn.disabled = false;
-				  btn.innerHTML = "BOOK";
-				  alert('Error!', error.message);
-				});
-			
-				
-		} catch (error) {
-		console.error('Error submitting form:', error);
-		// Handle the error, e.g., display an error message to the user
-	  }	
-		
-		
-		// -----------------------------------------
-		
-		
-		//window.location.href = `boarding.html?${queryParams.toString()}`;
+		window.location.href = `boarding.html?${queryParams.toString()}`;
 
 				})
 			})
