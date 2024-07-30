@@ -43,7 +43,7 @@ export async function getRoutes() {
 		  X: XList,
 		  Y: YList
 		}
-  });
+  })
 }
 
 export async function saveRoute(route) {
