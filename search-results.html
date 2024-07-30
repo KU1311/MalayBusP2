@@ -324,30 +324,7 @@
 			
 			
 		
-			try {
-				console.log('Now submit to script');
-			// Submit the form and wait for the fetch request to complete
-			 fetch(scriptURL, { method: 'POST', body: formData })
-				.then(response => {
-				  btn.disabled = false;
-				  btn.innerHTML = "BOOK";
-				  alert('Success!', response);
-				  
-				
-				})
-				.catch(error => {
-				  btn.disabled = false;
-				  btn.innerHTML = "BOOK";
-				  alert('Error!', error.message);
-				});
-			// Redirect to next page
-				window.location.href = `boarding.html?${queryParams.toString()}`;
-				
-			} catch (error) {
-			console.error('Error submitting form:', error);
-			// Handle the error, e.g., display an error message to the user
-	  		}	
-		
+			
 		
 		// -----------------------------------------
 		
