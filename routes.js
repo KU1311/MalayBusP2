@@ -20,7 +20,7 @@ export async function getRoutes() {
     }
 	
 	if (xy && xy.trim() !== '') {
-      departureTimeList = xy.split(';');
+      XYList = xy.split(';');
     }
 
     return {
@@ -34,7 +34,7 @@ export async function getRoutes() {
       Quota: quota,
       Midstops: midstopList,
       DepartureTime: departureTimeList,
-	  XY: xy
+	  XY: XYList
     };
   });
 }
