@@ -9,6 +9,7 @@ export async function getRoutes() {
     const [id, from, to, days, minutes, quota, midstops, dept_time,xy] = row.split(',');
     let midstopList = [];
     let departureTimeList = [];
+	let xyList = [];
 
     if (midstops && midstops.trim() !== '') {
       midstopList = midstops.split(';');
@@ -16,6 +17,10 @@ export async function getRoutes() {
 
     if (dept_time && dept_time.trim() !== '') {
       departureTimeList = dept_time.split(';');
+    }
+	
+	if (xy && xy.trim() !== '') {
+      departureTimeList = xy.split(';');
     }
 
     return {
@@ -29,7 +34,7 @@ export async function getRoutes() {
       Quota: quota,
       Midstops: midstopList,
       DepartureTime: departureTimeList,
-	  XY: XY
+	  XY: xy
     };
   });
 }
