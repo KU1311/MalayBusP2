@@ -327,7 +327,7 @@
 			try {
 				console.log('Now submit to script');
 			// Submit the form and wait for the fetch request to complete
-			await fetch(scriptURL, { method: 'POST', body: formData })
+			 fetch(scriptURL, { method: 'POST', body: formData })
 				.then(response => {
 				  btn.disabled = false;
 				  btn.innerHTML = "BOOK";
