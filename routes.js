@@ -28,7 +28,8 @@ export async function getRoutes() {
       },
       Quota: quota,
       Midstops: midstopList,
-      DepartureTime: departureTimeList
+      DepartureTime: departureTimeList,
+	  XY: XY
     };
   });
 }
