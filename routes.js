@@ -39,9 +39,8 @@ export async function getRoutes() {
       Quota: quota,
       Midstops: midstopList,
       DepartureTime: departureTimeList,
-	    XY: {
-		    x: XList,
-		    y: YList
+	  XX: XList,
+	  YY: YList
 		  }
   })
 }
