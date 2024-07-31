@@ -45,9 +45,8 @@
   <div id="map"></div>
 
  <script type="module">
-    import { getRoutes } from './routes.js';
-    const routes = await getRoutes();
-
+  import { getRoutes } from './routes.js';
+        const routes = await getRoutes();
     const stops = getUniqueStops(routes);
 
     const stopsContainer = document.getElementById('stops-container');
@@ -61,6 +60,9 @@
     for (const stop of stops) {
       const stopParts = stop.split(';');
       const routeId = stopParts[0];
+      const stopName = stopParts[1];
+      const stopX = parseFloat(stopParts[2]);
+      const stopY = parseFloat(stopParts[3]);
 
       if (routeId === "1X") {
         const row = document.createElement('tr');
@@ -70,23 +72,21 @@
         row.appendChild(routeIdCell);
 
         const stopCell = document.createElement('td');
-        stopCell.textContent = stopParts[1];
+        stopCell.textContent = stopName;
         row.appendChild(stopCell);
 
         const xCell = document.createElement('td');
-        xCell.textContent = stopParts[2];
+        xCell.textContent = stopX.toFixed(6);
         row.appendChild(xCell);
 
         const yCell = document.createElement('td');
-        yCell.textContent = stopParts[3];
+        yCell.textContent = stopY.toFixed(6);
         row.appendChild(yCell);
 
         stopsContainer.appendChild(row);
 
         // Add the stop to the map
-        const lat = parseFloat(stopParts[3]);
-        const lng = parseFloat(stopParts[2]);
-        addMarkerToMap(lat, lng, stopParts[1]);
+        addMarkerToMap(stopY, stopX, stopName);
       }
     }
 
@@ -126,7 +126,7 @@
       const xs = route.XX.map(x => parseFloat(x));
       const ys = route.YY.map(y => parseFloat(y));
 
-      return { id: route.id, coords: xs.map((x, i) => [ys[i], x]) };
+      return { id: route.id, coords: ys.map((y, i) => [y, xs[i]]) };
     }
 
     function addRouteToMap(route) {
