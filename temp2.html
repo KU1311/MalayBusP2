@@ -45,25 +45,29 @@
 
     for (const stop of stops) {
       const stopParts = stop.split(';');
-      const row = document.createElement('tr');
+      const routeId = stopParts[0];
 
-      const routeIdCell = document.createElement('td');
-      routeIdCell.textContent = stopParts[0];
-      row.appendChild(routeIdCell);
+      if (routeId === "1X") {
+        const row = document.createElement('tr');
 
-      const stopCell = document.createElement('td');
-      stopCell.textContent = stopParts[1];
-      row.appendChild(stopCell);
+        const routeIdCell = document.createElement('td');
+        routeIdCell.textContent = routeId;
+        row.appendChild(routeIdCell);
 
-      const xCell = document.createElement('td');
-      xCell.textContent = stopParts[2];
-      row.appendChild(xCell);
+        const stopCell = document.createElement('td');
+        stopCell.textContent = stopParts[1];
+        row.appendChild(stopCell);
 
-      const yCell = document.createElement('td');
-      yCell.textContent = stopParts[3];
-      row.appendChild(yCell);
+        const xCell = document.createElement('td');
+        xCell.textContent = stopParts[2];
+        row.appendChild(xCell);
 
-      stopsContainer.appendChild(row);
+        const yCell = document.createElement('td');
+        yCell.textContent = stopParts[3];
+        row.appendChild(yCell);
+
+        stopsContainer.appendChild(row);
+      }
     }
 
     function getUniqueStops(routes) {
