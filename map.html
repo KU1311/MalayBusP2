@@ -20,7 +20,13 @@
 </head>
 <body>
   <div id="map"></div>
-  <script>
+  <script type="module">
+    import { getRoutes } from './routes.js';
+    const routes = await getRoutes();
+
+
+
+    
     // Define the stop locations
     const stopLocations = [
       { name: 'Airport', x: 22.312367, y: 113.937175 },
