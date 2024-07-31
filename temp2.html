@@ -25,6 +25,7 @@
   <table>
     <thead>
       <tr>
+        <th>Route ID</th>
         <th>Stop</th>
         <th>X</th>
         <th>Y</th>
@@ -46,16 +47,20 @@
       const stopParts = stop.split(';');
       const row = document.createElement('tr');
 
+      const routeIdCell = document.createElement('td');
+      routeIdCell.textContent = stopParts[0];
+      row.appendChild(routeIdCell);
+
       const stopCell = document.createElement('td');
-      stopCell.textContent = stopParts[0];
+      stopCell.textContent = stopParts[1];
       row.appendChild(stopCell);
 
       const xCell = document.createElement('td');
-      xCell.textContent = stopParts[1];
+      xCell.textContent = stopParts[2];
       row.appendChild(xCell);
 
       const yCell = document.createElement('td');
-      yCell.textContent = stopParts[2];
+      yCell.textContent = stopParts[3];
       row.appendChild(yCell);
 
       stopsContainer.appendChild(row);
@@ -65,18 +70,19 @@
       const allStops = [];
 
       for (const route of routes) {
+        const routeId = route.id;
         const midstops = route.Midstops;
         const xs = route.XX;
         const ys = route.YY;
 
         for (let i = 0; i < midstops.length; i++) {
-          allStops.push(`${midstops[i]};${xs[i]};${ys[i]}`);
+          allStops.push(`${routeId};${midstops[i]};${xs[i]};${ys[i]}`);
         }
 
         // Add the last stop
         const lastStopX = xs[xs.length - 1];
         const lastStopY = ys[ys.length - 1];
-        allStops.push(`${route.To};${lastStopX};${lastStopY}`);
+        allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
       }
 
       return Array.from(new Set(allStops));
