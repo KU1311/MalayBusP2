@@ -57,9 +57,9 @@
           const stopPairs = [];
         
           for (const route of routes) {
-            const midstops = route.Midstops.split(';');
-            const xx = route.XX.split(';').map(Number);
-            const yy = route.YY.split(';').map(Number);
+            const midstops = route.Midstops;
+            const xx = route.XX.map(Number);
+            const yy = route.YY.map(Number);
         
             for (let i = 0; i < midstops.length; i++) {
               stopPairs.push({
