@@ -123,8 +123,8 @@
 
     function getRoute(routeId) {
       const route = routes.find(r => r.id === routeId);
-      const xs = route.XX.split(';').map(x => parseFloat(x));
-      const ys = route.YY.split(';').map(y => parseFloat(y));
+      const xs = route.XX.map(x => parseFloat(x));
+      const ys = route.YY.map(y => parseFloat(y));
 
       return { id: route.id, coords: xs.map((x, i) => [ys[i], x]) };
     }
