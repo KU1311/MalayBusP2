@@ -187,9 +187,7 @@
 	  // Get the selected pickup location
 	  const selectedPickupLocation = pickupLocationSelect.value;
 
-	  // Find the corresponding dropoff options
-	  const dropoffOptions = locationOptions.find(option => option.pickup === selectedPickupLocation).dropoff;
-
+	  
 	  // Add the dropoff options to the select element
 	  pairs.forEach(pair => {
 		  const dropoffOptions = pair.dropoff.split(',');
