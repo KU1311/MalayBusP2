@@ -23,6 +23,8 @@
       width: 100%;
     }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
   <h1>Stops</h1>
@@ -43,12 +45,18 @@
   <div id="map"></div>
 
   <script type="module">
-	import { getRoutes } from './routes.js';
+    import { getRoutes } from './routes.js';
     const routes = await getRoutes();
 
     const stops = getUniqueStops(routes);
 
     const stopsContainer = document.getElementById('stops-container');
+
+    // Initialize the map
+    const map = L.map('map').setView([22.3193, 114.1694], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
     for (const stop of stops) {
       const stopParts = stop.split(';');
@@ -104,30 +112,10 @@
       return Array.from(new Set(allStops));
     }
 
-    function initMap() {
-      const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: { lat: 22.3193, lng: 114.1694 }
-      });
-    }
-
     function addMarkerToMap(lat, lng, title) {
-      const marker = new google.maps.Marker({
-        position: { lat, lng },
-        map: map,
-        title
-      });
+      L.marker([lat, lng]).addTo(map)
+        .bindPopup(title);
     }
-
-    // Load the Google Maps API
-    function loadGoogleMapsAPI() {
-      const script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-
-    loadGoogleMapsAPI();
   </script>
 </body>
 </html>
