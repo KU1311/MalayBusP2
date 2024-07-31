@@ -40,6 +40,7 @@
 		y: stopY
 		}
 	)
+      }
 	  
 	  
 
@@ -101,27 +102,27 @@
     }
 	
 	
-	function getUniqueStops(routes) {
+function getUniqueStops(routes) {
       const allStops = [];
 
       for (const route of routes) {
-        const routeId = route.id;
-        const midstops = route.Midstops;
-        const xs = route.XX;
-        const ys = route.YY;
+	const routeId = route.id;
+	const midstops = route.Midstops;
+	const xs = route.XX;
+	const ys = route.YY;
 
-        for (let i = 0; i < midstops.length; i++) {
-          allStops.push(`${routeId};${midstops[i]};${xs[i]};${ys[i]}`);
-        }
+	for (let i = 0; i < midstops.length; i++) {
+	  allStops.push(`${routeId};${midstops[i]};${xs[i]};${ys[i]}`);
+	}
 
-        // Add the last stop
-        const lastStopX = xs[xs.length - 1];
-        const lastStopY = ys[ys.length - 1];
-        allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
+	// Add the last stop
+	const lastStopX = xs[xs.length - 1];
+	const lastStopY = ys[ys.length - 1];
+	allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
       }
 
       return Array.from(new Set(allStops));
-    }
+}
 	
 	
   </script>
