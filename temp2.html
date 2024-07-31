@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stop Pairs</title>
+  <title>Stops</title>
   <style>
     table {
       width: 100%;
@@ -20,20 +20,17 @@
   </style>
 </head>
 <body>
-  <h1>Stop Pairs</h1>
+  <h1>Stops</h1>
 
   <table>
     <thead>
       <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>From X</th>
-        <th>From Y</th>
-        <th>To X</th>
-        <th>To Y</th>
+        <th>Stop</th>
+        <th>X</th>
+        <th>Y</th>
       </tr>
     </thead>
-    <tbody id="stop-pairs-container">
+    <tbody id="stops-container">
     </tbody>
   </table>
 
@@ -41,62 +38,44 @@
     import { getRoutes } from './routes.js';
     const routes = await getRoutes();
 
-    const stopPairs = generateStopPairs(routes);
+    const stops = getUniqueStops(routes);
 
-    const stopPairsContainer = document.getElementById('stop-pairs-container');
+    const stopsContainer = document.getElementById('stops-container');
 
-    for (const pair of stopPairs) {
+    for (const stop of stops) {
+      const stopParts = stop.split(';');
       const row = document.createElement('tr');
 
-      const fromCell = document.createElement('td');
-      fromCell.textContent = pair.from;
-      row.appendChild(fromCell);
+      const stopCell = document.createElement('td');
+      stopCell.textContent = stopParts[0];
+      row.appendChild(stopCell);
 
-      const toCell = document.createElement('td');
-      toCell.textContent = pair.to || '';
-      row.appendChild(toCell);
+      const xCell = document.createElement('td');
+      xCell.textContent = stopParts[1];
+      row.appendChild(xCell);
 
-      const fromXCell = document.createElement('td');
-      fromXCell.textContent = pair.fromX.toFixed(6);
-      row.appendChild(fromXCell);
+      const yCell = document.createElement('td');
+      yCell.textContent = stopParts[2];
+      row.appendChild(yCell);
 
-      const fromYCell = document.createElement('td');
-      fromYCell.textContent = pair.fromY.toFixed(6);
-      row.appendChild(fromYCell);
-
-      const toXCell = document.createElement('td');
-      toXCell.textContent = pair.toX !== null ? pair.toX.toFixed(6) : '';
-      row.appendChild(toXCell);
-
-      const toYCell = document.createElement('td');
-      toYCell.textContent = pair.toY !== null ? pair.toY.toFixed(6) : '';
-      row.appendChild(toYCell);
-
-      stopPairsContainer.appendChild(row);
+      stopsContainer.appendChild(row);
     }
 
-    function generateStopPairs(routes) {
-  const stopPairs = [];
+    function getUniqueStops(routes) {
+      const allStops = [];
 
-  for (const route of routes) {
-    const midstops = route.Midstops;
-    const xx = route.XX.map(Number);
-    const yy = route.YY.map(Number);
+      for (const route of routes) {
+        const midstops = route.Midstops;
+        const xs = route.XX;
+        const ys = route.YY;
 
-    for (let i = 0; i < midstops.length; i++) {
-      stopPairs.push({
-        from: midstops[i],
-        to: midstops[i + 1] || null,
-        fromX: xx[i],
-        fromY: yy[i],
-        toX: xx[i + 1] || null,
-        toY: yy[i + 1] || null,
-      });
+        for (let i = 0; i < midstops.length; i++) {
+          allStops.push(`${midstops[i]};${xs[i]};${ys[i]}`);
+        }
+      }
+
+      return Array.from(new Set(allStops));
     }
-  }
-
-  return stopPairs;
-}
   </script>
 </body>
 </html>
