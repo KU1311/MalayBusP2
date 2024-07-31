@@ -65,13 +65,18 @@
       const allStops = [];
 
       for (const route of routes) {
-        const midstops = route.Midstops;
+        const midstops = route.Midstops.;
         const xs = route.XX;
         const ys = route.YY;
 
         for (let i = 0; i < midstops.length; i++) {
           allStops.push(`${midstops[i]};${xs[i]};${ys[i]}`);
         }
+
+        // Add the last stop
+        const lastStopX = xs[xs.length - 1];
+        const lastStopY = ys[ys.length - 1];
+        allStops.push(`${route.To};${lastStopX};${lastStopY}`);
       }
 
       return Array.from(new Set(allStops));
