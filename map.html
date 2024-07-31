@@ -20,30 +20,13 @@
 </head>
 <body>
   <div id="map"></div>
-</body>
-  <script type="module">
-	import { getRoutes } from './routes.js';
-        const routes = await getRoutes();
-    const stops = getUniqueStops(routes);
-	
-	for (const stop of stops) {
-      const stopParts = stop.split(';');
-      const routeId = stopParts[0];
-      const stopName = stopParts[1];
-      const stopX = parseFloat(stopParts[2]);
-      const stopY = parseFloat(stopParts[3]);
-	
-	const stopLocations = [];
-      if (routeId === "1X") {
-		stopLocations.push({
-		name: stopName,
-		x: stopX,
-		y: stopY
-		}
-	)
-      }
-	  
-	  
+  <script>
+    // Define the stop locations
+    const stopLocations = [
+      { name: 'Airport', x: 22.312367, y: 113.937175 },
+      { name: 'Temple Street', x: 22.305451, y: 114.169656 },
+      { name: 'Hotel', x: 22.297436, y: 114.176822 }
+    ];
 
     // Initialize the map
     const map = L.map('map').setView([22.305451, 114.169656], 12);
@@ -101,31 +84,6 @@
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
-	
-	
-function getUniqueStops(routes) {
-      const allStops = [];
-
-      for (const route of routes) {
-	const routeId = route.id;
-	const midstops = route.Midstops;
-	const xs = route.XX;
-	const ys = route.YY;
-
-	for (let i = 0; i < midstops.length; i++) {
-	  allStops.push(`${routeId};${midstops[i]};${xs[i]};${ys[i]}`);
-	}
-
-	// Add the last stop
-	const lastStopX = xs[xs.length - 1];
-	const lastStopY = ys[ys.length - 1];
-	allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
-      }
-
-      return Array.from(new Set(allStops));
-}
-	
-	
-</script>
-
+  </script>
+</body>
 </html>
