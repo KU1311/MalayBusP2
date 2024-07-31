@@ -151,14 +151,15 @@
 			pairs.push(pair);
 		  }
 		}
-	  } else {
-		  // The pickup is already in the set, append the dropoff to the existing pair
-		  const existingPair = pairs.find(pair => pair.pickup === pickup);
-		  existingPair.dropoff += `,${dropoff}`;
-		}
-	
-	  return pairs;
-	}
+		 else {
+			  // The pickup is already in the set, append the dropoff to the existing pair
+			  const existingPair = pairs.find(pair => pair.pickup === pickup);
+			  existingPair.dropoff += `,${dropoff}`;
+			}
+	 	 }
+	return pairs;
+		
+	 } 
 
 
 	
