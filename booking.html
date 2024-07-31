@@ -166,7 +166,7 @@
 		
 		
 	  // Populate the pickup location options
-	  pickupDropoffPairs.forEach(pair => {
+	  pairs.forEach(pair => {
 		  const pickupOption = document.createElement('option');
 		  pickupOption.value = pair.pickup;
 		  pickupOption.textContent = pair.pickup;
@@ -191,7 +191,7 @@
 	  const dropoffOptions = locationOptions.find(option => option.pickup === selectedPickupLocation).dropoff;
 
 	  // Add the dropoff options to the select element
-	  pickupDropoffPairs.forEach(pair => {
+	  pairs.forEach(pair => {
 		  const dropoffOptions = pair.dropoff.split(',');
 		  dropoffOptions.forEach(option => {
 		    const dropoffOption = document.createElement('option');
