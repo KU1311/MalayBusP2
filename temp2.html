@@ -76,8 +76,27 @@
     }
 
     function generateStopPairs(routes) {
-      // Implementation from the previous response
+  const stopPairs = [];
+
+  for (const route of routes) {
+    const midstops = route.Midstops;
+    const xx = route.XX.map(Number);
+    const yy = route.YY.map(Number);
+
+    for (let i = 0; i < midstops.length; i++) {
+      stopPairs.push({
+        from: midstops[i],
+        to: midstops[i + 1] || null,
+        fromX: xx[i],
+        fromY: yy[i],
+        toX: xx[i + 1] || null,
+        toY: yy[i + 1] || null,
+      });
     }
+  }
+
+  return stopPairs;
+}
   </script>
 </body>
 </html>
