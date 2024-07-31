@@ -44,7 +44,7 @@
 
   <div id="map"></div>
 
-  <script type="module">
+ <script type="module">
     import { getRoutes } from './routes.js';
     const routes = await getRoutes();
 
@@ -90,6 +90,10 @@
       }
     }
 
+    // Add the route to the map
+    const route1X = getRoute("1X");
+    addRouteToMap(route1X);
+
     function getUniqueStops(routes) {
       const allStops = [];
 
@@ -115,6 +119,19 @@
     function addMarkerToMap(lat, lng, title) {
       L.marker([lat, lng]).addTo(map)
         .bindPopup(title);
+    }
+
+    function getRoute(routeId) {
+      const route = routes.find(r => r.id === routeId);
+      const xs = route.XX.split(';').map(x => parseFloat(x));
+      const ys = route.YY.split(';').map(y => parseFloat(y));
+
+      return { id: route.id, coords: xs.map((x, i) => [ys[i], x]) };
+    }
+
+    function addRouteToMap(route) {
+      const routeLayer = L.polyline(route.coords, { color: 'red' }).addTo(map);
+      routeLayer.bindPopup(`Route ${route.id}`);
     }
   </script>
 </body>
