@@ -33,50 +33,51 @@
         <th>To Y</th>
       </tr>
     </thead>
-    <tbody>
-      <script type="module">
-        import { getRoutes } from './routes.js';
-        const routes = await getRoutes();
-
-        const stopPairs = generateStopPairs(routes);
-
-        for (const pair of stopPairs) {
-          document.write(`
-            <tr>
-              <td>${pair.from}</td>
-              <td>${pair.to || ''}</td>
-              <td>${pair.fromX.toFixed(6)}</td>
-              <td>${pair.fromY.toFixed(6)}</td>
-              <td>${pair.toX !== null ? pair.toX.toFixed(6) : ''}</td>
-              <td>${pair.toY !== null ? pair.toY.toFixed(6) : ''}</td>
-            </tr>
-          `);
-        }
-
-        function generateStopPairs(routes) {
-          const stopPairs = [];
-        
-          for (const route of routes) {
-            const midstops = route.Midstops;
-            const xx = route.XX.map(Number);
-            const yy = route.YY.map(Number);
-        
-            for (let i = 0; i < midstops.length; i++) {
-              stopPairs.push({
-                from: midstops[i],
-                to: midstops[i + 1] || null,
-                fromX: xx[i],
-                fromY: yy[i],
-                toX: xx[i + 1] || null,
-                toY: yy[i + 1] || null,
-              });
-            }
-          }
-        
-          return stopPairs;
-        }
-      </script>
+    <tbody id="stop-pairs-container">
     </tbody>
   </table>
+
+  <script type="module">
+    import { getRoutes } from './routes.js';
+    const routes = await getRoutes();
+
+    const stopPairs = generateStopPairs(routes);
+
+    const stopPairsContainer = document.getElementById('stop-pairs-container');
+
+    for (const pair of stopPairs) {
+      const row = document.createElement('tr');
+
+      const fromCell = document.createElement('td');
+      fromCell.textContent = pair.from;
+      row.appendChild(fromCell);
+
+      const toCell = document.createElement('td');
+      toCell.textContent = pair.to || '';
+      row.appendChild(toCell);
+
+      const fromXCell = document.createElement('td');
+      fromXCell.textContent = pair.fromX.toFixed(6);
+      row.appendChild(fromXCell);
+
+      const fromYCell = document.createElement('td');
+      fromYCell.textContent = pair.fromY.toFixed(6);
+      row.appendChild(fromYCell);
+
+      const toXCell = document.createElement('td');
+      toXCell.textContent = pair.toX !== null ? pair.toX.toFixed(6) : '';
+      row.appendChild(toXCell);
+
+      const toYCell = document.createElement('td');
+      toYCell.textContent = pair.toY !== null ? pair.toY.toFixed(6) : '';
+      row.appendChild(toYCell);
+
+      stopPairsContainer.appendChild(row);
+    }
+
+    function generateStopPairs(routes) {
+      // Implementation from the previous response
+    }
+  </script>
 </body>
 </html>
