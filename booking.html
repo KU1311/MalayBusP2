@@ -190,6 +190,7 @@
 	  
 	  // Add the dropoff options to the select element
 	  pairs.forEach(pair => {
+		  if (pair.pickup === selectedPickupLocation) {
 		  const dropoffOptions = pair.dropoff.split(',');
 		  dropoffOptions.forEach(option => {
 		    const dropoffOption = document.createElement('option');
@@ -197,6 +198,7 @@
 		    dropoffOption.textContent = option;
 		    dropoffLocationSelect.add(dropoffOption);
 		  });
+		  }
 		});
 	}
   </script>
