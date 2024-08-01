@@ -177,9 +177,20 @@
             shadowSize: [41, 41]
           });
 
-          const userLocation = L.marker([position.coords.latitude, position.coords.longitude], {
-            icon: userLocationIcon
-          }).addTo(map);
+
+	let customIcon = {
+	 iconUrl:”https://ku1311.github.io/MalayBusP2/icon-you.png",
+	 iconSize:[40,40]
+	}
+	let myIcon = L.icon(customIcon);
+	
+	let iconOptions = {
+	 title:”Your Location”,
+	 draggable:false,
+	 icon:myIcon
+	}
+	    
+          const userLocation = new L.marker([position.coords.latitude, position.coords.longitude], iconOptions).addTo(map);
           userLocation.bindPopup("<b>Your Location</b>");
         },
         (error) => {
