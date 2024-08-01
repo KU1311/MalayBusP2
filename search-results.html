@@ -89,18 +89,6 @@
 	<div id="search-info-container">
 	  <div class="search-info-item">
 	  <h3 id="route">ROUTE</h3>
-	  <table><tr>
-	  <th>
-
-		<span id="pickup-location">N/A</span>
-		</th>
-	  </div>
-	  <th><label> - </label></th>
-	  <th>
-	  <div class="search-info-item">
-
-		<span id="dropoff-location">N/A</span>
-	  </th></tr></table>
 	  </div>
 	</div>
 	
@@ -167,15 +155,7 @@
 	const username = urlParams.get('username');
 	const phone = urlParams.get('phone');
 	;
-	
-    // Display the search information
-	const pickupLocationElement = document.getElementById('pickup-location');
-	const dropoffLocationElement = document.getElementById('dropoff-location');
-
-	pickupLocationElement.textContent = pickupLocation || 'N/A';
-	dropoffLocationElement.textContent = dropoffLocation || 'N/A';
-
-	
+		
 	// Get the current date
     const today = new Date();
     const year = today.getFullYear();
