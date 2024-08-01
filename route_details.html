@@ -61,7 +61,7 @@
 	<div class="details">
     <h1>Map</h1>
 	<div class="search-info-item">
-		<span id="pickup-location">N/A</span>  <label> - </label>  <span id="dropoff-location">N/A</span>
+		<span id="route">N/A</span>
 	</div>
 
   <div id="map"></div>
@@ -76,17 +76,10 @@
     const dropoffLocation = urlParams.get('dropoffLocation');
     const prouteId = urlParams.get('id');
 
-	const pickupLocationElement = document.getElementById('pickup-location');
-	const dropoffLocationElement = document.getElementById('dropoff-location');
+	const routeElement = document.getElementById('route');
 
 	// Display pick up and dropoff 
-	pickupLocationElement.textContent = pickupLocation || 'N/A';
-	dropoffLocationElement.textContent = dropoffLocation || 'N/A';
-
-
-
-
-
+	routeElement.textContent = prouteId || 'N/A';
 
     import { getRoutes } from './routes.js';
     const routes = await getRoutes();
@@ -123,6 +116,8 @@
     for (const stop of stops) {
       const stopParts = stop.split(';');
       const routeId = stopParts[0];
+	  console.log(routeId);
+	  console.log(prouteId);
        if (routeId === prouteId) {
           stopLocations.push({
             name: stopParts[1],
@@ -170,31 +165,17 @@
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLocationIcon = L.icon({
-            iconUrl: 'https://ku1311.github.io/MalayBusP2/icon-you.png',
-            iconSize: [50, 50],
-            iconAnchor: [50, 50],
+            iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-blue.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
             popupAnchor: [1, -34],
             shadowSize: [41, 41]
           });
 
-
-	let customIcon = {
-	 iconUrl:”https://ku1311.github.io/MalayBusP2/icon-you.png",
-	 iconSize:[40,40]
-	}
-	let myIcon = L.icon(customIcon);
-	
-	let iconOptions = {
-	 title:”Your Location”,
-	 draggable:false,
-	 icon:myIcon
-	}
-	    
-          //const userLocation = new L.marker([position.coords.latitude, position.coords.longitude], iconOptions).addTo(map);
-	    L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
-	        .bindPopup(`<b>Your Location</b>`);
-	    });
-          //userLocation.bindPopup("<b>Your Location</b>");
+          const userLocation = L.marker([position.coords.latitude, position.coords.longitude], {
+            icon: userLocationIcon
+          }).addTo(map);
+          userLocation.bindPopup("<b>Your Location</b>");
         },
         (error) => {
           console.error("Error getting user location:", error);
