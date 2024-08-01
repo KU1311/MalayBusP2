@@ -88,6 +88,7 @@
     <h1>Select Shuttle</h1>
 	<div id="search-info-container">
 	  <div class="search-info-item">
+	  <h3 id="route">ROUTE</h3>
 	  <table><tr>
 	  <th>
 
@@ -108,9 +109,9 @@
 	<span id="frequency-days">N/A</span>
 	<span id="frequency-minutes">N/A</span>
 	<br>
-	<span id="timef">N/A</span>
-	<span id="stopf">N/A</span>
-	<span id="idf">N/A</span>
+	<span id="timef"></span>
+	<span id="stopf"></span>
+	<span id="idf"></span>
 	</div>
 	<br>
     <button id="view-details-btn">View Details</button>
@@ -165,13 +166,15 @@
     const dropoffLocation = urlParams.get('dropoff');
 	const username = urlParams.get('username');
 	const phone = urlParams.get('phone');
-
+	;
+	
     // Display the search information
 	const pickupLocationElement = document.getElementById('pickup-location');
 	const dropoffLocationElement = document.getElementById('dropoff-location');
 
 	pickupLocationElement.textContent = pickupLocation || 'N/A';
 	dropoffLocationElement.textContent = dropoffLocation || 'N/A';
+
 	
 	// Get the current date
     const today = new Date();
@@ -245,7 +248,8 @@
         viewDetailsButton.style.display = 'inline-block';
         viewDetailsButton.addEventListener('click', () => viewRouteDetails(pickupLocation, dropoffLocation, matchedRouteId));
 		
-		
+		const routeElement = document.getElementById('route');
+		routeElement.textContent = matchedRouteId || 'N/A';
         
         // Populate the time selector with the departure times
         timeSelector.innerHTML = 'Select time';
