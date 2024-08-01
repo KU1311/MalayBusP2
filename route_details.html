@@ -190,8 +190,11 @@
 	 icon:myIcon
 	}
 	    
-          const userLocation = new L.marker([position.coords.latitude, position.coords.longitude], iconOptions).addTo(map);
-          userLocation.bindPopup("<b>Your Location</b>");
+          //const userLocation = new L.marker([position.coords.latitude, position.coords.longitude], iconOptions).addTo(map);
+	    L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
+	        .bindPopup(`<b>Your Location</b>`);
+	    });
+          //userLocation.bindPopup("<b>Your Location</b>");
         },
         (error) => {
           console.error("Error getting user location:", error);
