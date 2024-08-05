@@ -130,7 +130,7 @@
 	// -------------------------------------------------------------------
 	// Load bus locations
 	
-	function getMatchedXY(dataRows, headers, routeInquiry) {
+	function getMatchedXY(routeInquiry) {
 	  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT51YqqiM3MQNbqvF2h86hucxl0kU-wrzctUqTJkDJirHZqVQM3dFeiNlMQkLYxSfMyha3tWbN37uvF/pub?output=csv';
 	  console.log("bus location lookup check")
 	  fetch(sheetUrl)
@@ -248,7 +248,7 @@
 
 	
     // Add the bus location
-    const matchedRecords = getMatchedXY(dataRows, headers, prouteId);
+    const matchedRecords = getMatchedXY(prouteId);
     if (matchedRecords.length > 0) {
       matchedRecords.forEach(record => {
       L.marker([record.X, record.Y]).addTo(map)
