@@ -248,17 +248,24 @@
       console.error("Geolocation is not supported by this browser.");
     }
 
-	
-    // Add the bus location
-    const matchedRecords = getMatchedXY(prouteId);
-    if (matchedRecords) {
-      matchedRecords.forEach(record => {
-      L.marker([record.X, record.Y]).addTo(map)
-        .bindPopup(`<b>${record.busID}</b>`);
-      });
-    } else {
-      console.error("No bus found.");
+    function addBus(){	
+	    // Add the bus location
+	    const matchedRecords = getMatchedXY(prouteId);
+	    if (matchedRecords) {
+	      matchedRecords.forEach(record => {
+	      L.marker([record.X, record.Y]).addTo(map)
+	        .bindPopup(`<b>${record.busID}</b>`);
+	      });
+	    } else {
+	      console.error("No bus found.");
+	    }
     }
+	addBus()
+	// repeatedly update bus locations
+	window.addEventListener('load', function() {
+	  intervalId = setInterval(addBus, 30000); // 60000 milliseconds = 1 minute
+		console.log("Bus Location Refresh...")
+	});
 	
   </script>
 </body>
