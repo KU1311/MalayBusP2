@@ -251,7 +251,7 @@
 	
     // Add the bus location
     const matchedRecords = getMatchedXY(prouteId);
-    if (matchedRecords.length > 0) {
+    if (matchedRecords) {
       matchedRecords.forEach(record => {
       L.marker([record.X, record.Y]).addTo(map)
         .bindPopup(`<b>${record.busID}</b>`);
