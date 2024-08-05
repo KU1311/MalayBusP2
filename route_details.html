@@ -258,15 +258,15 @@
       console.error("Geolocation is not supported by this browser.");
     }
 
-    function addBus(){	
+    function addBus(L){	
 	    // Add the bus location
 	    getMatchedXY(prouteId,L); 
     }
 	
-	addBus()
+	addBus(L)
 	// repeatedly update bus locations
 	window.addEventListener('load', function() {
-	  intervalId = setInterval(addBus, 30000); // 60000 milliseconds = 1 minute
+	  intervalId = setInterval(addBus(L), 30000); // 60000 milliseconds = 1 minute
 		console.log("Bus Location Refresh...")
 	});
 	
