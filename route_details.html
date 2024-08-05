@@ -130,7 +130,7 @@
 	// -------------------------------------------------------------------
 	// Load bus locations
 	
-	function getMatchedXY(routeInquiry) {
+	function getMatchedXY(routeInquiry,L) {
 	  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT51YqqiM3MQNbqvF2h86hucxl0kU-wrzctUqTJkDJirHZqVQM3dFeiNlMQkLYxSfMyha3tWbN37uvF/pub?output=csv';
 	  console.log("bus location lookup check")
 	  fetch(sheetUrl)
@@ -186,7 +186,17 @@
 	      matchedRecords.push({ busID, X, Y });
 	    }
 	  }
-	  return matchedRecords;
+	  //return matchedRecords;
+		  
+	  if (matchedRecords) {
+	  	// add bus to the map
+	      matchedRecords.forEach(record => {
+	      L.marker([record.X, record.Y]).addTo(map)
+	        .bindPopup(`<b>${record.busID}</b>`);
+	      });
+	    } else {
+	      console.error("No bus found.");
+	    }
   	  })	
 	  
 	  }  // end of getMatchedXY
@@ -250,16 +260,9 @@
 
     function addBus(){	
 	    // Add the bus location
-	    const matchedRecords = getMatchedXY(prouteId);
-	    if (matchedRecords) {
-	      matchedRecords.forEach(record => {
-	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b>`);
-	      });
-	    } else {
-	      console.error("No bus found.");
-	    }
+	    getMatchedXY(prouteId,L); 
     }
+	
 	addBus()
 	// repeatedly update bus locations
 	window.addEventListener('load', function() {
