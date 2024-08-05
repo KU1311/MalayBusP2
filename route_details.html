@@ -125,8 +125,70 @@
           });
         }
     }
- 
 
+    // Load bus locations
+	const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT51YqqiM3MQNbqvF2h86hucxl0kU-wrzctUqTJkDJirHZqVQM3dFeiNlMQkLYxSfMyha3tWbN37uvF/pub?output=csv';
+	console.log("bus location lookup check")
+	fetch(sheetUrl)
+	  .then(response => response.text())
+	  .then(data => {
+	    console.log("lookup responsed")
+	    // Parse the CSV data
+	    const rows = data.trim().split('\n');
+	    const headers = rows[0].split(',');
+	    const dataRows = rows.slice(1);
+
+	  // check if last_update is within 30min. If not we will not show on the map
+	function isLastUpdateWithinMinutes(last_update, currentDateTime) {
+	  console.log("Matching time: ",last_update," VS ", currentDateTime)
+	  const threshold = 30 //minutes
+	  // Convert currentDateTime to a Date object
+	  const currentDate = new Date(currentDateTime);
+	
+	  // Convert last_update to a Date object
+	  const lastUpdateDate = new Date(last_update);
+	
+	  // Calculate the time difference in milliseconds
+	  const timeDiffMs = Math.abs(currentDate.getTime() - lastUpdateDate.getTime());
+	
+	  // Convert the time difference to minutes
+	  const timeDiffMinutes = Math.floor(timeDiffMs / (1000 * 60));
+	
+	  // Check if the last update time is within 30 minutes
+	  return timeDiffMinutes <= threshold;
+	}
+		  
+	function getMatchedXY(dataRows, headers, routeInquiry) {
+	  const matchedRecords = [];
+	  for (let i = 0; i < dataRows.length; i++) {
+	    const matchedRowValues = dataRows[i].split(',');
+	
+	    const route = parseFloat(matchedRowValues[headers.indexOf('prouteId')]);
+	    const lastudt = parseFloat(matchedRowValues[headers.indexOf('last_update')]);
+	    const busID = parseFloat(matchedRowValues[headers.indexOf('busID')]);
+	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
+	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
+	    const currentDateTime = new Date().toLocaleString("en-US", {
+			timeZone: "Asia/Shanghai",
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit"
+		  });
+		  
+	    if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+	      console.log("Bus found: ",busID)
+	      matchedRecords.push({ busID, X, Y });
+	    }
+	  }
+	  return matchedRecords;
+	  }  // end of getMatchedXY
+
+	const matchedRecords = getMatchedXY(dataRows, headers, prouteId);
+
+	
     // Initialize the map
     const map = L.map('map').setView([22.305451, 114.169656], 12);
 
@@ -183,6 +245,18 @@
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+
+    // Add the bus location
+    if (matchedRecords.length > 0 {
+      matchedRecords.forEach(record => {
+      L.marker([record.X, record.Y]).addTo(map)
+        .bindPopup(`<b>${record.busID}</b>`);
+      });
+    } else {
+      console.error("No bus found.");
+    }
+
+		  
   </script>
 </body>
 </html>
