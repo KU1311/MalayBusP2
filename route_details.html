@@ -141,7 +141,7 @@
 	    const rows = data.trim().split('\n');
 	    const headers = rows[0].split(',');
 	    const dataRows = rows.slice(1);
-	  })
+	 
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 	    const matchedRowValues = dataRows[i].split(',');
@@ -186,6 +186,7 @@
 	      matchedRecords.push({ busID, X, Y });
 	    }
 	  }
+  	  })	
 	  return matchedRecords;
 	  }  // end of getMatchedXY
 
