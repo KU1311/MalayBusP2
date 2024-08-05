@@ -246,17 +246,8 @@
       console.error("Geolocation is not supported by this browser.");
     }
 
-    // Add the bus location
-    if (matchedRecords.length > 0 ){
-      matchedRecords.forEach(record => {
-      L.marker([record.X, record.Y]).addTo(map)
-        .bindPopup(`<b>${record.busID}</b>`);
-      });
-    } else {
-      console.error("No bus found.");
-    }
-
+    
 		  
-  </script>
+</script>
 </body>
 </html>
