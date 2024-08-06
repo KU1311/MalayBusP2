@@ -66,7 +66,7 @@
 
   <div id="map"></div>
   </div>
-  
+  <div><button onclick="reloadPage()">Reload Page</button></div>
 <script type="module">
 
 	const urlParams = new URLSearchParams(window.location.search);
@@ -196,7 +196,7 @@
 	  	// add bus to the map
 	      matchedRecords.forEach(record => {
 	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b>`);
+	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${last_updt_time}`);
 	      });
 	    } else {
 	      console.error("No bus found.");
@@ -282,6 +282,10 @@
 	    location.reload(true);
 	  }
 	});
+	// Fully reload the page
+	function reloadPage() {
+	  location.reload(true);
+	}
   </script>
 </body>
 </html>
