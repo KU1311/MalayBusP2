@@ -146,11 +146,13 @@
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 		  
-	    const matchedRowValues = dataRows[i].split(',');
+	    const matchedRowValues = dataRows[i].split(',').map(data => {data.replace('\r', '');data.replace('"', '')});
 		  
 		  console.log("matchedRowValues: ", matchedRowValues)
 	    const route = matchedRowValues[headers.indexOf('Route')];
-	    const lastudt = matchedRowValues[headers.indexOf('last_update')];
+	    const lastudt_date = matchedRowValues[headers.indexOf('last_update')];
+	    const lastudt_time = matchedRowValues[headers.indexOf('last_update')+1];
+	    const lastudt = lastudt_date + "," + lastudt_time
 		  console.log("header index: ",headers.indexOf('last_update'))
 		  console.log("lastudt: ",lastudt)
 	    const busID = matchedRowValues[headers.indexOf('busID')];
