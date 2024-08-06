@@ -197,11 +197,11 @@
 	  console.log("Comparing with: ",route)
 	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
 	      console.log("Bus found: ",busID)
-	      matchedRecords.push({ busID, X, Y });
+	      matchedRecords.push({ busID, X, Y,lastudt_time });
 	      // add bus to the map
 	      matchedRecords.forEach(record => {
 	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${lastudt_time}`);
+	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${record.lastudt_time}`);
 	      });
 		  
 	    }
