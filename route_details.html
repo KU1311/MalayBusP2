@@ -141,6 +141,7 @@
 	    const rows = data.trim().split('\n');
 	    const headers = rows[0].split(',');
 	    const dataRows = rows.slice(1);
+		  console.log("headers: ", headers)
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 	    const matchedRowValues = dataRows[i].split(',');
