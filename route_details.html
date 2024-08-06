@@ -139,7 +139,7 @@
 	    console.log("lookup responsed")
 	    // Parse the CSV data
 	    const rows = data.trim().split('\n');
-	    const headers = rows[0].split(',');
+	    const headers = rows[0].split(',').map(header => header.replace('\r', ''));
 	    const dataRows = rows.slice(1);
 		  console.log("headers: ", headers)
 	  const matchedRecords = [];
