@@ -142,10 +142,11 @@
 	    const headers = rows[0].split(',');
 	    const dataRows = rows.slice(1);
 	 console.log("Looking up for route: ",routeInquiry)
+	  console.log("dataRows: ",dataRows)
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 	    const matchedRowValues = dataRows[i].split(',');
-	
+	 
 	    const route = parseFloat(matchedRowValues[headers.indexOf('Route')]);
 	    const lastudt = parseFloat(matchedRowValues[headers.indexOf('last_update')]);
 	    const busID = parseFloat(matchedRowValues[headers.indexOf('busID')]);
