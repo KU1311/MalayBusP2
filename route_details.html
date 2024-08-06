@@ -148,9 +148,9 @@
 	  for (let i = 0; i < dataRows.length; i++) {
 	    const matchedRowValues = dataRows[i].split(',');
 	 console.log("matchedRowValues: ",matchedRowValues)
-	    const route = parseFloat(matchedRowValues[headers.indexOf('Route')]);
-	    const lastudt = parseFloat(matchedRowValues[headers.indexOf('last_update')]);
-	    const busID = parseFloat(matchedRowValues[headers.indexOf('busID')]);
+	    const route = matchedRowValues[headers.indexOf('Route')];
+	    const lastudt = matchedRowValues[headers.indexOf('last_update')];
+	    const busID = matchedRowValues[headers.indexOf('busID')];
 	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
 	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
 	    const currentDateTime = new Date().toLocaleString("en-US", {
