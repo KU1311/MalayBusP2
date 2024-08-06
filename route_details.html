@@ -141,8 +141,8 @@
 	    const rows = data.trim().split('\n');
 	    const headers = rows[0].split(',').map(header => header.replace('\r', ''));
 	    const dataRows = rows.slice(1);
-		  console.log("headers: ", headers)
-		  console.log("dataRows: ", dataRows)
+		  //console.log("headers: ", headers)
+		  //console.log("dataRows: ", dataRows)
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 		  
@@ -152,8 +152,6 @@
 	    const lastudt_date = matchedRowValues[headers.indexOf('last_update')];
 	    const lastudt_time = matchedRowValues[headers.indexOf('last_update')+1];
 	    const lastudt = lastudt_date + "," + lastudt_time
-		  console.log("header index: ",headers.indexOf('last_update'))
-		  console.log("lastudt: ",lastudt)
 	    const busID = matchedRowValues[headers.indexOf('busID')];
 	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
 	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
@@ -169,7 +167,7 @@
 	
 		// check if last_update is within 30min. If not we will not show on the map
 		function isLastUpdateWithinMinutes(lastudt, currentDateTime) {
-		  console.log("Matching time: ",lastudt," VS ", currentDateTime)
+		  //console.log("Matching time: ",lastudt," VS ", currentDateTime)
 		  const threshold = 30 //minutes
 		  // Convert currentDateTime to a Date object
 		  const currentDate = new Date(currentDateTime);
