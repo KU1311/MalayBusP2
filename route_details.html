@@ -141,7 +141,7 @@
 	    const rows = data.trim().split('\n');
 	    const headers = rows[0].split(',');
 	    const dataRows = rows.slice(1);
-	 
+	 console.log("Looking up for route: ",routeInquiry)
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 	    const matchedRowValues = dataRows[i].split(',');
@@ -160,7 +160,7 @@
 			minute: "2-digit",
 			second: "2-digit"
 		  });
-
+	
 		// check if last_update is within 30min. If not we will not show on the map
 		function isLastUpdateWithinMinutes(last_update, currentDateTime) {
 		  console.log("Matching time: ",last_update," VS ", currentDateTime)
@@ -180,8 +180,9 @@
 		  // Check if the last update time is within 30 minutes
 		  return timeDiffMinutes <= threshold;
 		}
-		  
-	    if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+	  console.log("Comparing with: ",route)
+	  //  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+	    if (route === routeInquiry) {
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y });
 	    }
