@@ -74,7 +74,7 @@
 
   <div id="map"></div>
 <div></div>
-  <div><button onclick="reloadPage()">Reload Page</button></div>		
+  <div><button id="reloadButton">Reload Page</button></div>		
   </div>
   
 <script type="module">
@@ -295,10 +295,12 @@
 	  }
 	});
 	
-    // Fully reload the page
-    function reloadPage() {
-    	location.reload(true);
-    }
+    // Reload Button
+    const reloadButton = document.getElementById('reloadButton');
+    reloadButton.onclick = function() {
+	    // Force a full page reload
+	    location.reload(true);
+    };
   </script>
 </body>
 </html>
