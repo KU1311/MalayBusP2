@@ -46,7 +46,15 @@
 	  font-size: 24px;
 	  font-weight: bold;
 	}
-
+	button {
+	      width: 100%;
+	      background-color: rgb(74, 57, 242 );
+	      color: white;
+	      padding: 10px;
+	      border: none;
+	      border-radius: 4px;
+	      cursor: pointer;
+	    }
     #map {
       height: 300px;
       width: 100%;
@@ -65,8 +73,10 @@
 	</div>
 
   <div id="map"></div>
+<div></div>
+  <div><button onclick="reloadPage()">Reload Page</button></div>		
   </div>
-  <div><button onclick="reloadPage()">Reload Page</button></div>
+  
 <script type="module">
 
 	const urlParams = new URLSearchParams(window.location.search);
@@ -196,7 +206,7 @@
 	  	// add bus to the map
 	      matchedRecords.forEach(record => {
 	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${last_updt_time}`);
+	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${lastudt_time}`);
 	      });
 	    } else {
 	      console.error("No bus found.");
