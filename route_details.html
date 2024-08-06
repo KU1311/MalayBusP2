@@ -146,6 +146,8 @@
 	    const matchedRowValues = dataRows[i].split(',');
 	    const route = matchedRowValues[headers.indexOf('Route')];
 	    const lastudt = matchedRowValues[headers.indexOf('last_update')];
+		  console.log("header index: ",headers.indexOf('last_update'))
+		  console.log("lastudt: ",lastudt)
 	    const busID = matchedRowValues[headers.indexOf('busID')];
 	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
 	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
