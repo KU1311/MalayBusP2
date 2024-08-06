@@ -209,11 +209,7 @@
 	  //return matchedRecords;
 		  
 	  if (matchedRecords) {
-	  	// add bus to the map
-	      matchedRecords.forEach(record => {
-	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${lastudt_time}`);
-	      });
+	  	
 	    } else {
 	      console.error("No bus found.");
 	    }
