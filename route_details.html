@@ -269,8 +269,8 @@
 	
 	addBus(L)
 	// repeatedly update bus locations
-	window.addEventListener('load', function() {
-	  intervalId = setInterval(addBus(L), 30000); // 60000 milliseconds = 1 minute
+	window.addEventListener('load', () => {
+	  intervalId = setInterval(() => addBus(L), 30000); // 60000 milliseconds = 1 minute
 		console.log("Bus Location Refresh...")
 	});
 
