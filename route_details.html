@@ -273,7 +273,15 @@
 	  intervalId = setInterval(addBus(L), 30000); // 60000 milliseconds = 1 minute
 		console.log("Bus Location Refresh...")
 	});
-	
+
+	// to enforce complete reload of data, do not use cache
+	window.addEventListener('beforeunload', (event) => {
+	  // Check if the user is refreshing the page
+	  if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+	    // Force a full page reload
+	    location.reload(true);
+	  }
+	});
   </script>
 </body>
 </html>
