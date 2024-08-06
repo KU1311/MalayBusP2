@@ -146,8 +146,7 @@
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 		  
-	    const matchedRowValues = dataRows[i].split(',').map(data => {data.replace('\r', '');data.replace('"', '')});
-		  
+	    const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
 		  console.log("matchedRowValues: ", matchedRowValues)
 	    const route = matchedRowValues[headers.indexOf('Route')];
 	    const lastudt_date = matchedRowValues[headers.indexOf('last_update')];
