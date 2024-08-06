@@ -161,13 +161,13 @@
 	
 		// check if last_update is within 30min. If not we will not show on the map
 		function isLastUpdateWithinMinutes(lastudt, currentDateTime) {
-		  console.log("Matching time: ",last_update," VS ", currentDateTime)
+		  console.log("Matching time: ",lastudt," VS ", currentDateTime)
 		  const threshold = 30 //minutes
 		  // Convert currentDateTime to a Date object
 		  const currentDate = new Date(currentDateTime);
 		
 		  // Convert last_update to a Date object
-		  const lastUpdateDate = new Date(last_update);
+		  const lastUpdateDate = new Date(lastudt);
 		
 		  // Calculate the time difference in milliseconds
 		  const timeDiffMs = Math.abs(currentDate.getTime() - lastUpdateDate.getTime());
