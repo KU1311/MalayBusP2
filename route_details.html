@@ -146,8 +146,9 @@
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 		  
-		  console.log("matchedRowValues: ", matchedRowValues)
 	    const matchedRowValues = dataRows[i].split(',');
+		  
+		  console.log("matchedRowValues: ", matchedRowValues)
 	    const route = matchedRowValues[headers.indexOf('Route')];
 	    const lastudt = matchedRowValues[headers.indexOf('last_update')];
 		  console.log("header index: ",headers.indexOf('last_update'))
