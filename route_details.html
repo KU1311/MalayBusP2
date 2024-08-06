@@ -48,7 +48,7 @@
 	}
 	button {
 	      width: 100%;
-	      background-color: rgb(74, 57, 242 );
+	      background-color: rgb(30, 110, 233);
 	      color: white;
 	      padding: 10px;
 	      border: none;
@@ -198,6 +198,12 @@
 	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y });
+	      // add bus to the map
+	      matchedRecords.forEach(record => {
+	      L.marker([record.X, record.Y]).addTo(map)
+	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${lastudt_time}`);
+	      });
+		  
 	    }
 	  }
 	  //return matchedRecords;
