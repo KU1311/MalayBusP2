@@ -141,13 +141,9 @@
 	    const rows = data.trim().split('\n');
 	    const headers = rows[0].split(',');
 	    const dataRows = rows.slice(1);
-	 console.log("Looking up for route: ",routeInquiry)
-	  console.log("dataRows: ",dataRows)
-	console.log("route header index: ", headers.indexOf('Route'))
 	  const matchedRecords = [];
 	  for (let i = 0; i < dataRows.length; i++) {
 	    const matchedRowValues = dataRows[i].split(',');
-	 console.log("matchedRowValues: ",matchedRowValues)
 	    const route = matchedRowValues[headers.indexOf('Route')];
 	    const lastudt = matchedRowValues[headers.indexOf('last_update')];
 	    const busID = matchedRowValues[headers.indexOf('busID')];
@@ -183,8 +179,7 @@
 		  return timeDiffMinutes <= threshold;
 		}
 	  console.log("Comparing with: ",route)
-	  //  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
-	    if (route === routeInquiry) {
+	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y });
 	    }
