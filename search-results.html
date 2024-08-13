@@ -209,6 +209,9 @@
 	  }
 	}
 	
+	// Set the initial active tab
+	setActiveTab();
+	
 	switchTabs.forEach((tab, index) => {
 	  tab.addEventListener('click', (event) => {
 	    // Remove the active class from all tabs
@@ -228,8 +231,7 @@
 	  });
 	});
 	
-	// Set the initial active tab
-	setActiveTab();
+
 
 	
     // Retrieve the query parameters
