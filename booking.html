@@ -53,11 +53,42 @@
       font-size: 1rem;
     }
 
+  .switch-tabs {
+	  display: flex;
+	  margin-bottom: 1rem;
+	}
+	
+	.switch-tab {
+	  background-color: #f1f1f1;
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 0.5rem 1rem;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.switch-tab.active {
+	  background-color: white;
+	}
     
   </style>
 </head>
 <body>
   <div class="booking-container">
+	  <div class="switch-tabs">
+	      <button class="switch-tab active">BOOK</button>
+	      <button class="switch-tab">HISTORY</button>
+	    </div>
+	
+	    <!-- Booking content goes here -->
+	    <div class="booking-content">
+	      <!-- Booking form or other content -->
+	    </div>
+
+    <!-- History content goes here -->
+    <div class="history-content" style="display: none;">
+      <!-- History table or other content -->
+    </div>
     <h1>Hello <span id="username"></span>, Book your Shuttle</h1>
     <form id="booking-form">
       <div class="form-group">
@@ -205,6 +236,28 @@
 		  }
 		});
 	}
+
+	// Switch Tabs
+	const switchTabs = document.querySelectorAll('.switch-tab');
+	const bookingContent = document.querySelector('.booking-content');
+	
+	switchTabs.forEach((tab, index) => {
+	  tab.addEventListener('click', (event) => {
+	    // Remove the active class from all tabs
+	    switchTabs.forEach((t) => t.classList.remove('active'));
+	
+	    // Add the active class to the clicked tab
+	    tab.classList.add('active');
+	
+	    // If the clicked tab is the "HISTORY" tab (index 1), navigate to the history.html page
+	    if (index === 1) {
+	      window.location.href = 'history.html';
+	    } else {
+	      // Show the booking content
+	      bookingContent.style.display = 'block';
+	    }
+	  });
+	});
   </script>
 </body>
 </html>
