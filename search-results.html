@@ -109,16 +109,7 @@
 	      <button class="switch-tab active">BOOK</button>
 	      <button class="switch-tab">HISTORY</button>
 	    </div>
-	
-	    <!-- Booking content goes here -->
-	    <div class="booking-content">
-	      <!-- Booking form or other content -->
-	    </div>
 
-	<!-- History content goes here -->
-	<div class="history-content" style="display: none;">
-	<!-- History table or other content -->
-	</div>
     <h1>Select Shuttle</h1>
 	<div id="search-info-container">
 	  <div class="search-info-item">
@@ -181,7 +172,58 @@
   </div>
 
 <script>
-  
+
+	// Switch Tabs
+	const switchTabs = document.querySelectorAll('.switch-tab');
+	const bookingContent = document.querySelector('.booking-content');
+	
+	function setActiveTab() {
+	  // Check the current URL to determine the active tab
+	  const currentURL = window.location.href;
+	  if (currentURL.includes('history.html')) {
+	    // The "HISTORY" tab is active
+	    switchTabs.forEach((tab, index) => {
+	      tab.classList.remove('active');
+	      if (index === 1) {
+		tab.classList.add('active');
+	      }
+	    });
+	    bookingContent.style.display = 'none';
+	  } else {
+	    // The "BOOK" tab is active
+	    switchTabs.forEach((tab, index) => {
+	      tab.classList.remove('active');
+	      if (index === 0) {
+		tab.classList.add('active');
+	      }
+	    });
+	    bookingContent.style.display = 'block';
+	  }
+	}
+	
+	switchTabs.forEach((tab, index) => {
+	  tab.addEventListener('click', (event) => {
+	    // Remove the active class from all tabs
+	    switchTabs.forEach((t) => t.classList.remove('active'));
+	
+	    // Add the active class to the clicked tab
+	    tab.classList.add('active');
+	
+	    // If the clicked tab is the "HISTORY" tab (index 1), navigate to the history.html page
+	    if (index === 1) {
+	      setActiveTab();
+	      window.location.href = 'history.html';
+	    } else {
+	      // Show the booking content
+	      bookingContent.style.display = 'block';
+	    }
+	  });
+	});
+	
+	// Set the initial active tab
+	setActiveTab();
+
+	
     // Retrieve the query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const pickupLocation = urlParams.get('pickup');
@@ -359,55 +401,7 @@
     displayFrequencyDetails();
 	
 
-    	// Switch Tabs
-	const switchTabs = document.querySelectorAll('.switch-tab');
-	const bookingContent = document.querySelector('.booking-content');
-	
-	function setActiveTab() {
-	  // Check the current URL to determine the active tab
-	  const currentURL = window.location.href;
-	  if (currentURL.includes('history.html')) {
-	    // The "HISTORY" tab is active
-	    switchTabs.forEach((tab, index) => {
-	      tab.classList.remove('active');
-	      if (index === 1) {
-		tab.classList.add('active');
-	      }
-	    });
-	    bookingContent.style.display = 'none';
-	  } else {
-	    // The "BOOK" tab is active
-	    switchTabs.forEach((tab, index) => {
-	      tab.classList.remove('active');
-	      if (index === 0) {
-		tab.classList.add('active');
-	      }
-	    });
-	    bookingContent.style.display = 'block';
-	  }
-	}
-	
-	switchTabs.forEach((tab, index) => {
-	  tab.addEventListener('click', (event) => {
-	    // Remove the active class from all tabs
-	    switchTabs.forEach((t) => t.classList.remove('active'));
-	
-	    // Add the active class to the clicked tab
-	    tab.classList.add('active');
-	
-	    // If the clicked tab is the "HISTORY" tab (index 1), navigate to the history.html page
-	    if (index === 1) {
-	      setActiveTab();
-	      window.location.href = 'history.html';
-	    } else {
-	      // Show the booking content
-	      bookingContent.style.display = 'block';
-	    }
-	  });
-	});
-	
-	// Set the initial active tab
-	setActiveTab();
+
 
 </script>
 
