@@ -24,23 +24,6 @@
       width: 400px;
     }
 
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
     button {
       display: block;
       width: 100%;
@@ -72,7 +55,35 @@
 	  background-color: rgb(30, 110, 233);
 	  color: white;
 	}
-    
+
+	.card-container {
+	  display: grid;
+	  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	  grid-gap: 1.5rem;
+	}
+	
+	.card {
+	  background-color: white;
+	  padding: 1.5rem;
+	  border-radius: 8px;
+	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+	
+	.card-header {
+	  font-size: 1.2rem;
+	  font-weight: bold;
+	  margin-bottom: 0.5rem;
+	}
+	
+	.card-content {
+	  font-size: 0.9rem;
+	  color: #666;
+	}
+	
+	.card-info {
+	  margin-top: 0.5rem;
+	}
+	  
   </style>
 </head>
 <body>
@@ -91,7 +102,13 @@
     <div class="history-content" style="display: none;">
       <!-- History table or other content -->
     </div>
-    
+	  
+    <div class="booking-content">
+      <div class="card-container">
+        <!-- Cards will be dynamically added here -->
+      </div>
+    </div>
+	  
   </div>
 
   
@@ -152,6 +169,105 @@
 	
 	// Set the initial active tab
 	setActiveTab();
+
+async function displayHistory() {
+	let paxList = [];
+	
+	const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxjHHSDdcYUEZMbCzUF_yov6p3Ur1nEdkGbMtaNrco6O8dQG5WLtM7YxloG8rbsZH--9J75SJWyrzR/pub?output=csv';
+	console.log("bookings lookup check")
+	fetch(sheetUrl)
+	  .then(response => response.text())
+	  .then(data => {
+	    console.log("lookup responsed")
+	    // Parse the CSV data
+	    const rows = data.trim().split('\n');
+	    const headers = rows[0].split(',').map(header => header.replace('\r', ''));
+	    const dataRows = rows.slice(1);
+	    for (let i = 0; i < dataRows.length; i++) {
+		    const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
+			    console.log("matchedRowValues: ",matchedRowValues)
+			const paxRouteID = matchedRowValues[headers.indexOf('id')];
+			const paxRoutePickup = matchedRowValues[headers.indexOf('pickup')];
+			const paxRouteDropoff = matchedRowValues[headers.indexOf('dropoff')];
+		    	const paxdate = matchedRowValues[headers.indexOf('date')];
+		    	const paxtime = matchedRowValues[headers.indexOf('time')];
+		    	console.log("Now compare: ", paxRouteID,paxdate, paxtime)  
+			if (paxRouteID === prouteId && date === paxdate && time === paxtime) {
+			      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
+			      const paxChecked = matchedRowValues[headers.indexOf('check')];
+			      console.log("pax found. count: ",paxcount)
+			      bookedPaxCount = parseInt(bookedPaxCount) + parseInt(paxcount)
+				console.log("Acc count: ",bookedPaxCount)
+				const paxname = matchedRowValues[headers.indexOf('username')];
+			    	const paxphone = matchedRowValues[headers.indexOf('phone')];
+			    	const paxOnBoardStop = matchedRowValues[headers.indexOf('midstops')];
+		    		
+				// insert to pax list
+				paxList.push({
+				  paxname: paxname,
+				  paxphone: paxphone,
+				  routeID: paxRouteID,
+				  pickup: paxRoutePickup,
+				  dropoff: paxRouteDropoff,
+				  onBoardStop: paxOnBoardStop,
+				  date: paxdate,
+				  time: paxtime,
+				  paxcount: paxcount,
+				  checkedin: paxChecked,
+				  rowIndex: i+2,
+				  listIndex: j
+				});
+				j = j+1;
+			}
+		    }	
+
+
+	// Display history record cards
+	const cardContainer = document.querySelector('.card-container');
+	const username = 'your_username'; // Replace with the actual username
+	
+	function displayMatchedRecords() {
+	  cardContainer.innerHTML = '';
+	
+	  paxList.forEach((item) => {
+	    if (item.paxname === username && (new Date(item.date) >= new Date())) {
+	      const card = document.createElement('div');
+	      card.classList.add('card');
+	
+	      const cardHeader = document.createElement('div');
+	      cardHeader.classList.add('card-header');
+	      cardHeader.textContent = `From: ${item.pickup} - To: ${item.dropoff}`;
+	
+	      const cardContent = document.createElement('div');
+	      cardContent.classList.add('card-content');
+	      cardContent.innerHTML = `
+	        On-board stop: ${item.onBoardStop}<br>
+	        Date: ${item.date}<br>
+	        Time: ${item.time}
+	      `;
+	
+	      const cardInfo = document.createElement('div');
+	      cardInfo.classList.add('card-info');
+	      cardInfo.innerHTML = `
+	        Pax Count: ${item.paxcount}<br>
+	        Booking Number: ${item.paxphone}
+	      `;
+	
+	      card.appendChild(cardHeader);
+	      card.appendChild(cardContent);
+	      card.appendChild(cardInfo);
+	      cardContainer.appendChild(card);
+	    }
+	  });
+	}
+	
+	// Call the displayMatchedRecords function to display the cards
+	displayMatchedRecords();
+   }
+}
+displayHistory();
+
+		
   </script>
 </body>
 </html>
