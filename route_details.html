@@ -39,7 +39,27 @@
 	  text-align: center;
 	  align-items: center;
     }
+	  
+	.go-back-button {
+	  position: absolute;
+	  top: 1rem;
+	  left: 1rem;
+	}
 	
+	.go-back {
+	  background-color: #f1f1f1;
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 0.5rem 1rem;
+	  font-size: 0.9rem;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.go-back:hover {
+	  background-color: #e0e0e0;
+	}
+	  
 	.search-info-item {
 	  display: flex;
 	  align-items: center;
@@ -67,6 +87,9 @@
 <body>
 
 	<div class="details">
+<div class="go-back-button">
+      <button class="go-back">Go Back</button>
+    </div>
     <h1>Map</h1>
 	<div class="search-info-item">
 		<span id="route">N/A</span>
@@ -76,6 +99,7 @@
 <div></div>
   <div><button id="reloadButton">Reload Page</button></div>		
   </div>
+
   
 <script type="module">
 
@@ -301,6 +325,12 @@
 	    // Force a full page reload
 	    location.reload(true);
     };
+
+	const goBackButton = document.querySelector('.go-back');
+	goBackButton.addEventListener('click', () => {
+	  window.history.back();
+	});
+	
   </script>
 </body>
 </html>
