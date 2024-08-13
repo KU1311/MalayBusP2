@@ -243,23 +243,34 @@
 	const switchTabs = document.querySelectorAll('.switch-tab');
 	const bookingContent = document.querySelector('.booking-content');
 	
+	function setActiveTab() {
+	  // Check the current URL to determine the active tab
+	  const currentURL = window.location.href;
+	  if (currentURL.includes('history.html')) {
+	    // The "HISTORY" tab is active
+	    switchTabs.forEach((tab, index) => {
+	      tab.classList.remove('active');
+	      if (index === 1) {
+	        tab.classList.add('active');
+	      }
+	    });
+	    bookingContent.style.display = 'none';
+	  } else {
+	    // The "BOOK" tab is active
+	    switchTabs.forEach((tab, index) => {
+	      tab.classList.remove('active');
+	      if (index === 0) {
+	        tab.classList.add('active');
+	      }
+	    });
+	    bookingContent.style.display = 'block';
+	  }
+	}
+	
 	switchTabs.forEach((tab, index) => {
 	  tab.addEventListener('click', (event) => {
 	    // Remove the active class from all tabs
 	    switchTabs.forEach((t) => t.classList.remove('active'));
-	
-	    // Add the active class to the clicked tab
-	    tab.classList.add('active');
-	
-	    // If the clicked tab is the "HISTORY" tab (index 1), navigate to the history.html page
-	    if (index === 1) {
-	      window.location.href = 'history.html';
-	    } else {
-	      // Show the booking content
-	      bookingContent.style.display = 'block';
-	    }
-	  });
-	});
   </script>
 </body>
 </html>
