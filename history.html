@@ -188,13 +188,9 @@ async function displayHistory() {
 			    console.log("matchedRowValues: ",matchedRowValues)
 			const username = matchedRowValues[headers.indexOf('username')];
 		        const paxphone = matchedRowValues[headers.indexOf('phone')];
-		    	console.log("Now compare: ", paxRouteID,paxdate, paxtime)  
 			if (username === name && paxphone === phone) {
 			      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
 			      const paxChecked = matchedRowValues[headers.indexOf('check')];
-			      console.log("pax found. count: ",paxcount)
-			      bookedPaxCount = parseInt(bookedPaxCount) + parseInt(paxcount)
-				console.log("Acc count: ",bookedPaxCount)
 				const paxRoutePickup = matchedRowValues[headers.indexOf('pickup')];
 				const paxRouteDropoff = matchedRowValues[headers.indexOf('dropoff')];
 			    	const paxdate = matchedRowValues[headers.indexOf('date')];
