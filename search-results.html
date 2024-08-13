@@ -42,7 +42,7 @@
       border-radius: 4px;
     }
 
-    buttonsss {
+    button {
       display: block;
       width: 100%;
       padding: 0.75rem;
@@ -53,6 +53,26 @@
       cursor: pointer;
       font-size: 1rem;
     }
+
+  	.switch-tabs {
+	  display: flex;
+	  margin-bottom: 1rem;
+	}
+	
+	.switch-tab {
+	  background-color: white;
+	  color: rgb(30, 110, 233);
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 0.5rem 1rem;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.switch-tab.active {
+	  background-color: rgb(30, 110, 233);
+	  color: white;
+	}
 	
 	#search-info-container {
 	  display: flex;
@@ -82,25 +102,7 @@
 	  border-bottom: 1px solid #ddd;
 	}
 
-	.switch-tabs {
-	  display: flex;
-	  margin-bottom: 1rem;
-	}
 	
-	.switch-tab {
-	  background-color: white;
-	  color: rgb(30, 110, 233);
-	  border: none;
-	  outline: none;
-	  cursor: pointer;
-	  padding: 0.5rem 1rem;
-	  transition: background-color 0.3s ease;
-	}
-	
-	.switch-tab.active {
-	  background-color: rgb(30, 110, 233);
-	  color: white;
-	}
   </style>
 </head>
 <body>
