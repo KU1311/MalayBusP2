@@ -358,27 +358,27 @@
 // ETA Table
     const stopLocationTable = document.getElementById('stopLocationTable');
 
-    function updateStopLocationTable() {
-      const selectedLocation = stopLocationSelect.value;
-      const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
-      tableBody.innerHTML = '';
-
+    // Populate the table body
+    const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
+    stopLocations.slice(0, -1).forEach(location => {
       const row = document.createElement('tr');
+
       const locationCell = document.createElement('td');
-      locationCell.textContent = selectedLocation;
+      locationCell.textContent = location.name;
+      row.appendChild(locationCell);
+
       const timeCell = document.createElement('td');
       timeCell.textContent = getCurrentTime();
-      row.appendChild(locationCell);
       row.appendChild(timeCell);
+
       tableBody.appendChild(row);
-    }
+    });
 
     function getCurrentTime() {
       const now = new Date();
       return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
     }
 
-updateStopLocationTable();
  
 	
   </script>
