@@ -232,6 +232,9 @@ async function displayHistory() {
 		
 	  // Check the current URL to determine the active tab
 	  const currentURL = window.location.href;
+		
+	// Display history record cards
+	const cardContainer = document.querySelector('.card-container');
 	if (currentURL.includes('tab=past')) {
 	    // The "PAST" tab is active
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
@@ -278,8 +281,6 @@ async function displayHistory() {
 		
 
 	function displayUpcomingRecords() {
-	// Display history record cards
-	const cardContainer = document.querySelector('.card-container');
 
 	  // Code to fetch and display future and today's bookings
 	  // You can use the username and phone variables to fetch the data
