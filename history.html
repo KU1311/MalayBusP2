@@ -220,13 +220,13 @@ async function displayHistory() {
 
 	// Display history record cards
 	const cardContainer = document.querySelector('.card-container');
-	const username = 'your_username'; // Replace with the actual username
 	
 	function displayMatchedRecords() {
 	  cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
 	    if (item.paxname === username && (new Date(item.date) >= new Date())) {
+	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
 	
