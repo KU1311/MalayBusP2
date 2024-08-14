@@ -142,12 +142,11 @@
     import { getRoutes } from './routes.js';
     const routes = await getRoutes();
 
-
+    let DepartureTimes = [];
     const stops = getUniqueStops(routes);
 
     function getUniqueStops(routes) {
       const allStops = [];
-      let DepartureTimes = [];
       for (const route of routes) {
         const routeId = route.id;
         const midstops = route.Midstops;
