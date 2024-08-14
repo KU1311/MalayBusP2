@@ -153,8 +153,12 @@ function setActiveTab() {
       tab.classList.remove('active');
       if (index === 1) {
 	tab.classList.add('active');
+      console.log("Set 1 active")
       }
     });
+}
+// Set the initial active tab
+setActiveTab();
 
 switchTabs.forEach((tab, index) => {
   tab.addEventListener('click', (event) => {
@@ -174,9 +178,7 @@ switchTabs.forEach((tab, index) => {
     }
   });
 });
-}
-// Set the initial active tab
-setActiveTab();
+
 
 let paxList = []
 async function displayHistory() {
@@ -237,13 +239,13 @@ async function displayHistory() {
 		
 	if (currentURL.includes('tab=past')) {
 	    // The "PAST" tab is active
-	    switchTabs.forEach((tab) => tab.classList.remove('active'));
+	    switchTabsPast.forEach((tab) => tab.classList.remove('active'));
 	    pastTab.classList.add('active');
 	    console.log("PAST")
 	    displayPastRecords();
 	} else {
 	    // The "UPCOMING" tab is active
-	    switchTabs.forEach((tab) => tab.classList.remove('active'));
+	    switchTabsPast.forEach((tab) => tab.classList.remove('active'));
 	    upcomingTab.classList.add('active');
 	    console.log("UPCOMING")
 	    displayUpcomingRecords();
