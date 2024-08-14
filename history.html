@@ -290,7 +290,10 @@ async function displayHistory() {
 		cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
-//	    if (new Date(item.date) >= new Date()) {
+	  const dateF = new Date(date);
+	  const formattedDate = `${dateF.getFullYear()}/${(dateF.getMonth() + 1).toString().padStart(2, '0')}/${dateF.getDate().toString().padStart(2, '0')}`;
+		
+//	    if (formattedDate >= new Date()) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
@@ -330,7 +333,10 @@ async function displayHistory() {
 		cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
-//	    if (new Date(item.date) < new Date()) {
+	  const dateF = new Date(date);
+	  const formattedDate = `${dateF.getFullYear()}/${(dateF.getMonth() + 1).toString().padStart(2, '0')}/${dateF.getDate().toString().padStart(2, '0')}`;
+		
+//	    if (formattedDate < new Date()) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
