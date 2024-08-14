@@ -55,7 +55,25 @@
 	  background-color: rgb(30, 110, 233);
 	  color: white;
 	}
-
+ .switch-tabs-past {
+	  display: flex;
+	  margin-bottom: 1rem;
+	}
+	
+	.switch-tab-past {
+	  background-color: white;
+	  color: rgb(30, 110, 233);
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 0.5rem 1rem;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.switch-tab-past.active {
+	  background-color: rgb(30, 110, 233);
+	  color: white;
+	}
 	.card-container {
 	  display: grid;
 	  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -92,7 +110,10 @@
 	      <button class="switch-tab">BOOK</button>
 	      <button class="switch-tab active">HISTORY</button>
 	    </div>
-	
+	<div class="switch-tabs-past">
+	      <button class="switch-tab-past active" id="upcoming-tab">UPCOMING</button>
+	      <button class="switch-tab-past" id="past-tab">PAST</button>
+	    </div>
 	    <!-- Booking content goes here -->
 	    <div class="booking-content">
 	      <!-- Booking form or other content -->
@@ -170,8 +191,9 @@
 	// Set the initial active tab
 	setActiveTab();
 
+
 async function displayHistory() {
-	let paxList = [];
+	
 	let j = 0;
 	const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxjHHSDdcYUEZMbCzUF_yov6p3Ur1nEdkGbMtaNrco6O8dQG5WLtM7YxloG8rbsZH--9J75SJWyrzR/pub?output=csv';
 	console.log("bookings lookup check")
@@ -217,12 +239,66 @@ async function displayHistory() {
 			}
 		    }	
 
+	  // past upcoming switch
+	const switchTabsPast = document.querySelectorAll('.switch-tab-past');
+	function setActiveTabPast() {
+		
+	  // Check the current URL to determine the active tab
+	  const currentURL = window.location.href;
+	if (currentURL.includes('search-results.html?tab=past')) {
+	    // The "PAST" tab is active
+	    switchTabs.forEach((tab) => tab.classList.remove('active'));
+	    pastTab.classList.add('active');
+	    bookingContent.style.display = 'block';
+	    displayPastRecords();
+	} else {
+	    // The "UPCOMING" tab is active
+	    switchTabs.forEach((tab) => tab.classList.remove('active'));
+	    upcomingTab.classList.add('active');
+	    bookingContent.style.display = 'block';
+	    displayUpcomingRecords();
+	  }
+	
+	switchTabsPast.forEach((tab, index) => {
+	  tab.addEventListener('click', (event) => {
+	    // Remove the active class from all tabs
+	    switchTabsPast.forEach((t) => t.classList.remove('active'));
+	
+	    // Add the active class to the clicked tab
+	    tab.classList.add('active');
+	
+	    // Determine which tab was clicked
+	    if (index === 1) {
+	      // "UPCOMING" tab
+	      const queryParams = new URLSearchParams();
+	      queryParams.set('username', name);
+	      queryParams.set('phone', phone);
+	      queryParams.set('tab', 'upcoming');
+	      window.location.href = `history.html?${queryParams.toString()}`;
+	    } else if (index === 2) {
+	      // "PAST" tab
+	      const queryParams = new URLSearchParams();
+	      queryParams.set('username', name);
+	      queryParams.set('phone', phone);
+	      queryParams.set('tab', 'past');
+	      window.location.href = `history.html?${queryParams.toString()}`;
+	    } else {
+	      bookingContent.style.display = 'block';
+	    }
+	  });
+	});
+		
+	setActiveTabPast();
 
+		
 	// Display history record cards
 	const cardContainer = document.querySelector('.card-container');
 	
-	function displayMatchedRecords() {
-	  cardContainer.innerHTML = '';
+	function displayUpcomingRecords() {
+	  // Code to fetch and display future and today's bookings
+	  // You can use the username and phone variables to fetch the data
+	  // and then create and append the card elements to the card-container
+		cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
 //	    if (new Date(item.date) >= new Date()) {
@@ -257,8 +333,50 @@ async function displayHistory() {
 	  });
 	}
 	
-	// Call the displayMatchedRecords function to display the cards
-	displayMatchedRecords();
+	function displayPastRecords() {
+	  // Code to fetch and display past bookings
+	  // You can use the username and phone variables to fetch the data
+	  // and then create and append the card elements to the card-container
+
+		cardContainer.innerHTML = '';
+	
+	  paxList.forEach((item) => {
+//	    if (new Date(item.date) < new Date()) {
+	      console.log("new card")
+	      const card = document.createElement('div');
+	      card.classList.add('card');
+	
+	      const cardHeader = document.createElement('div');
+	      cardHeader.classList.add('card-header');
+	      cardHeader.textContent = `From: ${item.pickup} - To: ${item.dropoff}`;
+	
+	      const cardContent = document.createElement('div');
+	      cardContent.classList.add('card-content');
+	      cardContent.innerHTML = `
+	        On-board stop: ${item.onBoardStop}<br>
+	        Date: ${item.date}<br>
+	        Time: ${item.time}
+	      `;
+	
+	      const cardInfo = document.createElement('div');
+	      cardInfo.classList.add('card-info');
+	      cardInfo.innerHTML = `
+	        Pax Count: ${item.paxcount}<br>
+	        Booking Number: ${item.paxphone}
+	      `;
+	
+	      card.appendChild(cardHeader);
+	      card.appendChild(cardContent);
+	      card.appendChild(cardInfo);
+	      cardContainer.appendChild(card);
+//	    }
+	  });
+	}
+		
+
+		  
+	
+	
    })
 }
 displayHistory();
