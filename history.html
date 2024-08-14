@@ -140,6 +140,8 @@
     const name = urlParams.get('username');
 const phone = urlParams.get('phone');
 
+// Display history record cards
+const cardContainer = document.querySelector('.card-container');
 
 // Switch Tabs
 const switchTabs = document.querySelectorAll('.switch-tab');
@@ -233,8 +235,6 @@ async function displayHistory() {
 	  // Check the current URL to determine the active tab
 	  const currentURL = window.location.href;
 		
-	// Display history record cards
-	const cardContainer = document.querySelector('.card-container');
 	if (currentURL.includes('tab=past')) {
 	    // The "PAST" tab is active
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
