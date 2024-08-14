@@ -162,6 +162,8 @@
         const lastStopX = xs[xs.length - 1];
         const lastStopY = ys[ys.length - 1];
         allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
+
+        DepartureTimes = route.DepartureTime.map(time => time.trim());
       }
 
       return Array.from(new Set(allStops));
@@ -376,7 +378,17 @@
 
     function getCurrentTime() {
       const now = new Date();
-      return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+      const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+      DepartureTimes.forEach(time => {
+	      console.log("Comparing: ",time)
+          if (time > currenttime) {
+		  console.log("Time matched: ", time)
+		  break;
+	  }
+        });
+    console.log("continue")
+	    
     }
 
  
