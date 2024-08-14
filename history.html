@@ -311,13 +311,13 @@ async function displayHistory() {
 	      cardContent.innerHTML = `
 	        On-board stop: ${item.onBoardStop}<br>
 	        Date: ${item.date}<br>
-	        Time: ${item.time}
+	        Time: ${item.time}<br>
+		Pax Count: ${item.paxcount}
 	      `;
 	
 	      const cardInfo = document.createElement('div');
 	      cardInfo.classList.add('card-info');
 	      cardInfo.innerHTML = `
-	        Pax Count: ${item.paxcount}<br>
 	        Booking Number: ${item.paxphone}
 	      `;
 	
@@ -358,13 +358,13 @@ async function displayHistory() {
 	      cardContent.innerHTML = `
 	        On-board stop: ${item.onBoardStop}<br>
 	        Date: ${item.date}<br>
-	        Time: ${item.time}
+	        Time: ${item.time}<br>
+		Pax Count: ${item.paxcount}
 	      `;
 	
 	      const cardInfo = document.createElement('div');
 	      cardInfo.classList.add('card-info');
 	      cardInfo.innerHTML = `
-	        Pax Count: ${item.paxcount}<br>
 	        Booking Number: ${item.paxphone}
 	      `;
 	
