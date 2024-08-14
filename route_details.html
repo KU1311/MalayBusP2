@@ -76,6 +76,18 @@
 	      border-radius: 4px;
 	      cursor: pointer;
 	    }
+	table {
+	      width: 100%;
+	      border-collapse: collapse;
+	    }
+	    th, td {
+	      padding: 8px;
+	      text-align: left;
+	      border-bottom: 1px solid #ddd;
+	    }
+
+
+	  
     #map {
       height: 300px;
       width: 100%;
@@ -97,6 +109,21 @@
 	</div>
 
   <div id="map"></div>
+
+<label for="stopLocationSelect">Select a Stop Location:</label>
+  <select id="stopLocationSelect"></select>
+
+  <table id="stopLocationTable">
+    <thead>
+      <tr>
+        <th>Stop Location</th>
+        <th>Current Time</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+		
 <div></div>
   <div><button id="reloadButton">Reload Page</button></div>		
   </div>
@@ -331,6 +358,44 @@
 	goBackButton.addEventListener('click', () => {
 	  window.history.back();
 	});
+
+// ETA Table
+    const stopLocationSelect = document.getElementById('stopLocationSelect');
+    const stopLocationTable = document.getElementById('stopLocationTable');
+
+    // Populate the dropdown
+    stopLocations.slice(0, -1).forEach(location => {
+      const option = document.createElement('option');
+      option.value = location.name;
+      option.text = location.name;
+      stopLocationSelect.add(option);
+    });
+
+    // Add event listener to the dropdown
+    stopLocationSelect.addEventListener('change', () => {
+      updateStopLocationTable();
+    });
+
+    function updateStopLocationTable() {
+      const selectedLocation = stopLocationSelect.value;
+      const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
+      tableBody.innerHTML = '';
+
+      const row = document.createElement('tr');
+      const locationCell = document.createElement('td');
+      locationCell.textContent = selectedLocation;
+      const timeCell = document.createElement('td');
+      timeCell.textContent = getCurrentTime();
+      row.appendChild(locationCell);
+      row.appendChild(timeCell);
+      tableBody.appendChild(row);
+    }
+
+    function getCurrentTime() {
+      const now = new Date();
+      return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    }
+	
 	
   </script>
 </body>
