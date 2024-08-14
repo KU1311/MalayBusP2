@@ -172,7 +172,7 @@
 
 async function displayHistory() {
 	let paxList = [];
-	
+	let j = 0;
 	const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxjHHSDdcYUEZMbCzUF_yov6p3Ur1nEdkGbMtaNrco6O8dQG5WLtM7YxloG8rbsZH--9J75SJWyrzR/pub?output=csv';
 	console.log("bookings lookup check")
 	fetch(sheetUrl)
