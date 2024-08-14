@@ -225,7 +225,7 @@ async function displayHistory() {
 	  cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
-	    if (new Date(item.date) >= new Date()) {
+//	    if (new Date(item.date) >= new Date()) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
@@ -253,7 +253,7 @@ async function displayHistory() {
 	      card.appendChild(cardContent);
 	      card.appendChild(cardInfo);
 	      cardContainer.appendChild(card);
-	    }
+//	    }
 	  });
 	}
 	
