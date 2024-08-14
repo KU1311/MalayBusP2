@@ -295,14 +295,14 @@ async function displayHistory() {
 	  const dateB = new Date();
 	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
 			
-	    if (dateA > dateB) {
+	    if (dateA >= dateB) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
 	
 	      const cardHeader = document.createElement('div');
 	      cardHeader.classList.add('card-header');
-	      cardHeader.textContent = `From: ${item.pickup} - To: ${item.dropoff}`;
+	      cardHeader.textContent = `${item.pickup} - ${item.dropoff}`;
 	
 	      const cardContent = document.createElement('div');
 	      cardContent.classList.add('card-content');
@@ -340,14 +340,14 @@ async function displayHistory() {
 	  const dateB = new Date();
 	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
 			
-	  if (dateA <= dateB) {
+	  if (dateA < dateB) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
 	
 	      const cardHeader = document.createElement('div');
 	      cardHeader.classList.add('card-header');
-	      cardHeader.textContent = `From: ${item.pickup} - To: ${item.dropoff}`;
+	      cardHeader.textContent = `${item.pickup} - ${item.dropoff}`;
 	
 	      const cardContent = document.createElement('div');
 	      cardContent.classList.add('card-content');
