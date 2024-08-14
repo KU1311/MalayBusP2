@@ -236,14 +236,12 @@ async function displayHistory() {
 	    // The "PAST" tab is active
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
 	    pastTab.classList.add('active');
-	    bookingContent.style.display = 'block';
 	    console.log("PAST")
 	    displayPastRecords();
 	} else {
 	    // The "UPCOMING" tab is active
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
 	    upcomingTab.classList.add('active');
-	    bookingContent.style.display = 'block';
 	    console.log("UPCOMING")
 	    displayUpcomingRecords();
 	  }
@@ -271,8 +269,6 @@ async function displayHistory() {
 	      queryParams.set('phone', phone);
 	      queryParams.set('tab', 'past');
 	      window.location.href = `history.html?${queryParams.toString()}`;
-	    } else {
-	      bookingContent.style.display = 'block';
 	    }
 	  });
 	});
