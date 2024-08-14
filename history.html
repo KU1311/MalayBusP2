@@ -295,7 +295,7 @@ async function displayHistory() {
 	  const dateB = new Date();
 	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
 			
-	    if (dateA >= dateB) {
+	    if (dateA > dateB) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
@@ -340,7 +340,7 @@ async function displayHistory() {
 	  const dateB = new Date();
 	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
 			
-	  if (dateA < dateB) {
+	  if (dateA <= dateB) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
