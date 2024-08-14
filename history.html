@@ -335,9 +335,6 @@ async function displayHistory() {
 		cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
-	  const dateF = new Date(date);
-	  const formattedDate = `${dateF.getFullYear()}/${(dateF.getMonth() + 1).toString().padStart(2, '0')}/${dateF.getDate().toString().padStart(2, '0')}`;
-		
 	  const dateA = new Date(item.date);
 	  const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
 	  const dateB = new Date();
