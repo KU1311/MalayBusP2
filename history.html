@@ -225,7 +225,7 @@ async function displayHistory() {
 	  cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
-	    if (item.paxname === username && (new Date(item.date) >= new Date())) {
+	    if (new Date(item.date) >= new Date()) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
