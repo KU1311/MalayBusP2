@@ -180,7 +180,10 @@
 	    // If the clicked tab is the "BOOK" tab (index 0), navigate to the booking.html page
 	    if (index === 0) {
 	      setActiveTab();
-	      window.location.href = 'booking.html';
+	      const queryParams = new URLSearchParams();
+	      queryParams.set('username', username);
+	      queryParams.set('phone', phone);
+	      window.location.href = `booking.html?${queryParams.toString()}`;
 	    } else {
 	      // Show the booking content
 	      bookingContent.style.display = 'block';
@@ -252,12 +255,14 @@ async function displayHistory() {
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
 	    pastTab.classList.add('active');
 	    bookingContent.style.display = 'block';
+	    console.log("PAST")
 	    displayPastRecords();
 	} else {
 	    // The "UPCOMING" tab is active
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
 	    upcomingTab.classList.add('active');
 	    bookingContent.style.display = 'block';
+	    console.log("UPCOMING")
 	    displayUpcomingRecords();
 	  }
 	
