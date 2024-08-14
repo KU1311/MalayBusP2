@@ -147,7 +147,7 @@
 
     function getUniqueStops(routes) {
       const allStops = [];
-
+      let DepartureTimes = [];
       for (const route of routes) {
         const routeId = route.id;
         const midstops = route.Midstops;
