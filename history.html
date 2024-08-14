@@ -172,7 +172,7 @@ switchTabs.forEach((tab, index) => {
     if (index === 0) {
       setActiveTab();
       const queryParams = new URLSearchParams();
-      queryParams.set('username', username);
+      queryParams.set('username', name);
       queryParams.set('phone', phone);
       window.location.href = `booking.html?${queryParams.toString()}`;
     }
