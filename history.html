@@ -290,10 +290,12 @@ async function displayHistory() {
 		cardContainer.innerHTML = '';
 	
 	  paxList.forEach((item) => {
-	  const dateF = new Date(date);
-	  const formattedDate = `${dateF.getFullYear()}/${(dateF.getMonth() + 1).toString().padStart(2, '0')}/${dateF.getDate().toString().padStart(2, '0')}`;
-		
-//	    if (formattedDate >= new Date()) {
+	  const dateA = new Date(item.date);
+	  const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
+	  const dateB = new Date();
+	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
+			
+	    if (dateA >= dateB) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
@@ -321,7 +323,7 @@ async function displayHistory() {
 	      card.appendChild(cardContent);
 	      card.appendChild(cardInfo);
 	      cardContainer.appendChild(card);
-//	    }
+	    }
 	  });
 	}
 	
@@ -336,7 +338,12 @@ async function displayHistory() {
 	  const dateF = new Date(date);
 	  const formattedDate = `${dateF.getFullYear()}/${(dateF.getMonth() + 1).toString().padStart(2, '0')}/${dateF.getDate().toString().padStart(2, '0')}`;
 		
-//	    if (formattedDate < new Date()) {
+	  const dateA = new Date(item.date);
+	  const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
+	  const dateB = new Date();
+	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
+			
+	  if (dateA < dateB) {
 	      console.log("new card")
 	      const card = document.createElement('div');
 	      card.classList.add('card');
@@ -364,7 +371,7 @@ async function displayHistory() {
 	      card.appendChild(cardContent);
 	      card.appendChild(cardInfo);
 	      cardContainer.appendChild(card);
-//	    }
+	    }
 	  });
 	}
     });	
