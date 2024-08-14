@@ -138,61 +138,43 @@
     // Retrieve the username from the query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('username');
-	const phone = urlParams.get('phone');
+const phone = urlParams.get('phone');
 
 
-	// Switch Tabs
-	const switchTabs = document.querySelectorAll('.switch-tab');
-	const bookingContent = document.querySelector('.booking-content');
-	
-	function setActiveTab() {
-	  // Check the current URL to determine the active tab
-	  const currentURL = window.location.href;
-	  if (currentURL.includes('history.html')) {
-	    // The "HISTORY" tab is active
-	    switchTabs.forEach((tab, index) => {
-	      tab.classList.remove('active');
-	      if (index === 1) {
-		tab.classList.add('active');
-	      }
-	    });
-	    bookingContent.style.display = 'none';
-	  } else {
-	    // The "BOOK" tab is active
-	    switchTabs.forEach((tab, index) => {
-	      tab.classList.remove('active');
-	      if (index === 0) {
-		tab.classList.add('active');
-	      }
-	    });
-	    bookingContent.style.display = 'block';
-	  }
-	}
-	
-	switchTabs.forEach((tab, index) => {
-	  tab.addEventListener('click', (event) => {
-	    // Remove the active class from all tabs
-	    switchTabs.forEach((t) => t.classList.remove('active'));
-	
-	    // Add the active class to the clicked tab
-	    tab.classList.add('active');
-	
-	    // If the clicked tab is the "BOOK" tab (index 0), navigate to the booking.html page
-	    if (index === 0) {
-	      setActiveTab();
-	      const queryParams = new URLSearchParams();
-	      queryParams.set('username', username);
-	      queryParams.set('phone', phone);
-	      window.location.href = `booking.html?${queryParams.toString()}`;
-	    } else {
-	      // Show the booking content
-	      bookingContent.style.display = 'block';
-	    }
-	  });
-	});
-	
-	// Set the initial active tab
-	setActiveTab();
+// Switch Tabs
+const switchTabs = document.querySelectorAll('.switch-tab');
+
+function setActiveTab() {
+  // Check the current URL to determine the active tab
+    // The "HISTORY" tab is active
+    switchTabs.forEach((tab, index) => {
+      tab.classList.remove('active');
+      if (index === 1) {
+	tab.classList.add('active');
+      }
+    });
+
+switchTabs.forEach((tab, index) => {
+  tab.addEventListener('click', (event) => {
+    // Remove the active class from all tabs
+    switchTabs.forEach((t) => t.classList.remove('active'));
+
+    // Add the active class to the clicked tab
+    tab.classList.add('active');
+
+    // If the clicked tab is the "BOOK" tab (index 0), navigate to the booking.html page
+    if (index === 0) {
+      setActiveTab();
+      const queryParams = new URLSearchParams();
+      queryParams.set('username', username);
+      queryParams.set('phone', phone);
+      window.location.href = `booking.html?${queryParams.toString()}`;
+    }
+  });
+});
+}
+// Set the initial active tab
+setActiveTab();
 
 let paxList = []
 async function displayHistory() {
@@ -250,7 +232,7 @@ async function displayHistory() {
 		
 	  // Check the current URL to determine the active tab
 	  const currentURL = window.location.href;
-	if (currentURL.includes('search-results.html?tab=past')) {
+	if (currentURL.includes('tab=past')) {
 	    // The "PAST" tab is active
 	    switchTabs.forEach((tab) => tab.classList.remove('active'));
 	    pastTab.classList.add('active');
