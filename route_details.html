@@ -381,7 +381,7 @@
       const now = new Date();
       const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-      for (let i = 0; i < departureTimes.length; i++) {
+      for (let i = 0; i < DepartureTimes.length; i++) {
 	  const time = DepartureTimes[i];
 	  console.log("Comparing: ",time)
           if (time > currenttime) {
