@@ -320,10 +320,19 @@ async function displayHistory() {
 	      cardInfo.innerHTML = `
 	        Booking Number: ${item.paxphone}
 	      `;
-	
+
+		const viewRouteButton = document.createElement('button');
+		    viewRouteButton.classList.add('view-route-btn');
+		    viewRouteButton.textContent = 'View Route Details';
+		    const routeId = `${item.pickup} - ${item.dropoff}`;
+		    viewRouteButton.addEventListener('click', () => {
+		      viewRouteDetails(item.pickup, item.dropoff, routeId);
+		    });
+		    
 	      card.appendChild(cardHeader);
 	      card.appendChild(cardContent);
 	      card.appendChild(cardInfo);
+    	      card.appendChild(viewRouteButton);
 	      cardContainer.appendChild(card);
 	    }
 	  });
@@ -367,10 +376,19 @@ async function displayHistory() {
 	      cardInfo.innerHTML = `
 	        Booking Number: ${item.paxphone}
 	      `;
-	
+
+		const viewRouteButton = document.createElement('button');
+		    viewRouteButton.classList.add('view-route-btn');
+		    viewRouteButton.textContent = 'View Route Details';
+		    const routeId = `${item.pickup} - ${item.dropoff}`;
+		    viewRouteButton.addEventListener('click', () => {
+		      viewRouteDetails(item.pickup, item.dropoff, routeId);
+		    });
+		    
 	      card.appendChild(cardHeader);
 	      card.appendChild(cardContent);
 	      card.appendChild(cardInfo);
+    	      card.appendChild(viewRouteButton);
 	      cardContainer.appendChild(card);
 	    }
 	  });
@@ -379,6 +397,9 @@ async function displayHistory() {
 }
 displayHistory();
 
+function viewRouteDetails(pickupLocation, dropoffLocation, routeId) {
+      window.location.href = `route_details.html?pickupLocation=${encodeURIComponent(pickupLocation)}&dropoffLocation=${encodeURIComponent(dropoffLocation)}&id=${routeId}`;
+    }
 		
   </script>
 </body>
