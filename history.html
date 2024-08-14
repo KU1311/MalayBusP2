@@ -116,7 +116,7 @@
 
     // Retrieve the username from the query parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('username');
+    const name = urlParams.get('username');
 	const phone = urlParams.get('phone');
 
 
@@ -185,10 +185,10 @@ async function displayHistory() {
 	    const dataRows = rows.slice(1);
 	    for (let i = 0; i < dataRows.length; i++) {
 		    const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
-			    console.log("matchedRowValues: ",matchedRowValues)
 			const username = matchedRowValues[headers.indexOf('username')];
 		        const paxphone = matchedRowValues[headers.indexOf('phone')];
 			if (username === name && paxphone === phone) {
+				console.log("matchedRowValues: ",matchedRowValues)
 			      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
 			      const paxChecked = matchedRowValues[headers.indexOf('check')];
 				const paxRoutePickup = matchedRowValues[headers.indexOf('pickup')];
