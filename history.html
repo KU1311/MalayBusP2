@@ -270,14 +270,14 @@ async function displayHistory() {
 	    tab.classList.add('active');
 	
 	    // Determine which tab was clicked
-	    if (index === 1) {
+	    if (index === 0) {
 	      // "UPCOMING" tab
 	      const queryParams = new URLSearchParams();
 	      queryParams.set('username', name);
 	      queryParams.set('phone', phone);
 	      queryParams.set('tab', 'upcoming');
 	      window.location.href = `history.html?${queryParams.toString()}`;
-	    } else if (index === 2) {
+	    } else if (index === 1) {
 	      // "PAST" tab
 	      const queryParams = new URLSearchParams();
 	      queryParams.set('username', name);
