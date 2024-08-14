@@ -288,15 +288,17 @@ async function displayHistory() {
 	  // You can use the username and phone variables to fetch the data
 	  // and then create and append the card elements to the card-container
 		cardContainer.innerHTML = '';
-	
-	  paxList.forEach((item) => {
-	  const dateA = new Date(item.date);
-	  const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
 	  const dateB = new Date();
 	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
-			
-	    if (dateA >= dateB) {
+		
+	  paxList.forEach((item) => {
+	    const dateA = new Date(item.date);
+	    const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
+		
+	    if (formattedDateA >= formattedDateB) {
 	      console.log("new card")
+	      console.log("Current Date: "+formattedDateB)
+	      console.log("compare Date: "+formattedDateA)
 	      const card = document.createElement('div');
 	      card.classList.add('card');
 	
@@ -332,16 +334,18 @@ async function displayHistory() {
 	  // You can use the username and phone variables to fetch the data
 	  // and then create and append the card elements to the card-container
 
-		cardContainer.innerHTML = '';
-	
-	  paxList.forEach((item) => {
-	  const dateA = new Date(item.date);
-	  const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
-	  const dateB = new Date();
-	  const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
-			
-	  if (dateA < dateB) {
+	cardContainer.innerHTML = '';
+	const dateB = new Date();
+	const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
+		
+	paxList.forEach((item) => {
+	    const dateA = new Date(item.date);
+	    const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
+		
+	    if (formattedDateA < formattedDateB) {
 	      console.log("new card")
+	      console.log("Current Date: "+formattedDateB)
+	      console.log("compare Date: "+formattedDateA)
 	      const card = document.createElement('div');
 	      card.classList.add('card');
 	
