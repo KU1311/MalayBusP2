@@ -196,6 +196,7 @@ async function displayHistory() {
 			    	const paxdate = matchedRowValues[headers.indexOf('date')];
 			    	const paxtime = matchedRowValues[headers.indexOf('time')];
 			    	const paxOnBoardStop = matchedRowValues[headers.indexOf('midstops')];
+				const paxRouteID = matchedRowValues[headers.indexOf('id')];
 		    		
 				// insert to pax list
 				paxList.push({
