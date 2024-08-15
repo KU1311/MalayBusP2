@@ -113,7 +113,7 @@
     <thead>
       <tr>
         <th>Stop Location</th>
-        <th>Current Time</th>
+        <th>ETA</th>
       </tr>
     </thead>
     <tbody>
@@ -286,20 +286,25 @@
 		} else {
 		    let closestBus = null;
 		    let closestIndex = -1;
-		
+		    
 		    for (let j = 0; j < matchedRecords.length; j++) {
+		      const newMins;
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
+		      	console.log("IF 1");
+			console.log(matchedRecords[j]);
 		      	useBusLoc = true;
-		        const newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+		        newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
 		        totalDrivingTime = accuMins
 		      }
 		
 		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
+			console.log("IF 2");
+		        console.log(matchedRecords[j]);
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
-			const newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins += newMins      
 		        totalDrivingTime += accuMins;
 		
