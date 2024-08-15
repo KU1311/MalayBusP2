@@ -389,6 +389,7 @@
         const toLocation = stopLocations[i];
         const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
        if (drivingTime !== null) {
+          console.log("drivingTime: ",drivingTime)
           const drivingTimeMinutes = Math.floor(drivingTime / 60);
           drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${drivingTimeMinutes} minutes\n`;
         } else {
@@ -432,6 +433,7 @@ async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
         });
         const data = await response.json();
         if (data.features && data.features.length > 0) {
+	  console.log(data)
           return data.features[0].properties.duration;
         } else {
           return null;
