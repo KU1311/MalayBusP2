@@ -304,7 +304,7 @@
 		        console.log(matchedRecords[j]);
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
-			newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			newMins = getDrivingTime(matchedRecords[j].X, matchedRecords[j].Y, stopLocations[i].x, stopLocations[i].y);
 			accuMins += newMins      
 		        totalDrivingTime += accuMins;
 		
