@@ -214,7 +214,7 @@
 	    const busID = matchedRowValues[headers.indexOf('busID')];
 	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
 	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
-	    const at_stop = matchedRowValues[headers.indexOf('At_Stop')];
+	    const at_stop = matchedRowValues[headers.indexOf('At_Stop')+1];
 	    const currentDateTime = new Date().toLocaleString("en-US", {
 			timeZone: "Asia/Shanghai",
 			year: "numeric",
