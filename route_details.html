@@ -374,7 +374,7 @@
 	        const data = await response.json();
 	        if (data.features && data.features.length > 0) {
 		  console.log(data.features[0])
-	          return data.features[0].properties.summary.duration.PromiseResult;
+	          return data.features[0].properties.summary.duration;
 	        } else {
 	          return null;
 	        }
