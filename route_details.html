@@ -434,7 +434,7 @@ async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
         const data = await response.json();
         if (data.features && data.features.length > 0) {
 	  console.log(data)
-          return data.features[0].properties.duration;
+          return data.features[0].properties.summary.duration;
         } else {
           return null;
         }
