@@ -290,7 +290,7 @@
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
 		      	useBusLoc = true;
-		        const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+		        const newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
 		        totalDrivingTime = accuMins
@@ -299,7 +299,7 @@
 		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
-			const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			const newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins += newMins      
 		        totalDrivingTime += accuMins;
 		
@@ -310,22 +310,7 @@
 		
 		    if (closestBus !== null) {
 			try {     
-			        // not used
-				async function old_driving_time(){
-				const fromLocation = stopLocations[i - 1];
-			        const toLocation = stopLocations[i];
-			        const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
-			       if (drivingTime !== null) {
-			          console.log("drivingTime: ",drivingTime)
-			          const drivingTimeMinutes = Math.floor(drivingTime / 60);
-			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
-				  const eta_this = getArrivalTime(drivingTimeMinutes)
-			          drivingTimeInfo += `${eta_this}`;
-			        } else {
-			          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
-			        }
-				}
-				
+			        
 				if (drivingTime !== null) {
 			          console.log("drivingTime: ",totalDrivingTime)
 			          const drivingTimeMinutes = Math.floor(totalDrivingTime / 60);
@@ -338,10 +323,7 @@
 		      } catch (error) {
 			      console.error('Error:', error);
 			    }
-
-
-
-			    
+		    
 		    }
 
 		}
