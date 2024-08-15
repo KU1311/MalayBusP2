@@ -311,7 +311,7 @@
 		    if (closestBus !== null) {
 			try {     
 			        // not used
-				function old_driving_time(){
+				async function old_driving_time(){
 				const fromLocation = stopLocations[i - 1];
 			        const toLocation = stopLocations[i];
 			        const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
