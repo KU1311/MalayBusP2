@@ -374,10 +374,6 @@
     // Populate the table body
     const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
 
-
-      const nearestDepartureInfo = getNearestFutureDepartureTime();
-      document.getElementById('nearestDepartureInfo').children[1].textContent = nearestDepartureInfo.location;
-
       let drivingTimeInfo = '';
       for (let i = 1; i < stopLocations.length; i++) {
 	      
