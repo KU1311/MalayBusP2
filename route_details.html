@@ -315,6 +315,7 @@
 				  const fromLonA = 114.1907405
 				  const toLatA = 22.276949
 				  const toLonA = 114.164089
+			      let drivingTime;
 			      console.log(fromLatA, fromLonA, toLatA, toLonA)
 				const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLonA},${fromLatA}&end=${toLonA},${toLatA}`, {
 			          headers: {
@@ -324,7 +325,7 @@
 				  .then(response => response.json())
 				  .then(data => {
 				    if (data.features && data.features.length > 0) {
-				      const drivingTime = data.features[0].properties.summary.duration;
+				      drivingTime = data.features[0].properties.summary.duration;
 				      console.log("Driving TIme: ",drivingTime);
 				      //return drivingTime;
 				    } else {
