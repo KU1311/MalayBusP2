@@ -330,11 +330,7 @@
 				    } else {
 				      //return null;
 				    }
-				  })
-				  .catch(error => {
-				    console.error('Error fetching driving time:', error);
-				    //return null;
-				  });
+				  
 
                       /// -- end of extract function
 			      
@@ -345,6 +341,12 @@
 		
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
+
+			  })
+		  .catch(error => {
+		    console.error('Error fetching driving time:', error);
+		    //return null;
+		  });
 		      }
 		    }
 		
