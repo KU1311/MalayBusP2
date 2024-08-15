@@ -290,7 +290,8 @@
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
 		      	useBusLoc = True;
-		        accuMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+		        const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
 		        totalDrivingTime = accuMins
 		      }
@@ -298,7 +299,8 @@
 		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
-			accuMins += await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			accuMins += newMins      
 		        totalDrivingTime += accuMins;
 		
 		        closestBus = matchedRecords[j];
