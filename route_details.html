@@ -388,8 +388,9 @@
         const fromLocation = stopLocations[i - 1];
         const toLocation = stopLocations[i];
         const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
-        if (drivingTime !== null) {
-          drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${Math.floor(drivingTime / 60)} minutes\n`;
+       if (drivingTime !== null) {
+          const drivingTimeMinutes = Math.floor(drivingTime / 60);
+          drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${drivingTimeMinutes} minutes\n`;
         } else {
           drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
         }
@@ -430,7 +431,11 @@ async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
           }
         });
         const data = await response.json();
-        return data.features[0].properties.duration;
+        if (data.features && data.features.length > 0) {
+          return data.features[0].properties.duration;
+        } else {
+          return null;
+        }
       } catch (error) {
         console.error('Error fetching driving time:', error);
         return null;
