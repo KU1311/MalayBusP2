@@ -275,12 +275,12 @@
 	    let useBusLoc = false;
 	    let totalDrivingTime = 0;
 	      let drivingTimeInfo = '';
-	      for (let i = 1; i < stopLocations.length; i++) {
+	      for (let i = 1; i < stops.length; i++) {
 		      
 	        const row = document.createElement('tr');
 		const timeCell = document.createElement('td');
 	        const locationCell = document.createElement('td');
-	        locationCell.textContent = stopLocations[i].name;
+	        locationCell.textContent = stops[i].name;
 	        row.appendChild(locationCell);
 		if (i === 1) {
 			timeCell.textContent = getNearestDeptTime();
@@ -290,11 +290,38 @@
 		    
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      let newMins;
-		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
+		      if (matchedRecords[j].at_stop === stops[i].name) {
 		      	console.log("IF 1");
 			console.log(matchedRecords[j]);
 		      	useBusLoc = true;
-		        newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+
+			// Extract from getDrivingTime
+			      const fromLatA = parseFloat(fromLat.toString().replace('\r', ''))
+			      const fromLonA = parseFloat(fromLon.toString().replace('\r', ''))
+			      const toLatA = parseFloat(toLat.toString().replace('\r', ''))
+			      const toLonA = parseFloat(toLon.toString().replace('\r', ''))
+				
+			      let drivingTime;
+			      console.log(fromLatA, fromLonA, toLatA, toLonA)
+				const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLonA},${fromLatA}&end=${toLonA},${toLatA}`, {
+			          headers: {
+				      'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
+				    }
+				  })
+				  .then(response => response.json())
+				  .then(data => {
+				    if (data.features && data.features.length > 0) {
+				      drivingTime = data.features[0].properties.summary.duration;
+				      console.log("Driving TIme: ",drivingTime);
+				      //return drivingTime;
+				    } else {
+				      //return null;
+				    }
+				  
+
+                      /// -- end of extract function
+			      
+		        newMins = drivingTime;
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
 		      }
@@ -307,14 +334,14 @@
 
 
 			// Extract from getDrivingTime
-			      //const fromLatA = parseFloat(fromLat.toString().replace('\r', ''))
-			      //const fromLonA = parseFloat(fromLon.toString().replace('\r', ''))
-			      //const toLatA = parseFloat(toLat.toString().replace('\r', ''))
-			      //const toLonA = parseFloat(toLon.toString().replace('\r', ''))
-				  const fromLatA = 22.3185653
-				  const fromLonA = 114.1907405
-				  const toLatA = 22.276949
-				  const toLonA = 114.164089
+			      const fromLatA = parseFloat(fromLat.toString().replace('\r', ''))
+			      const fromLonA = parseFloat(fromLon.toString().replace('\r', ''))
+			      const toLatA = parseFloat(toLat.toString().replace('\r', ''))
+			      const toLonA = parseFloat(toLon.toString().replace('\r', ''))
+				//  const fromLatA = 22.3185653
+				//  const fromLonA = 114.1907405
+				//  const toLatA = 22.276949
+				//  const toLonA = 114.164089
 			      let drivingTime;
 			      console.log(fromLatA, fromLonA, toLatA, toLonA)
 				const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLonA},${fromLatA}&end=${toLonA},${toLatA}`, {
