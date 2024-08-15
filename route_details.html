@@ -359,7 +359,9 @@
 			          const drivingTimeMinutes = Math.floor(accuMins / 60);
 			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
 				  const eta_this = getArrivalTime(drivingTimeMinutes)
+			          console.log("eta_this ",eta_this)
 			          drivingTimeInfo += `${eta_this}`;
+			          console.log("drivingTimeInfo ",drivingTimeInfo)
 			        } else {
 			          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
 				}
@@ -368,10 +370,10 @@
 			    }
 		    
 		    }
-
+			
+		timeCell.textContent = drivingTimeInfo; 
 		}
-		
-		timeCell.textContent = drivingTimeInfo;      
+		     
 		row.appendChild(timeCell);
 		tableBody.appendChild(row);
 	    } 
