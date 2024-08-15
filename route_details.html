@@ -247,7 +247,7 @@
 	  console.log("Comparing with: ",route)
 	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
 	      console.log("Bus found: ",busID)
-	      matchedRecords.push({ busID, X, Y,lastudt_time });
+	      matchedRecords.push({ busID, X, Y,lastudt_time,at_stop });
 	      // add bus to the map
 	      matchedRecords.forEach(record => {
 	      L.marker([record.X, record.Y]).addTo(map)
@@ -266,10 +266,142 @@
   	  })	
 
 
-	// ETA
-	
+	// ETA Table
+	    const stopLocationTable = document.getElementById('stopLocationTable');
+	    const accuMins = 0;
+	    // Populate the table body
+	    const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
+	    let useBusLoc = False;
+	    let totalDrivingTime = 0;
+	      let drivingTimeInfo = '';
+	      for (let i = 1; i < stopLocations.length; i++) {
+		      
+	        const row = document.createElement('tr');
+		const timeCell = document.createElement('td');
+	        const locationCell = document.createElement('td');
+	        locationCell.textContent = location.name;
+	        row.appendChild(locationCell);
+		if (i === 1) {
+			timeCell.textContent = getNearestDeptTime();
+		} else {
+		    let closestBus = null;
+		    let closestIndex = -1;
+		
+		    for (let j = 0; j < matchedRecords.length; j++) {
+		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
+		      	useBusLoc = True;
+		        accuMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+		        closestBus = matchedRecords[j]; // This is the highest priority
+		        totalDrivingTime = accuMins
+		      }
+		
+		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
+		        closestBus = matchedRecords[j];
+		        closestIndex = i;
+			accuMins += await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+		        totalDrivingTime += accuMins;
+		
+		        closestBus = matchedRecords[j];
+		        closestIndex = i;
+		      }
+		    }
+		
+		    if (closestBus !== null) {
+			try {     
+			        // not used
+				function old_driving_time(){
+				const fromLocation = stopLocations[i - 1];
+			        const toLocation = stopLocations[i];
+			        const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
+			       if (drivingTime !== null) {
+			          console.log("drivingTime: ",drivingTime)
+			          const drivingTimeMinutes = Math.floor(drivingTime / 60);
+			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
+				  const eta_this = getArrivalTime(drivingTimeMinutes)
+			          drivingTimeInfo += `${eta_this}`;
+			        } else {
+			          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
+			        }
+				}
+				
+				if (drivingTime !== null) {
+			          console.log("drivingTime: ",totalDrivingTime)
+			          const drivingTimeMinutes = Math.floor(totalDrivingTime / 60);
+			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
+				  const eta_this = getArrivalTime(drivingTimeMinutes)
+			          drivingTimeInfo += `${eta_this}`;
+			        } else {
+			          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
+				
+		      } catch (error) {
+			      console.error('Error:', error);
+			    }
 
-	async function displayFrequencyDetails() {
+
+
+			    
+		    }
+		  }
+		  }
+
+			
+		}
+			
+	        at_stop
+		     
+		      
+		
+		timeCell.textContent = drivingTimeInfo;      
+		row.appendChild(timeCell);
+		tableBody.appendChild(row);
+	    } 
+		
+	    function getArrivalTime(drivingTimeMinutes) {
+		  const currentDate = new Date();
+		  const arrivalDate = new Date(currentDate.getTime() + (drivingTimeMinutes * 60 * 1000));
+		
+		  const hours = String(arrivalDate.getHours()).padStart(2, '0');
+		  const minutes = String(arrivalDate.getMinutes()).padStart(2, '0');
+		
+		  return `${hours}:${minutes}`;
+		}
+	
+	    function getNearestDeptTime() {
+	      const now = new Date();
+	      const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+	
+	      for (let i = 0; i < DepartureTimes.length; i++) {
+		  const time = DepartureTimes[i];
+		  console.log("Comparing: ",time)
+	          if (time > currenttime) {
+			  console.log("Time matched: ", time);
+			  return time;
+			  break;
+		  }
+	        };
+	    console.log("continue")
+		    
+	    }
+	
+	async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
+	      try {
+	        const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLon},${fromLat}&end=${toLon},${toLat}`, {
+	          headers: {
+	            'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
+	          }
+	        });
+	        const data = await response.json();
+	        if (data.features && data.features.length > 0) {
+		  console.log(data.features[0])
+	          return data.features[0].properties.summary.duration;
+	        } else {
+	          return null;
+	        }
+	      } catch (error) {
+	        console.error('Error fetching driving time:', error);
+	        return null;
+	      }
+	    }
 
 
 
@@ -368,81 +500,7 @@
 	  window.history.back();
 	});
 
-// ETA Table
-    const stopLocationTable = document.getElementById('stopLocationTable');
 
-    // Populate the table body
-    const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
-
-      let drivingTimeInfo = '';
-      for (let i = 1; i < stopLocations.length; i++) {
-	      
-        const row = document.createElement('tr');
-
-        const locationCell = document.createElement('td');
-        locationCell.textContent = location.name;
-        row.appendChild(locationCell);
-
-        
-     try {     
-        const fromLocation = stopLocations[i - 1];
-        const toLocation = stopLocations[i];
-        const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
-       if (drivingTime !== null) {
-          console.log("drivingTime: ",drivingTime)
-          const drivingTimeMinutes = Math.floor(drivingTime / 60);
-          drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${drivingTimeMinutes} minutes\n`;
-        } else {
-          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
-        }
-      } catch (error) {
-	      console.error('Error:', error);
-	    }
-	      
-	const timeCell = document.createElement('td');
-//        timeCell.textContent = getCurrentTime();
-	timeCell.textContent = drivingTimeInfo;      
-        row.appendChild(timeCell);
-        tableBody.appendChild(row);
-    } 
-	
-    
-    function getCurrentTime() {
-      const now = new Date();
-      const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-
-      for (let i = 0; i < DepartureTimes.length; i++) {
-	  const time = DepartureTimes[i];
-	  console.log("Comparing: ",time)
-          if (time > currenttime) {
-		  console.log("Time matched: ", time);
-		  return time;
-		  break;
-	  }
-        };
-    console.log("continue")
-	    
-    }
-
-async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
-      try {
-        const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLon},${fromLat}&end=${toLon},${toLat}`, {
-          headers: {
-            'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
-          }
-        });
-        const data = await response.json();
-        if (data.features && data.features.length > 0) {
-	  console.log(data.features[0])
-          return data.features[0].properties.summary.duration;
-        } else {
-          return null;
-        }
-      } catch (error) {
-        console.error('Error fetching driving time:', error);
-        return null;
-      }
-    }
 
     
  
