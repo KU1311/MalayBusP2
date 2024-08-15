@@ -189,7 +189,7 @@
 	// -------------------------------------------------------------------
 	// Load bus locations
 	
-	function getMatchedXY(routeInquiry,L) {
+	async function getMatchedXY(routeInquiry,L) {
 	  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT51YqqiM3MQNbqvF2h86hucxl0kU-wrzctUqTJkDJirHZqVQM3dFeiNlMQkLYxSfMyha3tWbN37uvF/pub?output=csv';
 	  console.log("bus location lookup check")
 	  fetch(sheetUrl)
@@ -290,7 +290,7 @@
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
 		      	useBusLoc = True;
-		        const newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+		        const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
 		        totalDrivingTime = accuMins
@@ -299,7 +299,7 @@
 		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
-			const newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
+			const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins += newMins      
 		        totalDrivingTime += accuMins;
 		
