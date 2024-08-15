@@ -304,8 +304,43 @@
 		        console.log(matchedRecords[j]);
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
-			newMins = await getDrivingTime(matchedRecords[j].X, matchedRecords[j].Y, stopLocations[i].x, stopLocations[i].y);
-			console.log("newMins ",newMins)
+
+
+			// Extract from getDrivingTime
+			      //const fromLatA = parseFloat(fromLat.toString().replace('\r', ''))
+			      //const fromLonA = parseFloat(fromLon.toString().replace('\r', ''))
+			      //const toLatA = parseFloat(toLat.toString().replace('\r', ''))
+			      //const toLonA = parseFloat(toLon.toString().replace('\r', ''))
+				  const fromLatA = 22.3185653
+				  const fromLonA = 114.1907405
+				  const toLatA = 22.276949
+				  const toLonA = 114.164089
+			      console.log(fromLatA, fromLonA, toLatA, toLonA)
+				const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLonA},${fromLatA}&end=${toLonA},${toLatA}`, {
+			          headers: {
+				      'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
+				    }
+				  })
+				  .then(response => response.json())
+				  .then(data => {
+				    if (data.features && data.features.length > 0) {
+				      const drivingTime = data.features[0].properties.summary.duration;
+				      console.log("Driving TIme: ",drivingTime);
+				      //return drivingTime;
+				    } else {
+				      //return null;
+				    }
+				  })
+				  .catch(error => {
+				    console.error('Error fetching driving time:', error);
+				    //return null;
+				  });
+
+                      /// -- end of extract function
+			      
+			//newMins = await getDrivingTime(matchedRecords[j].X, matchedRecords[j].Y, stopLocations[i].x, stopLocations[i].y);
+			newMins = drivingTime
+			      console.log("newMins ",newMins)
 			accuMins += newMins      
 		
 		        closestBus = matchedRecords[j];
