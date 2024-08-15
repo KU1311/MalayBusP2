@@ -271,7 +271,7 @@
 	    const accuMins = 0;
 	    // Populate the table body
 	    const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
-	    let useBusLoc = False;
+	    let useBusLoc = false;
 	    let totalDrivingTime = 0;
 	      let drivingTimeInfo = '';
 	      for (let i = 1; i < stopLocations.length; i++) {
@@ -289,7 +289,7 @@
 		
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
-		      	useBusLoc = True;
+		      	useBusLoc = true;
 		        const newMins = await getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
