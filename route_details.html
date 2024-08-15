@@ -373,21 +373,42 @@
 
     // Populate the table body
     const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
-    stopLocations.slice(0, -1).forEach(location => {
-      const row = document.createElement('tr');
 
-      const locationCell = document.createElement('td');
-      locationCell.textContent = location.name;
-      row.appendChild(locationCell);
 
-      const timeCell = document.createElement('td');
-      timeCell.textContent = getCurrentTime();
-//      getCurrentTime();
-      row.appendChild(timeCell);
+      const nearestDepartureInfo = getNearestFutureDepartureTime();
+      document.getElementById('nearestDepartureInfo').children[1].textContent = nearestDepartureInfo.location;
 
-      tableBody.appendChild(row);
-    });
+      let drivingTimeInfo = '';
+      for (let i = 1; i < stopLocations.length; i++) {
+	      
+        const row = document.createElement('tr');
 
+        const locationCell = document.createElement('td');
+        locationCell.textContent = location.name;
+        row.appendChild(locationCell);
+
+        
+     try {     
+        const fromLocation = stopLocations[i - 1];
+        const toLocation = stopLocations[i];
+        const drivingTime = await getDrivingTime(fromLocation.latitude, fromLocation.longitude, toLocation.latitude, toLocation.longitude);
+        if (drivingTime !== null) {
+          drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${Math.floor(drivingTime / 60)} minutes\n`;
+        } else {
+          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
+        }
+      } catch (error) {
+	      console.error('Error:', error);
+	    }
+	      
+	const timeCell = document.createElement('td');
+//        timeCell.textContent = getCurrentTime();
+	timeCell.textContent = drivingTimeInfo;      
+        row.appendChild(timeCell);
+        tableBody.appendChild(row);
+    } 
+	
+    
     function getCurrentTime() {
       const now = new Date();
       const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
@@ -405,6 +426,18 @@
 	    
     }
 
+async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/route?format=json&origin=${fromLat},${fromLon}&destination=${toLat},${toLon}&routemode=driving`);
+        const data = await response.json();
+        return data.routes[0].duration;
+      } catch (error) {
+        console.error('Error fetching driving time:', error);
+        return null;
+      }
+    }
+
+    
  
 	
   </script>
