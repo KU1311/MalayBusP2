@@ -371,6 +371,7 @@
 	      const toLatA = parseFloat(toLat.toString().replace('\r', ''))
 	      const toLonA = parseFloat(toLon.toString().replace('\r', ''))
 	      console.log(fromLatA, fromLonA, toLatA, toLonA)
+		console.log(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLonA},${fromLatA}&end=${toLonA},${toLatA}`)
 	        const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLonA},${fromLatA}&end=${toLonA},${toLatA}`, {
 	          headers: {
 		      'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
