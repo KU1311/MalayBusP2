@@ -364,7 +364,7 @@
 		    
 	    }
 	
-	function getDrivingTime(fromLat, fromLon, toLat, toLon) {
+	async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
 	      
 	        const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLon},${fromLat}&end=${toLon},${toLat}`, {
 	          headers: {
