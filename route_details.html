@@ -387,7 +387,7 @@
      try {     
         const fromLocation = stopLocations[i - 1];
         const toLocation = stopLocations[i];
-        const drivingTime = await getDrivingTime(fromLocation.latitude, fromLocation.longitude, toLocation.latitude, toLocation.longitude);
+        const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
         if (drivingTime !== null) {
           drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${Math.floor(drivingTime / 60)} minutes\n`;
         } else {
