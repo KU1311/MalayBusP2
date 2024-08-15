@@ -184,7 +184,8 @@
           });
         }
     }
-
+	console.log("stopLocations")
+	console.log(stopLocations)
 	
 	// -------------------------------------------------------------------
 	// Load bus locations
@@ -275,12 +276,12 @@
 	    let useBusLoc = false;
 	    let totalDrivingTime = 0;
 	      let drivingTimeInfo = '';
-	      for (let i = 1; i < stops.length; i++) {
+	      for (let i = 1; i < stopLocations.length; i++) {
 		      
 	        const row = document.createElement('tr');
 		const timeCell = document.createElement('td');
 	        const locationCell = document.createElement('td');
-	        locationCell.textContent = stops[i].name;
+	        locationCell.textContent = stopLocations[i].name;
 	        row.appendChild(locationCell);
 		if (i === 1) {
 			timeCell.textContent = getNearestDeptTime();
@@ -290,7 +291,7 @@
 		    
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      let newMins;
-		      if (matchedRecords[j].at_stop === stops[i].name) {
+		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
 		      	console.log("IF 1");
 			console.log(matchedRecords[j]);
 		      	useBusLoc = true;
