@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bus Route Map</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.css" />
+  <style>
+
+     body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: rgb(30, 110, 233);
+    }
+
+    .details {
+	
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+	
+	.details-info {
+      background-color: rgb(30, 110, 233);
+      padding: 0.2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 200px;
+	  text-align: center;
+	  align-items: center;
+    }
+	  
+	.go-back-button {
+	  position: absolute;
+	  top: 1rem;
+	  left: 1rem;
+	}
+	
+	.go-back {
+	  background-color: #f1f1f1;
+	  color: rgb(30, 110, 233);
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 0.5rem 1rem;
+	  font-size: 0.9rem;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.go-back:hover {
+	  background-color: #e0e0e0;
+	}
+	  
+	.search-info-item {
+	  display: flex;
+	  align-items: center;
+	  font-size: 24px;
+	  font-weight: bold;
+	}
+	button {
+	      width: 100%;
+	      background-color: rgb(30, 110, 233);
+	      color: white;
+	      padding: 10px;
+	      border: none;
+	      border-radius: 4px;
+	      cursor: pointer;
+	    }
+	table {
+	      width: 100%;
+	      border-collapse: collapse;
+	    }
+	    th, td {
+	      padding: 8px;
+	      text-align: left;
+	      border-bottom: 1px solid #ddd;
+	    }
+
+
+	  
+    #map {
+      height: 300px;
+      width: 100%;
+    }
+    .leaflet-routing-container {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+	<div class="details">
+<div class="go-back-button">
+      <button class="go-back">Go Back</button>
+    </div>
+    <h1>Map</h1>
+	<div class="search-info-item">
+		<span id="route">N/A</span>
+	</div>
+
+  <div id="map"></div>
+  <table id="stopLocationTable">
+    <thead>
+      <tr>
+        <th>Stop Location</th>
+        <th>Current Time</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+		
+<div></div>
+  <div><button id="reloadButton">Reload Page</button></div>		
+  </div>
+
+  
+<script type="module">
+
+	const urlParams = new URLSearchParams(window.location.search);
+
+    const pmidstops = urlParams.get('midstops');
+	const pickupLocation = urlParams.get('pickupLocation');
+    const dropoffLocation = urlParams.get('dropoffLocation');
+    const prouteId = urlParams.get('id');
+
+	const routeElement = document.getElementById('route');
+
+	// Display pick up and dropoff 
+	routeElement.textContent = prouteId || 'N/A';
+
+    import { getRoutes } from './routes.js';
+    const routes = await getRoutes();
+
+    let DepartureTimes = [];
+    const stops = getUniqueStops(routes);
+
+    function getUniqueStops(routes) {
+      const allStops = [];
+      for (const route of routes) {
+        const routeId = route.id;
+        const midstops = route.Midstops;
+        const xs = route.XX;
+        const ys = route.YY;
+
+        for (let i = 0; i < midstops.length; i++) {
+          allStops.push(`${routeId};${midstops[i]};${xs[i]};${ys[i]}`);
+        }
+
+        // Add the last stop
+        const lastStopX = xs[xs.length - 1];
+        const lastStopY = ys[ys.length - 1];
+        allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
+
+        DepartureTimes = route.DepartureTime.map(time => time.trim());
+      }
+
+      return Array.from(new Set(allStops));
+    }
+
+    
+    const stopsContainer = document.getElementById('stops-container');
+    let stopLocations = []
+    
+    for (const stop of stops) {
+      const stopParts = stop.split(';');
+      const routeId = stopParts[0];
+	  
+       if (routeId === prouteId) {
+          stopLocations.push({
+            name: stopParts[1],
+            x: stopParts[2],
+            y: stopParts[3]
+          });
+        }
+    }
+
+	
+	// -------------------------------------------------------------------
+	// Load bus locations
+	
+	function getMatchedXY(routeInquiry,L) {
+	  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT51YqqiM3MQNbqvF2h86hucxl0kU-wrzctUqTJkDJirHZqVQM3dFeiNlMQkLYxSfMyha3tWbN37uvF/pub?output=csv';
+	  console.log("bus location lookup check")
+	  fetch(sheetUrl)
+	  .then(response => response.text())
+	  .then(data => {
+	    console.log("lookup responsed")
+	    // Parse the CSV data
+	    const rows = data.trim().split('\n');
+	    const headers = rows[0].split(',').map(header => header.replace('\r', ''));
+	    const dataRows = rows.slice(1);
+		  //console.log("headers: ", headers)
+		  //console.log("dataRows: ", dataRows)
+	  const matchedRecords = [];
+	  for (let i = 0; i < dataRows.length; i++) {
+		  
+	    const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
+		  console.log("matchedRowValues: ", matchedRowValues)
+	    const route = matchedRowValues[headers.indexOf('Route')];
+	    const lastudt_date = matchedRowValues[headers.indexOf('last_update')];
+	    const lastudt_time = matchedRowValues[headers.indexOf('last_update')+1];
+	    const lastudt = lastudt_date + "," + lastudt_time
+	    const busID = matchedRowValues[headers.indexOf('busID')];
+	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
+	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
+	    const at_stop = matchedRowValues[headers.indexOf('At_Stop')];
+	    const currentDateTime = new Date().toLocaleString("en-US", {
+			timeZone: "Asia/Shanghai",
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit"
+		  });
+	
+		// check if last_update is within 30min. If not we will not show on the map
+		function isLastUpdateWithinMinutes(lastudt, currentDateTime) {
+		  //console.log("Matching time: ",lastudt," VS ", currentDateTime)
+		  const threshold = 30 //minutes
+		  // Convert currentDateTime to a Date object
+		  const currentDate = new Date(currentDateTime);
+		
+		  // Convert last_update to a Date object
+		  const lastUpdateDate = new Date(lastudt);
+		
+		  // Calculate the time difference in milliseconds
+		  const timeDiffMs = Math.abs(currentDate.getTime() - lastUpdateDate.getTime());
+		
+		  // Convert the time difference to minutes
+		  const timeDiffMinutes = Math.floor(timeDiffMs / (1000 * 60));
+		
+		  // Check if the last update time is within 30 minutes
+		  return timeDiffMinutes <= threshold;
+		}
+	  console.log("Comparing with: ",route)
+	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+	      console.log("Bus found: ",busID)
+	      matchedRecords.push({ busID, X, Y,lastudt_time });
+	      // add bus to the map
+	      matchedRecords.forEach(record => {
+	      L.marker([record.X, record.Y]).addTo(map)
+	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${record.lastudt_time}`);
+	      });
+		  
+	    }
+	  }
+	  //return matchedRecords;
+		  
+	  if (matchedRecords) {
+	  	
+	    } else {
+	      console.error("No bus found.");
+	    }
+  	  })	
+
+
+	// ETA
+	
+
+	async function displayFrequencyDetails() {
+
+
+
+		
+		}
+
+	  }  // end of getMatchedXY
+
+    // Initialize the map
+    const map = L.map('map').setView([22.305451, 114.169656], 12);
+
+    // Add the OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add the Leaflet Routing Machine plugin
+    const control = L.Routing.control({
+      waypoints: stopLocations.map(stop => L.latLng(stop.x, stop.y)),
+      routeWhileDragging: false,
+      router: L.Routing.osrmv1({
+        serviceUrl: 'https://router.project-osrm.org/route/v1'
+      }),
+      language: 'en',
+      lineOptions: {
+        styles: [{ color: 'red', weight: 4 }]
+      },
+      show: false,
+      addWaypoints: false,
+      draggableWaypoints: false,
+      fitSelectedRoutes: true,
+      showAlternatives: false
+    }).addTo(map);
+
+    // Add markers for the stop locations
+    stopLocations.forEach(stop => {
+      L.marker([stop.x, stop.y]).addTo(map)
+        .bindPopup(`<b>${stop.name}</b>`);
+    });
+
+    // Add the user's current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocationIcon = L.icon({
+            iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-blue.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          });
+
+          const userLocation = L.marker([position.coords.latitude, position.coords.longitude], {
+            icon: userLocationIcon
+          }).addTo(map);
+          userLocation.bindPopup("<b>Your Location</b>");
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+
+    function addBus(L){	
+	    // Add the bus location
+	    getMatchedXY(prouteId,L); 
+    }
+	
+	addBus(L)
+	// repeatedly update bus locations
+	window.addEventListener('load', () => {
+	  intervalId = setInterval(() => addBus(L), 30000); // 60000 milliseconds = 1 minute
+		console.log("Bus Location Refresh...")
+	});
+
+	// to enforce complete reload of data, do not use cache
+	window.addEventListener('beforeunload', (event) => {
+	  // Check if the user is refreshing the page
+	  if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+	    // Force a full page reload
+	    location.reload(true);
+	  }
+	});
+	
+    // Reload Button
+    const reloadButton = document.getElementById('reloadButton');
+    reloadButton.onclick = function() {
+	    // Force a full page reload
+	    location.reload(true);
+    };
+
+	const goBackButton = document.querySelector('.go-back');
+	goBackButton.addEventListener('click', () => {
+	  window.history.back();
+	});
+
+// ETA Table
+    const stopLocationTable = document.getElementById('stopLocationTable');
+
+    // Populate the table body
+    const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
+
+      let drivingTimeInfo = '';
+      for (let i = 1; i < stopLocations.length; i++) {
+	      
+        const row = document.createElement('tr');
+
+        const locationCell = document.createElement('td');
+        locationCell.textContent = location.name;
+        row.appendChild(locationCell);
+
+        
+     try {     
+        const fromLocation = stopLocations[i - 1];
+        const toLocation = stopLocations[i];
+        const drivingTime = await getDrivingTime(fromLocation.x, fromLocation.y, toLocation.x, toLocation.y);
+       if (drivingTime !== null) {
+          console.log("drivingTime: ",drivingTime)
+          const drivingTimeMinutes = Math.floor(drivingTime / 60);
+          drivingTimeInfo += `Driving time from ${fromLocation.name} to ${toLocation.name}: ${drivingTimeMinutes} minutes\n`;
+        } else {
+          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
+        }
+      } catch (error) {
+	      console.error('Error:', error);
+	    }
+	      
+	const timeCell = document.createElement('td');
+//        timeCell.textContent = getCurrentTime();
+	timeCell.textContent = drivingTimeInfo;      
+        row.appendChild(timeCell);
+        tableBody.appendChild(row);
+    } 
+	
+    
+    function getCurrentTime() {
+      const now = new Date();
+      const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+      for (let i = 0; i < DepartureTimes.length; i++) {
+	  const time = DepartureTimes[i];
+	  console.log("Comparing: ",time)
+          if (time > currenttime) {
+		  console.log("Time matched: ", time);
+		  return time;
+		  break;
+	  }
+        };
+    console.log("continue")
+	    
+    }
+
+async function getDrivingTime(fromLat, fromLon, toLat, toLon) {
+  const fromLat = 22.3185653
+  const fromLon = 114.1907405
+  const toLat = 22.276949
+  const toLon = 114.164089
+      try {
+        const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e34795c3bf124c47bfa030aeb89f1505&start=${fromLon},${fromLat}&end=${toLon},${toLat}`, {
+          headers: {
+            'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
+          }
+        });
+        const data = await response.json();
+        if (data.features && data.features.length > 0) {
+	  console.log(data.features[0])
+          return data.features[0].properties.summary.duration;
+        } else {
+          return null;
+        }
+      } catch (error) {
+        console.error('Error fetching driving time:', error);
+        return null;
+      }
+    }
+
+    
+ 
+	
+  </script>
+</body>
+</html>
