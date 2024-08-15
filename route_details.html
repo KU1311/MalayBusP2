@@ -296,7 +296,6 @@
 		        newMins = getDrivingTime(matchedRecords[j].x, matchedRecords[j].y, stopLocations[i].x, stopLocations[i].y);
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
-		        totalDrivingTime = accuMins
 		      }
 		
 		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
@@ -305,8 +304,8 @@
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
 			newMins = getDrivingTime(matchedRecords[j].X, matchedRecords[j].Y, stopLocations[i].x, stopLocations[i].y);
+			console.log("newMins ",newMins)
 			accuMins += newMins      
-		        totalDrivingTime += accuMins;
 		
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
@@ -316,9 +315,9 @@
 		    if (closestBus !== null) {
 			try {     
 			        
-				if (totalDrivingTime !== null) {
-			          console.log("drivingTime: ",totalDrivingTime)
-			          const drivingTimeMinutes = Math.floor(totalDrivingTime / 60);
+				if (accuMins !== null) {
+			          console.log("drivingTime: ",accuMins)
+			          const drivingTimeMinutes = Math.floor(accuMins / 60);
 			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
 				  const eta_this = getArrivalTime(drivingTimeMinutes)
 			          drivingTimeInfo += `${eta_this}`;
