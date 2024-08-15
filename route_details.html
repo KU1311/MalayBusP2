@@ -214,6 +214,7 @@
 	    const busID = matchedRowValues[headers.indexOf('busID')];
 	    const X = parseFloat(matchedRowValues[headers.indexOf('X')]);
 	    const Y = parseFloat(matchedRowValues[headers.indexOf('Y')]);
+	    const at_stop = matchedRowValues[headers.indexOf('At_Stop')];
 	    const currentDateTime = new Date().toLocaleString("en-US", {
 			timeZone: "Asia/Shanghai",
 			year: "numeric",
@@ -263,7 +264,18 @@
 	      console.error("No bus found.");
 	    }
   	  })	
-	  
+
+
+	// ETA
+	
+
+	async function displayFrequencyDetails() {
+
+
+
+		
+		}
+
 	  }  // end of getMatchedXY
 
     // Initialize the map
@@ -369,8 +381,8 @@
       row.appendChild(locationCell);
 
       const timeCell = document.createElement('td');
- //     timeCell.textContent = getCurrentTime();
-      getCurrentTime();
+      timeCell.textContent = getCurrentTime();
+//      getCurrentTime();
       row.appendChild(timeCell);
 
       tableBody.appendChild(row);
@@ -385,6 +397,7 @@
 	  console.log("Comparing: ",time)
           if (time > currenttime) {
 		  console.log("Time matched: ", time);
+		  return time;
 		  break;
 	  }
         };
