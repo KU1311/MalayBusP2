@@ -340,7 +340,6 @@
 			accuMins = newMins
 			console.log("IF1 accuMins",accuMins)
 		        closestBus = matchedRecords[j]; // This is the highest priority
-		        break;
 		      }
 		    } // end of for loop j
 
@@ -385,7 +384,7 @@
 			      console.log("newMins ",newMins)
 			accuMins += parseFloat(newMins)    
 			console.log("IF2 accuMins",accuMins)
-
+	    } // end of useBusLoc if
 		try {     
 			
 			if (closestBus !== null) {	
@@ -411,7 +410,7 @@
 		    }
 			
 		timeCell.textContent = drivingTimeInfo;  
-	    } // end of useBusLoc if
+
 	}    
 		row.appendChild(timeCell);
 		tableBody.appendChild(row);
