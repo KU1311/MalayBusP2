@@ -429,13 +429,17 @@
 		}
 
 	     function getArrivalTimeETA(PlannedTime,drivingTimeMinutes) {
-	          console.log("PlannedTime: ",PlannedTime," drivingTimeMinutes: ",drivingTimeMinutes)
-		  const arrivalDate = new Date(PlannedTime + (drivingTimeMinutes * 60 * 1000));
+	          // Split the planned time into hours and minutes
+		  const [hours, minutes] = PlannedTime.split(':').map(Number);
 		
-		  const hours = String(arrivalDate.getHours()).padStart(2, '0');
-		  const minutes = String(arrivalDate.getMinutes()).padStart(2, '0');
+		  // Add the driving time in minutes to the planned time
+		  const totalMinutes = minutes + drivingTimeMinutes;
+		  const arrivalHours = hours + Math.floor(totalMinutes / 60);
+		  const arrivalMinutes = totalMinutes % 60;
 		
-		  return `${hours}:${minutes}`;
+		  // Format the arrival time as a string
+		  const arrivalTimeString = `${arrivalHours.toString().padStart(2, '0')}:${arrivalMinutes.toString().padStart(2, '0')}`;
+		  return arrivalTimeString;
 		}
 		
 	    function getNearestDeptTime() {
