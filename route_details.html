@@ -441,7 +441,7 @@
 		     
 		  // Add the driving time in minutes to the planned time
 		  const totalMinutes = minutes + drivingTimeMinutes;
-		  const arrivalHours = hours + Math.floor(totalMinutes / 60);
+		  const arrivalHours = adjustedHours + Math.floor(totalMinutes / 60);
 		  const arrivalMinutes = totalMinutes % 60;
 		
 		  // Format the arrival time as a string
