@@ -430,9 +430,10 @@
 		}
 
 	     function getArrivalTimeUDT(timeString,drivingTimeMinutes) {
-		     console.log("timeString: ",timeString," drivingTimeMinutes: ",drivingTimeMinutes)
+		     const trimmedTimeString = timeString.trim();
+		     console.log("trimmedTimeString: ",trimmedTimeString," drivingTimeMinutes: ",drivingTimeMinutes)
 		  // Parse the time string
-		  const [timeParts, ampm] = timeString.split(' ');
+		  const [timeParts, ampm] = trimmedTimeString.split(' ');
 		  const [hours, minutes, seconds] = timeParts.split(':').map(Number);
 				
 		  // Add the driving time in minutes to the planned time
@@ -601,21 +602,6 @@
 	goBackButton.addEventListener('click', () => {
 	  window.history.back();
 	});
-
-function extractHourMinute(dateTimeString) {
-  // Parse the date and time string
-  const dateTime = new Date(dateTimeString);
-
-  // Get the hour and minute
-  const hours = dateTime.getHours();
-  const minutes = dateTime.getMinutes();
-
-  // Format the hour and minute as a string with leading zeros
-  const hourMinuteString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-
-  return hourMinuteString;
-}
-
 
     
  
