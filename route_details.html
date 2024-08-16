@@ -227,13 +227,13 @@
 			second: "2-digit"
 		  });
 	    const busDateObj = new Date(Date.parse(busDate));
-	    let isTodayBus = false;
-	    const currentDate = new Date();
-		  console.log("Today: ",currentDate)
-		if (busDateObj === currentDate) {
-			console.log("Comparing Date: ",busDateObj)
-			isTodayBus = true;
-		}
+//	    let isTodayBus = false;
+//	    const currentDate = new Date();
+//		  console.log("Today: ",currentDate)
+//		  console.log("Comparing Date: ",busDateObj)
+//		if (busDateObj === currentDate) {
+//			isTodayBus = true;
+//		}
 		  
 		// check if last_update is within 30min. If not we will not show on the map
 		function isLastUpdateWithinMinutes(lastudt, currentDateTime) {
@@ -255,7 +255,8 @@
 		  return timeDiffMinutes <= threshold;
 		}
 	  console.log("Comparing with: ",route)
-	  if (route === routeInquiry && isTodayBus && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+//	  if (route === routeInquiry && isTodayBus && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y,lastudt_time,at_stop });
 	  	console.log(matchedRecords)
