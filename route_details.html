@@ -288,6 +288,7 @@
 	    let drivingTimeInfo = '';
 	    let closestBus = null;
 	      for (let i = 0; i < stopLocations.length; i++) {
+	        let useBusLocThisStop = false;
 		console.log("Now Station: ",stopLocations[i].name)      
 	        const row = document.createElement('tr');
 		const timeCell = document.createElement('td');
@@ -305,6 +306,7 @@
 		      	console.log("IF 1");
 			console.log(matchedRecords[j]);
 		      	useBusLoc = true;
+		        useBusLocThisStop = true;
 			
 			// Extract from getDrivingTime
 			      const fromLat = matchedRecords[j].X
@@ -343,7 +345,7 @@
 		      }
 		    } // end of for loop j
 
-			if (useBusLoc===false){
+			if (useBusLocThisStop===false){
 				console.log("IF 2");
 	
 				// Extract from getDrivingTime
@@ -381,7 +383,7 @@
 			      
 			//newMins = await getDrivingTime(matchedRecords[j].X, matchedRecords[j].Y, stopLocations[i].x, stopLocations[i].y);
 			newMins = drivingTime
-			      console.log("newMins ",newMins)
+			      console.log("IF2 newMins ",newMins)
 			accuMins += parseFloat(newMins)    
 			console.log("IF2 accuMins",accuMins)
 	    } // end of useBusLoc if
