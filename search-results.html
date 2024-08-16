@@ -345,8 +345,7 @@
 	  const bookButton = document.getElementById('book-button');
 	  bookButton.addEventListener('click', function() {
 	  	
-		getBookingCount();
-
+	
 		  
 		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec';
 		const form = document.querySelector('#form');
@@ -361,6 +360,9 @@
 		const midstops = document.getElementById('midstops-selector').value;
 		//const idfff = document.getElementById('idf').value;
 
+		getBookingCount(idff,formattedDate,selectedTime);
+
+		  
 		const queryParams = new URLSearchParams({
 		  username: username,
 		  phone:phone,
@@ -422,7 +424,7 @@
 
 // ------------------------------------------------------------------------
 	
-    async function getBookingCount() {
+    async function getBookingCount(matchedRouteId,dateg,timeg) {
 		
 		// get count from bookings
 		const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxjHHSDdcYUEZMbCzUF_yov6p3Ur1nEdkGbMtaNrco6O8dQG5WLtM7YxloG8rbsZH--9J75SJWyrzR/pub?output=csv';
@@ -444,7 +446,7 @@
 		    	const paxdate = matchedRowValues[headers.indexOf('date')];
 		    	const paxtime = matchedRowValues[headers.indexOf('time')];
 		    	console.log("Now compare: ", paxRouteID,paxdate, paxtime)  
-			if (paxRouteID === matchedRouteId && date === paxdate && time === paxtime) {
+			if (paxRouteID === matchedRouteId && dateg === paxdate && timeg === paxtime) {
 			      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
 			      console.log("pax found. count: ",paxcount)
 			      bookedPaxCount = parseInt(bookedPaxCount) + parseInt(paxcount)
