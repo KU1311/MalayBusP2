@@ -395,13 +395,13 @@
 		    
 		    
 			
-		timeCell.textContent = drivingTimeInfo; 
 		    } // end of for loop j
 
 
+		timeCell.textContent = drivingTimeInfo; 
 		try {     
 			
-			if (accuMins !== null) {
+			if (closestBus !== null) {
 			  console.log("drivingTime: ",accuMins)
 			  const drivingTimeMinutes = Math.floor(accuMins / 60);
 			  console.log("drivingTimeMinutes ",drivingTimeMinutes)
@@ -410,7 +410,14 @@
 			  drivingTimeInfo = `${eta_this}`;
 			  console.log("drivingTimeInfo ",drivingTimeInfo)
 			} else {
-			  drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
+			  console.log("no closest bus")
+			  console.log("drivingTime: ",accuMins)
+			  const drivingTimeMinutes = Math.floor(accuMins / 60);
+			  console.log("drivingTimeMinutes ",drivingTimeMinutes)
+			  const eta_this = getArrivalTimeETA(getNearestDeptTime(),drivingTimeMinutes)
+			  console.log("eta_this ",eta_this)
+			  drivingTimeInfo = `${eta_this}`;
+			  console.log("drivingTimeInfo ",drivingTimeInfo)
 			}
 	      } catch (error) {
 		      console.error('Error:', error);
@@ -431,7 +438,16 @@
 		
 		  return `${hours}:${minutes}`;
 		}
-	
+
+	     function getArrivalTimeETA(PlannedTime,drivingTimeMinutes) {
+		  const arrivalDate = new Date(PlannedTime + (drivingTimeMinutes * 60 * 1000));
+		
+		  const hours = String(arrivalDate.getHours()).padStart(2, '0');
+		  const minutes = String(arrivalDate.getMinutes()).padStart(2, '0');
+		
+		  return `${hours}:${minutes}`;
+		}
+		
 	    function getNearestDeptTime() {
 	      const now = new Date();
 	      const currenttime =  `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
