@@ -408,20 +408,41 @@
 		const passengers = document.getElementById('passengers-selector').value;
 		const midstops = document.getElementById('midstops-selector').value;
 		//const idfff = document.getElementById('idf').value;
-		  
-		function loadBooking() {
-	  		return getBookingCount(matchedRouteId,formattedDate,selectedTime)
-			.then((bookCount) => {
-			      // Use the bookedCount value here
-			      console.log('11 Booked Count:', bookCount);
-			      return bookCount;
-			    })
-		}
+
+		//getBookingCount(matchedRouteId,formattedDate,selectedTime)
+		// function getBookingCount
+			let bookedPaxCount = 0;
+			// get count from bookings
+			const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxjHHSDdcYUEZMbCzUF_yov6p3Ur1nEdkGbMtaNrco6O8dQG5WLtM7YxloG8rbsZH--9J75SJWyrzR/pub?output=csv';
+			console.log("bookings lookup check")
+			fetch(sheetUrl)
+			  .then(response => response.text())
+			  .then(data => {
+			    console.log("lookup responsed")
+			    // Parse the CSV data
+			    const rows = data.trim().split('\n');
+			    const headers = rows[0].split(',').map(header => header.replace('\r', ''));
+			    const dataRows = rows.slice(1);
+			console.log("To compare: ", matchedRouteId,dateg, timeg)
+			    for (let i = 0; i < dataRows.length; i++) {
+			    	const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
+				const paxRouteID = matchedRowValues[headers.indexOf('id')];
+				const paxRoutePickup = matchedRowValues[headers.indexOf('pickup')];
+				const paxRouteDropoff = matchedRowValues[headers.indexOf('dropoff')];
+			    	const paxdate = matchedRowValues[headers.indexOf('date')];
+			    	const paxtime = matchedRowValues[headers.indexOf('time')];
+			    	console.log("Now compare: ", paxRouteID,paxdate, paxtime)  
+				if (paxRouteID === matchedRouteId && formattedDate === paxdate && selectedTime === paxtime) {
+				      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
+				      console.log("pax found. count: ",paxcount)
+				      bookedPaxCount = parseInt(bookedPaxCount) + parseInt(paxcount)
+				}
+			    }	
+			console.log("bookedPaxCount: ",bookedPaxCount)  
 		
 
-		loadBooking()
-		  .then((bookedCount) => {
-		    console.log('22 Booked Count:', bookedCount);
+		// end of function getBookingCount  
+
 
 		    console.log("matchedQuota ",matchedQuota)
 			console.log("passengers ",passengers)
@@ -429,10 +450,15 @@
 			    const fullBookingPopup = document.getElementById('fullBookingPopup');
 			    const closeButton = document.getElementById('closeButton');
 			console.log("++ ",passengers + bookedCount)
-			if (matchedQuota < passengers + bookedCount){
+			const pax = Parsefloat(passengers)
+			const bkcount = Parsefloat(bookedCount)
+			const quo = Parsefloat(matchedQuota)
+			if (quo < pax + bkcount){
 				// Show the full booking popup
 			      fullBookingPopup.style.display = 'block';
-	
+				console.log("FULL")
+
+				
 			closeButton.addEventListener('click', () => {
 			      // Hide the full booking popup
 			      fullBookingPopup.style.display = 'none';
@@ -490,14 +516,10 @@
 			
 			//window.location.href = `boarding.html?${queryParams.toString()}`;
 
-			  
-		  })
-		  .catch((error) => {
-		    console.error('Error:', error);
-		  });
+
 		
 		
-	  
+	    })
 				      
 	})  // book button listener end
 	} 
