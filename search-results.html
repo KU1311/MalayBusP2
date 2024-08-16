@@ -246,12 +246,13 @@
     </div>
   </div>
 	
-<div id="fullBookingPopup" class="popup">
-    <div class="popup-content">
+<div id="fullBookingModal" class="modal">
+    <div class="modal-content">
       <p>Sorry, the booking is full. Please try another timeslot.</p>
       <button id="closeButton">Close</button>
     </div>
   </div>
+
 <script>
 
 	// Switch Tabs
@@ -479,7 +480,8 @@
 		        console.log("++ ",pax + bkcount)
 			if (quo < pax + bkcount){
 				// Show the full booking popup
-			      fullBookingPopup.style.display = 'block';
+	      			fullBookingModal.style.display = 'block';
+				
 				console.log("FULL")
 
 				
