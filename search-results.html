@@ -409,13 +409,19 @@
 		const midstops = document.getElementById('midstops-selector').value;
 		//const idfff = document.getElementById('idf').value;
 		  
-		async function loadBooking() {
-	  		const bookedCount = await getBookingCount(matchedRouteId,formattedDate,selectedTime);
-			return bookedCount;
+		function loadBooking() {
+	  		return getBookingCount(matchedRouteId,formattedDate,selectedTime)
+			.then((bookCount) => {
+			      // Use the bookedCount value here
+			      console.log('11 Booked Count:', bookCount);
+			      return bookCount;
+			    })
 		}
+		
+
 		loadBooking()
 		  .then((bookedCount) => {
-		    console.log('Booked Count:', bookedCount);
+		    console.log('22 Booked Count:', bookedCount);
 
 		    console.log("matchedQuota ",matchedQuota)
 			console.log("passengers ",passengers)
