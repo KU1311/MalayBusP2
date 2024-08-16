@@ -391,27 +391,30 @@
 
 			  }
 			    
-			try {     
-			        
-				if (accuMins !== null) {
-			          console.log("drivingTime: ",accuMins)
-			          const drivingTimeMinutes = Math.floor(accuMins / 60);
-			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
-				  const eta_this = getArrivalTime(drivingTimeMinutes)
-			          console.log("eta_this ",eta_this)
-			          drivingTimeInfo = `${eta_this}`;
-			          console.log("drivingTimeInfo ",drivingTimeInfo)
-			        } else {
-			          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
-				}
-		      } catch (error) {
-			      console.error('Error:', error);
-			    }
+			
 		    
 		    
 			
 		timeCell.textContent = drivingTimeInfo; 
 		    } // end of for loop j
+
+
+		try {     
+			
+			if (accuMins !== null) {
+			  console.log("drivingTime: ",accuMins)
+			  const drivingTimeMinutes = Math.floor(accuMins / 60);
+			  console.log("drivingTimeMinutes ",drivingTimeMinutes)
+			  const eta_this = getArrivalTime(drivingTimeMinutes)
+			  console.log("eta_this ",eta_this)
+			  drivingTimeInfo = `${eta_this}`;
+			  console.log("drivingTimeInfo ",drivingTimeInfo)
+			} else {
+			  drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
+			}
+	      } catch (error) {
+		      console.error('Error:', error);
+		    }
 	    } // end of else
 		     
 		row.appendChild(timeCell);
