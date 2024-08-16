@@ -78,6 +78,26 @@
       100% { transform: rotate(360deg); }
     }
 
+   .popup {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .popup-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%;
+      text-align: center;
+    }
 	  
     button {
       display: block;
@@ -91,26 +111,7 @@
       font-size: 1rem;
     }
 
-	.popup {
-	      display: none;
-	      position: fixed;
-	      z-index: 1;
-	      left: 0;
-	      top: 0;
-	      width: 100%;
-	      height: 100%;
-	      overflow: auto;
-	      background-color: rgba(0, 0, 0, 0.4);
-	    }
 	
-	    .popup-content {
-	      background-color: #fefefe;
-	      margin: 15% auto;
-	      padding: 20px;
-	      border: 1px solid #888;
-	      width: 30%;
-	      text-align: center;
-	    }
 		  
   	.switch-tabs {
 	  display: flex;
@@ -244,6 +245,7 @@
       <p>Loading...</p>
     </div>
   </div>
+	
 <div id="fullBookingPopup" class="popup">
     <div class="popup-content">
       <p>Sorry, the booking is full. Please try another timeslot.</p>
