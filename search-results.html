@@ -275,6 +275,8 @@
 </script>
 <script type="module">
     import { getRoutes } from './routes.js';
+      let matchedRouteId;
+      let matchedQuota;
 
     async function displayFrequencyDetails() {
       const routes = await getRoutes();
@@ -295,8 +297,6 @@
       const midsStopsSelector = document.getElementById('midstops-selector');
 
       let foundMatch = false;
-      let matchedRouteId;
-      let matchedQuota;
       let matchedDepartureTimes = [];
       let matchedMidstops = [];
       routes.forEach(route => {
