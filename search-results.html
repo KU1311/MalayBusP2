@@ -449,10 +449,11 @@
 			    const bookButton = document.getElementById('bookButton');
 			    const fullBookingPopup = document.getElementById('fullBookingPopup');
 			    const closeButton = document.getElementById('closeButton');
-			console.log("++ ",passengers + bookedPaxCount)
+			
 			const pax = Parsefloat(passengers)
 			const bkcount = Parsefloat(bookedCount)
 			const quo = Parsefloat(matchedQuota)
+		        console.log("++ ",pax + bkcount)
 			if (quo < pax + bkcount){
 				// Show the full booking popup
 			      fullBookingPopup.style.display = 'block';
