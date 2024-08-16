@@ -285,7 +285,8 @@
 	    const tableBody = stopLocationTable.getElementsByTagName('tbody')[0];
 	    let useBusLoc = false;
 	    let totalDrivingTime = 0;
-	      let drivingTimeInfo = '';
+	    let drivingTimeInfo = '';
+	    let closestBus = null;
 	      for (let i = 0; i < stopLocations.length; i++) {
 		console.log("Now Station: ",stopLocations[i].name)      
 	        const row = document.createElement('tr');
@@ -296,7 +297,6 @@
 		if (i === 0) {
 			timeCell.textContent = getNearestDeptTime();
 		} else {
-		    let closestBus = null;
 		    let closestIndex = -1;
 		    let newMins;
 		    for (let j = 0; j < matchedRecords.length; j++) {
