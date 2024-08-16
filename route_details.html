@@ -298,8 +298,9 @@
 		} else {
 		    let closestBus = null;
 		    let closestIndex = -1;
+		    let newMins;
 		    for (let j = 0; j < matchedRecords.length; j++) {
-		      let newMins;
+		      
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
 		      	console.log("IF 1");
 			console.log(matchedRecords[j]);
