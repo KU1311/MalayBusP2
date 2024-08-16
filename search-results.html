@@ -450,9 +450,9 @@
 			    const fullBookingPopup = document.getElementById('fullBookingPopup');
 			    const closeButton = document.getElementById('closeButton');
 			
-			const pax = Parsefloat(passengers)
-			const bkcount = Parsefloat(bookedCount)
-			const quo = Parsefloat(matchedQuota)
+			const pax = parseFloat(passengers)
+			const bkcount = parseFloat(bookedCount)
+			const quo = parseFloat(matchedQuota)
 		        console.log("++ ",pax + bkcount)
 			if (quo < pax + bkcount){
 				// Show the full booking popup
