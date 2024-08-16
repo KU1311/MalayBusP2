@@ -298,7 +298,6 @@
 		} else {
 		    let closestBus = null;
 		    let closestIndex = -1;
-		    
 		    for (let j = 0; j < matchedRecords.length; j++) {
 		      let newMins;
 		      if (matchedRecords[j].at_stop === stopLocations[i].name) {
@@ -341,14 +340,13 @@
 			console.log("IF1 accuMins",accuMins)
 		        closestBus = matchedRecords[j]; // This is the highest priority
 		        break;
-		      } else {
-			console.log("IF 2");
-		        console.log(matchedRecords[j]);
-		        closestBus = matchedRecords[j];
-		        closestIndex = i;
+		      }
+		    } // end of for loop j
 
-
-			// Extract from getDrivingTime
+			if (useBusLoc===false){
+				console.log("IF 2");
+	
+				// Extract from getDrivingTime
 			      const fromLat = stopLocations[i-1].x
 			      const fromLon = stopLocations[i-1].y
 			      const toLat = stopLocations[i].x
@@ -389,13 +387,11 @@
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
 
-			  }
-		    } // end of for loop j
 
 
 		try {     
 			
-			if (closestBus !== null) {
+			if (closestBus !== null) {	
 			  console.log("drivingTime: ",accuMins)
 			  const drivingTimeMinutes = Math.floor(accuMins / 60);
 			  console.log("drivingTimeMinutes ",drivingTimeMinutes)
@@ -416,9 +412,10 @@
 	      } catch (error) {
 		      drivingTimeInfo = "error";
 		    }
-	    } // end of else
-		
-		timeCell.textContent = drivingTimeInfo;      
+			
+		timeCell.textContent = drivingTimeInfo;  
+	    } // end of useBusLoc if
+		    
 		row.appendChild(timeCell);
 		tableBody.appendChild(row);
 	      } // end of for loop i
