@@ -444,7 +444,7 @@
 		    	const paxdate = matchedRowValues[headers.indexOf('date')];
 		    	const paxtime = matchedRowValues[headers.indexOf('time')];
 		    	console.log("Now compare: ", paxRouteID,paxdate, paxtime)  
-			if (paxRouteID === prouteId && date === paxdate && time === paxtime) {
+			if (paxRouteID === matchedRouteId && date === paxdate && time === paxtime) {
 			      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
 			      console.log("pax found. count: ",paxcount)
 			      bookedPaxCount = parseInt(bookedPaxCount) + parseInt(paxcount)
