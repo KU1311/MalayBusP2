@@ -276,14 +276,14 @@
 	    let useBusLoc = false;
 	    let totalDrivingTime = 0;
 	      let drivingTimeInfo = '';
-	      for (let i = 1; i < stopLocations.length; i++) {
+	      for (let i = 0; i < stopLocations.length; i++) {
 		      
 	        const row = document.createElement('tr');
 		const timeCell = document.createElement('td');
 	        const locationCell = document.createElement('td');
 	        locationCell.textContent = stopLocations[i].name;
 	        row.appendChild(locationCell);
-		if (i === 1) {
+		if (i === 0) {
 			timeCell.textContent = getNearestDeptTime();
 		} else {
 		    let closestBus = null;
@@ -328,8 +328,10 @@
 			      
 		        newMins = drivingTime;
 			accuMins = newMins
+			console.log("IF1 accuMins",accuMins)
 		        closestBus = matchedRecords[j]; // This is the highest priority
-		      } else if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
+		        break;
+		      } else {
 			console.log("IF 2");
 		        console.log(matchedRecords[j]);
 		        closestBus = matchedRecords[j];
@@ -372,8 +374,8 @@
 			//newMins = await getDrivingTime(matchedRecords[j].X, matchedRecords[j].Y, stopLocations[i].x, stopLocations[i].y);
 			newMins = drivingTime
 			      console.log("newMins ",newMins)
-			accuMins += newMins      
-		
+			accuMins += parseFloat(newMins)    
+			console.log("IF2 accuMins",accuMins)
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
 
