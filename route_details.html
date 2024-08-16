@@ -295,8 +295,12 @@
 		      	console.log("IF 1");
 			console.log(matchedRecords[j]);
 		      	useBusLoc = true;
-
+			
 			// Extract from getDrivingTime
+			      const fromLat = matchedRecords[j].X
+			      const fromLon = matchedRecords[j].Y
+			      const toLat = stopLocations[i].x
+			      const toLon = stopLocations[i].y
 			      const fromLatA = parseFloat(fromLat.toString().replace('\r', ''))
 			      const fromLonA = parseFloat(fromLon.toString().replace('\r', ''))
 			      const toLatA = parseFloat(toLat.toString().replace('\r', ''))
@@ -333,6 +337,10 @@
 
 
 			// Extract from getDrivingTime
+			      const fromLat = stopLocations[i-1].x
+			      const fromLon = stopLocations[i-1].y
+			      const toLat = stopLocations[i].x
+			      const toLon = stopLocations[i].y
 			      const fromLatA = parseFloat(fromLat.toString().replace('\r', ''))
 			      const fromLonA = parseFloat(fromLon.toString().replace('\r', ''))
 			      const toLatA = parseFloat(toLat.toString().replace('\r', ''))
