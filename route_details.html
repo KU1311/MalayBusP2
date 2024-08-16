@@ -277,7 +277,7 @@
 	    let totalDrivingTime = 0;
 	      let drivingTimeInfo = '';
 	      for (let i = 0; i < stopLocations.length; i++) {
-		      
+		console.log("Now Station: ",stopLocations[i].name)      
 	        const row = document.createElement('tr');
 		const timeCell = document.createElement('td');
 	        const locationCell = document.createElement('td');
@@ -390,7 +390,7 @@
 			          console.log("drivingTimeMinutes ",drivingTimeMinutes)
 				  const eta_this = getArrivalTime(drivingTimeMinutes)
 			          console.log("eta_this ",eta_this)
-			          drivingTimeInfo += `${eta_this}`;
+			          drivingTimeInfo = `${eta_this}`;
 			          console.log("drivingTimeInfo ",drivingTimeInfo)
 			        } else {
 			          drivingTimeInfo += `Error fetching driving time from ${fromLocation.name} to ${toLocation.name}\n`;
