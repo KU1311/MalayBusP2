@@ -325,9 +325,7 @@
 		        newMins = drivingTime;
 			accuMins = newMins
 		        closestBus = matchedRecords[j]; // This is the highest priority
-		      }
-		
-		      if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
+		      } else if (closestIndex === -1 || matchedRecords[j].at_stop === stopLocations[closestIndex]) {
 			console.log("IF 2");
 		        console.log(matchedRecords[j]);
 		        closestBus = matchedRecords[j];
@@ -371,14 +369,8 @@
 		        closestBus = matchedRecords[j];
 		        closestIndex = i;
 
-			  })
-		  .catch(error => {
-		    console.error('Error fetching driving time:', error);
-		    //return null;
-		  });
-		      }
-		    }
-		
+			  }
+			    
 		    if (closestBus !== null) {
 			try {     
 			        
@@ -400,11 +392,13 @@
 		    }
 			
 		timeCell.textContent = drivingTimeInfo; 
-		}
+		    } // end of for loop j
+	    } // end of else
 		     
 		row.appendChild(timeCell);
 		tableBody.appendChild(row);
-	    } 
+	      } // end of for loop i
+      } // end of function
 		
 	    function getArrivalTime(drivingTimeMinutes) {
 		  const currentDate = new Date();
@@ -463,8 +457,8 @@
 		    return null;
 		  });
 		}
-
-	}
+	
+	} // end of etaTable function
 	etaTable();
 
 	})	
