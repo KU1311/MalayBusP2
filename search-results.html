@@ -42,6 +42,43 @@
       border-radius: 4px;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%;
+      text-align: center;
+    }
+
+    /* Loading spinner styles */
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+	  
     button {
       display: block;
       width: 100%;
@@ -180,7 +217,18 @@
       </form>
     </div>
   </div>
-
+ <div id="loadingModal" class="modal">
+    <div class="modal-content">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+<div id="fullBookingPopup" class="popup">
+    <div class="popup-content">
+      <p>Sorry, the booking is full. Please try another timeslot.</p>
+      <button id="closeButton">Close</button>
+    </div>
+  </div>
 <script>
 
 	// Switch Tabs
@@ -345,7 +393,8 @@
 	  const bookButton = document.getElementById('book-button');
 	  bookButton.addEventListener('click', function() {
 	  	
-	
+		// Show the loading modal
+	      loadingModal.style.display = 'block';
 		  
 		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOc90Su0hgwxN7tKC5IRmU0kFr6K38uQcZkxQfY6sMuGAcTyVPuIuCcEI9j1y961YAKw/exec';
 		const form = document.querySelector('#form');
@@ -359,9 +408,26 @@
 		const passengers = document.getElementById('passengers-selector').value;
 		const midstops = document.getElementById('midstops-selector').value;
 		//const idfff = document.getElementById('idf').value;
-		console.log("matchedRouteId ",matchedRouteId)
-		getBookingCount(matchedRouteId,formattedDate,selectedTime);
+		
+		const bookedCount = getBookingCount(matchedRouteId,formattedDate,selectedTime);
+		console.log("bookedCount ",bookedCount)
+		console.log("matchedQuota ",matchedQuota)
+		console.log("passengers ",passengers)
+		    const bookButton = document.getElementById('bookButton');
+		    const fullBookingPopup = document.getElementById('fullBookingPopup');
+		    const closeButton = document.getElementById('closeButton');
+		console.log("++ ",passengers + bookedCount)
+		if (matchedQuota < passengers + bookedCount){
+			// Show the full booking popup
+		      fullBookingPopup.style.display = 'block';
 
+		closeButton.addEventListener('click', () => {
+		      // Hide the full booking popup
+		      fullBookingPopup.style.display = 'none';
+		    });  
+		}
+		   
+		
 		  
 		const queryParams = new URLSearchParams({
 		  username: username,
