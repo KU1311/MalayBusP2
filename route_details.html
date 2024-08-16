@@ -209,6 +209,7 @@
 	    const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
 		  console.log("matchedRowValues: ", matchedRowValues)
 	    const route = matchedRowValues[headers.indexOf('Route')];
+	    const busDate = matchedRowValues[headers.indexOf('Date')];
 	    const lastudt_date = matchedRowValues[headers.indexOf('last_update')];
 	    const lastudt_time = matchedRowValues[headers.indexOf('last_update')+1];
 	    const lastudt = lastudt_date + "," + lastudt_time
@@ -225,7 +226,13 @@
 			minute: "2-digit",
 			second: "2-digit"
 		  });
-	
+	    const busDateObj = new Date(Date.parse(busDate));
+	    let isTodayBus = false;
+	    const currentDate = new Date();
+		if (busDateObj === currentDate) {
+			isTodayBus = true;
+		}
+		  
 		// check if last_update is within 30min. If not we will not show on the map
 		function isLastUpdateWithinMinutes(lastudt, currentDateTime) {
 		  //console.log("Matching time: ",lastudt," VS ", currentDateTime)
@@ -246,7 +253,7 @@
 		  return timeDiffMinutes <= threshold;
 		}
 	  console.log("Comparing with: ",route)
-	  if (route === routeInquiry && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
+	  if (route === routeInquiry && isTodayBus && isLastUpdateWithinMinutes(lastudt, currentDateTime)) {
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y,lastudt_time,at_stop });
 	  	console.log(matchedRecords)
