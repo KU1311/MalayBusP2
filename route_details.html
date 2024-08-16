@@ -430,6 +430,7 @@
 		}
 
 	     function getArrivalTimeUDT(timeString,drivingTimeMinutes) {
+		     console.log("timeString: ",timeString," drivingTimeMinutes: ",drivingTimeMinutes)
 		  // Parse the time string
 		  const [timeParts, ampm] = timeString.split(' ');
 		  const [hours, minutes, seconds] = timeParts.split(':').map(Number);
