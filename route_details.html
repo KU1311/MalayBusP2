@@ -229,7 +229,9 @@
 	    const busDateObj = new Date(Date.parse(busDate));
 	    let isTodayBus = false;
 	    const currentDate = new Date();
+		  console.log("Today: ",currentDate)
 		if (busDateObj === currentDate) {
+			console.log("Comparing Date: ",busDateObj)
 			isTodayBus = true;
 		}
 		  
