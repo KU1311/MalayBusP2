@@ -390,15 +390,9 @@
 		        closestIndex = i;
 
 			  }
-			    
-			
-		    
-		    
-			
 		    } // end of for loop j
 
 
-		timeCell.textContent = drivingTimeInfo; 
 		try {     
 			
 			if (closestBus !== null) {
@@ -414,16 +408,17 @@
 			  console.log("drivingTime: ",accuMins)
 			  const drivingTimeMinutes = Math.floor(accuMins / 60);
 			  console.log("drivingTimeMinutes ",drivingTimeMinutes)
-			  const eta_this = getArrivalTimeETA(getNearestDeptTime(),drivingTimeMinutes)
-			  console.log("eta_this ",eta_this)
-			  drivingTimeInfo = `${eta_this}`;
+			  const eta_thisB = getArrivalTimeETA(getNearestDeptTime(),drivingTimeMinutes)
+			  console.log("eta_thisB ",eta_thisB)
+			  drivingTimeInfo = `${eta_thisB}`;
 			  console.log("drivingTimeInfo ",drivingTimeInfo)
 			}
 	      } catch (error) {
-		      console.error('Error:', error);
+		      drivingTimeInfo = "error";
 		    }
 	    } // end of else
-		     
+		
+		timeCell.textContent = drivingTimeInfo;      
 		row.appendChild(timeCell);
 		tableBody.appendChild(row);
 	      } // end of for loop i
@@ -440,6 +435,7 @@
 		}
 
 	     function getArrivalTimeETA(PlannedTime,drivingTimeMinutes) {
+	          console.log("PlannedTime: ",PlannedTime," drivingTimeMinutes: ",drivingTimeMinutes)
 		  const arrivalDate = new Date(PlannedTime + (drivingTimeMinutes * 60 * 1000));
 		
 		  const hours = String(arrivalDate.getHours()).padStart(2, '0');
