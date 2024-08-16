@@ -296,12 +296,14 @@
 
       let foundMatch = false;
       let matchedRouteId;
+      let matchedQuota;
       let matchedDepartureTimes = [];
       let matchedMidstops = [];
       routes.forEach(route => {
         if (route.From === pickupLocation && route.To === dropoffLocation) {
           foundMatch = true;
           matchedRouteId = route.id;
+	  matchedQuota = route.Quota;
           frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
           frequencyMinutesElement.textContent = `${route.departureFrequency.minutes}`;
           // Split the departure times by semicolon and trim the values
@@ -414,9 +416,43 @@
     }
 
     displayFrequencyDetails();
+
+// ------------------------------------------------------------------------
 	
-
-
+    async function getBookingCount() {
+		
+		// get count from bookings
+		const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxjHHSDdcYUEZMbCzUF_yov6p3Ur1nEdkGbMtaNrco6O8dQG5WLtM7YxloG8rbsZH--9J75SJWyrzR/pub?output=csv';
+		console.log("bookings lookup check")
+		fetch(sheetUrl)
+		  .then(response => response.text())
+		  .then(data => {
+		    console.log("lookup responsed")
+		    // Parse the CSV data
+		    const rows = data.trim().split('\n');
+		    const headers = rows[0].split(',').map(header => header.replace('\r', ''));
+		    const dataRows = rows.slice(1);
+		    for (let i = 0; i < dataRows.length; i++) {
+		    	const matchedRowValues = dataRows[i].split(',').map(data => data.replace('\r', '').replace('"', ''));  
+			    console.log("matchedRowValues: ",matchedRowValues)
+			const paxRouteID = matchedRowValues[headers.indexOf('id')];
+			const paxRoutePickup = matchedRowValues[headers.indexOf('pickup')];
+			const paxRouteDropoff = matchedRowValues[headers.indexOf('dropoff')];
+		    	const paxdate = matchedRowValues[headers.indexOf('date')];
+		    	const paxtime = matchedRowValues[headers.indexOf('time')];
+		    	console.log("Now compare: ", paxRouteID,paxdate, paxtime)  
+			if (paxRouteID === prouteId && date === paxdate && time === paxtime) {
+			      const paxcount = Number(matchedRowValues[headers.indexOf('passengers')]);
+			      console.log("pax found. count: ",paxcount)
+			      bookedPaxCount = parseInt(bookedPaxCount) + parseInt(paxcount)
+				console.log("Acc count: ",bookedPaxCount)
+		    		
+			}
+		    }	
+		console.log("bookedPaxCount: ",bookedPaxCount)  
+		  })
+    }
+getBookingCount();
 
 </script>
 
