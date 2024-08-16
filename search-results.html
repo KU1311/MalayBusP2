@@ -391,7 +391,7 @@
 		
 		// Add a click event listener to the "BOOK" button
 	  const bookButton = document.getElementById('book-button');
-	  bookButton.addEventListener('click', function() {
+	  bookButton.addEventListener('click', async function() {
 	  	
 		// Show the loading modal
 	      loadingModal.style.display = 'block';
@@ -409,7 +409,7 @@
 		const midstops = document.getElementById('midstops-selector').value;
 		//const idfff = document.getElementById('idf').value;
 		
-		const bookedCount = getBookingCount(matchedRouteId,formattedDate,selectedTime);
+		const bookedCount = await getBookingCount(matchedRouteId,formattedDate,selectedTime);
 		console.log("bookedCount ",bookedCount)
 		console.log("matchedQuota ",matchedQuota)
 		console.log("passengers ",passengers)
