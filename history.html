@@ -410,7 +410,6 @@ async function displayHistory() {
 			  ConfirmButton.addEventListener("click", function() {  
 			     ConfirmButton.textContent = "Loading...";
 			     CancelBooking(CancelformData);
-			     confirmmodal.style.display = "none";
 			  })
 			
 			  cancelconfirmbutton.addEventListener("click", function() {  
@@ -446,6 +445,7 @@ async function displayHistory() {
 					modal.style.display = "block";
 					  modalCloseButton.addEventListener("click", function() {  
 					     modal.style.display = "none";
+			    		     confirmmodal.style.display = "none";
 					     location.reload(true);  
 					  })
 				  } else {
