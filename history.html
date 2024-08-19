@@ -402,7 +402,6 @@ async function displayHistory() {
 			CancelformData.append('check', "");
 			CancelformData.append('rowIndex', item.rowIndex)
 
-		    var confirmmodal = document.getElementById("confirmModal");
 		    const ConfirmButton = document.getElementById('ConfirmButton');
 		    const cancelconfirmbutton = document.getElementById('CancelConfirmButton');
 		    confirmmodal.style.display = "block";
@@ -441,6 +440,7 @@ async function displayHistory() {
 				  if (response.ok) {
 				    console.log('Booking cancelled');
 				    var modal = document.getElementById("myModal");
+		    		    var confirmmodal = document.getElementById("confirmModal");
 				    const modalCloseButton = document.getElementById('closeModalButton');
 					modal.style.display = "block";
 					  modalCloseButton.addEventListener("click", function() {  
