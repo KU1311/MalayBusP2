@@ -407,7 +407,7 @@ async function displayHistory() {
 					  modalCloseButton.addEventListener("click", function() {  
 					     modal.style.display = "none";
 					     location.reload(true);  
-					  }
+					  })
 				  } else {
 				    response.json().then(data => {
 				      console.error('Error updating data:', data.error);
