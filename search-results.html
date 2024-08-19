@@ -477,7 +477,7 @@
 			const pax = parseFloat(passengers)
 			const bkcount = parseFloat(bookedPaxCount)
 			const quo = parseFloat(matchedQuota)
-		        console.log("++ ",pax + bkcount)
+		        console.log("now subtotal ",pax + bkcount)
 			if (quo < pax + bkcount){
 				// Show the full booking popup
 	      			fullBookingModal.style.display = 'block';
@@ -487,65 +487,67 @@
 				
 			closeButton.addEventListener('click', () => {
 			      // Hide the full booking popup
-			      fullBookingPopup.style.display = 'none';
+			      fullBookingModal.style.display = 'none';
 			    });  
 			}
+			  else {
 			   
 			
 			  
-			const queryParams = new URLSearchParams({
-			  username: username,
-			  phone:phone,
-			  id: matchedRouteId,
-			  pickup: pickupLocation,
-	          	  dropoff: dropoffLocation,
-			  midstops: midstops,
-			  date: formattedDate,
-			  time: selectedTime,
-			  passengers: passengers
-			});
-			
-			
-			  const formData = new FormData();
-			  formData.append('username', username);
-			  formData.append('phone', phone); // Replace with actual phone number
-			  formData.append('id', matchedRouteId); // Replace with actual ID
-			  formData.append('pickup', pickupLocation); // Replace with actual pickup location
-			  formData.append('dropoff', dropoffLocation); // Replace with actual dropoff location
-			  formData.append('midstops', midstops); // Replace with actual midstops
-			  formData.append('date', formattedDate);
-			  formData.append('time', selectedTime); // Replace with actual time
-			  formData.append('passengers', passengers); // Replace with actual number of passengers
+				const queryParams = new URLSearchParams({
+				  username: username,
+				  phone:phone,
+				  id: matchedRouteId,
+				  pickup: pickupLocation,
+		          	  dropoff: dropoffLocation,
+				  midstops: midstops,
+				  date: formattedDate,
+				  time: selectedTime,
+				  passengers: passengers
+				});
 				
 				
-			  try {
-					console.log('Now submit to script');
-				// Submit the form and wait for the fetch request to complete
-				 fetch(scriptURL, { method: 'POST', body: formData })
-					.then(response => {
-					  alert('Success!', response);	
-					})
-					.catch(error => {
-					  alert('Error!', error.message);
-					});
-				// Redirect to next page
-	//			window.location.href = `boarding.html?${queryParams.toString()}`;
+				  const formData = new FormData();
+				  formData.append('username', username);
+				  formData.append('phone', phone); // Replace with actual phone number
+				  formData.append('id', matchedRouteId); // Replace with actual ID
+				  formData.append('pickup', pickupLocation); // Replace with actual pickup location
+				  formData.append('dropoff', dropoffLocation); // Replace with actual dropoff location
+				  formData.append('midstops', midstops); // Replace with actual midstops
+				  formData.append('date', formattedDate);
+				  formData.append('time', selectedTime); // Replace with actual time
+				  formData.append('passengers', passengers); // Replace with actual number of passengers
 					
-				} catch (error) {
-					console.error('Error submitting form:', error);
-					// Handle the error, e.g., display an error message to the user
-				}	
+					
+				  try {
+						console.log('Now submit to script');
+					// Submit the form and wait for the fetch request to complete
+					 fetch(scriptURL, { method: 'POST', body: formData })
+						.then(response => {
+						  alert('Success!', response);	
+						})
+						.catch(error => {
+						  alert('Error!', error.message);
+						});
+					// Redirect to next page
+					window.location.href = `boarding.html?${queryParams.toString()}`;
+						
+					} catch (error) {
+						console.error('Error submitting form:', error);
+						// Handle the error, e.g., display an error message to the user
+					}	
+					
 				
+				// -----------------------------------------
+				
+				
+				//window.location.href = `boarding.html?${queryParams.toString()}`;
+	
+	
+			  }
 			
-			// -----------------------------------------
-			
-			
-			//window.location.href = `boarding.html?${queryParams.toString()}`;
+		    })
 
-
-		
-		
-	    })
 				      
 	})  // book button listener end
 	} 
