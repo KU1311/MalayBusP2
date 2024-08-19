@@ -151,7 +151,14 @@
         <!-- Cards will be dynamically added here -->
       </div>
     </div>
-
+	<div id="confirmmodal" class="modal">
+	    <div class="modal-content">
+	    <h3>Confirm Cancel Order?</h3>
+	      <button id="ConfirmButton">Confirm</button>
+	      <button id="CancelConfirmButton">Cancel</button>
+	    </div>
+	  </div>
+	  
 	<div id="myModal" class="modal">
 	    <div class="modal-content">
 	    <h3>Booking Canclled!</h3>
@@ -375,9 +382,21 @@ async function displayHistory() {
 			CancelformData.append('check', "");
 			CancelformData.append('rowIndex', item.rowIndex)
 
-			CancelButton.textContent = "Loading...";
+		    var confirmmodal = document.getElementById("confirmModal");
+		    const ConfirmButton = document.getElementById('ConfirmButton');
+		    const cancelconfirmbutton = document.getElementById('CancelConfirmButton');
+		    confirmmodal.style.display = "block";
 			    
-		      CancelBooking(CancelformData);
+			  ConfirmButton.addEventListener("click", function() {  
+			     ConfirmButton.textContent = "Loading...";
+			     CancelBooking(CancelformData);
+			     confirmmodal.style.display = "none";
+			  })
+			
+			  cancelconfirmbutton.addEventListener("click", function() {  
+			     confirmmodal.style.display = "none";
+			  })
+			    
 		    });
 		    
 	      card.appendChild(cardHeader);
@@ -391,6 +410,7 @@ async function displayHistory() {
 	}
 
 	function CancelBooking(CancelformData){
+	    
 	      // Update the Google Sheet with none record acting as delete
 		const scriptURLBookingmod = 'https://script.google.com/macros/s/AKfycbxmXmiZewyV7tiw7sad9ngd2-EejP093OKvakodSJQyySaW7bQs1eGukt0Aea_w0BKAyg/exec';
 			console.log("Going to delete booking row ",CancelformData.rowIndex)
