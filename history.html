@@ -328,6 +328,27 @@ async function displayHistory() {
 		    viewRouteButton.addEventListener('click', () => {
 		      viewRouteDetails(item.pickup, item.dropoff, routeId);
 		    });
+
+		const CancelButton = document.createElement('button');
+		    CancelButton.classList.add('view-route-btn');
+		    CancelButton.textContent = 'Cancel Booking';
+		    CancelButton.addEventListener('click', () => {
+			const CancelformData = new FormData();
+			CancelformData.append('username', "");
+			CancelformData.append('phone', "");
+			CancelformData.append('id', "");
+			CancelformData.append('pickup', "");
+			CancelformData.append('dropoff', "");
+			CancelformData.append('midstops', "");
+			CancelformData.append('date', "");
+			CancelformData.append('time', "");
+			CancelformData.append('passengers', "");
+			CancelformData.append('check', "");
+			CancelformData.append('rowIndex', item.rowIndex)
+
+			    
+		      CancelBooking(CancelformData);
+		    });
 		    
 	      card.appendChild(cardHeader);
 	      card.appendChild(cardContent);
@@ -337,7 +358,33 @@ async function displayHistory() {
 	    }
 	  });
 	}
-	
+
+	function CancelBooking(CancelformData){
+	      // Update the Google Sheet with none record acting as delete
+		const scriptURLBookingmod = 'https://script.google.com/macros/s/AKfycbxmXmiZewyV7tiw7sad9ngd2-EejP093OKvakodSJQyySaW7bQs1eGukt0Aea_w0BKAyg/exec';
+			console.log("Going to delete booking row ",CancelformData.rowIndex)
+				fetch(scriptURLBookingmod, {
+				  method: 'POST',
+				  body: CancelformData
+				})
+				.then(response => {
+				  if (response.ok) {
+				    console.log('Booking cancelled');
+//					location.reload(true);  
+				  } else {
+				    response.json().then(data => {
+				      console.error('Error updating data:', data.error);
+				    });
+				  }
+				})
+				.catch(error => {
+				  console.error('Error:', error);
+				});
+		
+	    
+	} // end of function CancelBooking
+
+		  
 	function displayPastRecords() {
 	  // Code to fetch and display past bookings
 	  // You can use the username and phone variables to fetch the data
@@ -346,7 +393,7 @@ async function displayHistory() {
 	cardContainer.innerHTML = '';
 	const dateB = new Date();
 	const formattedDateB = `${dateB.getFullYear()}/${(dateB.getMonth() + 1).toString().padStart(2, '0')}/${dateB.getDate().toString().padStart(2, '0')}`;
-		
+			
 	paxList.forEach((item) => {
 	    const dateA = new Date(item.date);
 	    const formattedDateA = `${dateA.getFullYear()}/${(dateA.getMonth() + 1).toString().padStart(2, '0')}/${dateA.getDate().toString().padStart(2, '0')}`;
