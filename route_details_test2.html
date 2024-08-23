@@ -305,11 +305,40 @@
       showAlternatives: false
     }).addTo(map);
 
+    // Define a custom marker icon with a label
+    var markerIcon = L.divIcon({
+      className: 'custom-marker',
+      html: '<div><span class="marker-label">Label</span></div>',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40]
+    });
+
     // Add markers for the stop locations
     stopLocations.forEach(stop => {
-      L.marker([stop.x, stop.y]).addTo(map)
+      L.marker([stop.x, stop.y], { icon: markerIcon }).addTo(map)
         .bindPopup(`<b>${stop.name}</b>`);
     });
+
+    // Add CSS styles for the custom marker
+    var css = `
+      .custom-marker {
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .marker-label {
+        color: black;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+    `;
+    var style = document.createElement('style');
+    style.innerHTML = css;
+    document.head.appendChild(style);	
+	
 
     // Add the user's current location
     if (navigator.geolocation) {
