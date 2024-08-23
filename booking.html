@@ -94,14 +94,10 @@
     <h1>Hello <span id="username"></span>, Book your Shuttle</h1>
     <form id="booking-form">
       <div class="form-group">
-        <label for="pickup-location">Pickup Location:</label>
+        <label for="pickup-location">Select Route:</label>
         <select id="pickup-location" required></select>
       </div>
-      <div class="form-group">
-        <label for="dropoff-location">Dropoff Location:</label>
-        <select id="dropoff-location" required></select>
-      </div>
-      
+           
       <button type="submit">Search</button>
     </form>
   </div>
@@ -123,11 +119,14 @@
     console.log(pairs);
 	
     // Populate the pickup and dropoff location options
-    populateLocationOptions();
-
-    // Update the dropoff location options based on the selected pickup location
-    document.getElementById('pickup-location').addEventListener('change', () => {
-      populateDropoffOptions();
+    const pickupLocationSelect = document.getElementById('pickup-location');
+	for (const route of routes) {
+		const routeid = route.id
+		const pickupOption = document.createElement('option');
+		pickupOption.value = routeid;
+		pickupOption.textContent = routeid;
+		pickupLocationSelect.add(routeOption);
+	}
     });
 
     // Handle the form submission
@@ -135,8 +134,8 @@
     bookingForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      const pickupLocation = document.getElementById('pickup-location').value;
-      const dropoffLocation = document.getElementById('dropoff-location').value;
+      const selectedRoute = document.getElementById('pickup-location').value;
+      const [pickupLocation, dropoffLocation] = selectedRoute.split(" - ");
 
       const queryParams = new URLSearchParams({
         username: username,
@@ -148,96 +147,7 @@
 
       window.location.href = `search-results.html?${queryParams.toString()}`;
     });
-	
-	
-	function generatePickupDropoffPairs(routes) {
-	  const pairs = [];
-	  const pickups = new Set();
-	
-	  for (const route of routes) {
-		const pickup = route.From;
-		const dropoff = route.To;
-	
-		// Check if the pickup is not already in the set
-		if (!pickups.has(pickup)) {
-		  pickups.add(pickup);
-		  const dropoffList = [];
-	
-		  // Check if the dropoff already exists in the pairs array
-		  const existingPair = pairs.find(pair => pair.pickup === pickup);
-		  if (existingPair) {
-			dropoffList.push(...existingPair.dropoff.split(","));
-		  }
-	
-		  // Add the current dropoff to the dropoff list
-		  dropoffList.push(dropoff);
-	
-		  // Create or update the pair object
-		  const pair = {
-			pickup: pickup,
-			dropoff: dropoffList.join(",")
-		  };
-		  const existingIndex = pairs.findIndex(p => p.pickup === pickup);
-		  if (existingIndex !== -1) {
-			pairs[existingIndex] = pair;
-		  } else {
-			pairs.push(pair);
-		  };
-		  } else {
-			  // The pickup is already in the set, append the dropoff to the existing pair
-			  const existingPair = pairs.find(pair => pair.pickup === pickup);
-			  existingPair.dropoff += `,${dropoff}`;
-			}
-	 	 }
-	   return pairs;
-		
-	 } 
 
-
-	
-	function populateLocationOptions() {
-	  const pickupLocationSelect = document.getElementById('pickup-location');
-	  const dropoffLocationSelect = document.getElementById('dropoff-location');
-		
-		
-		
-		
-	  // Populate the pickup location options
-	  pairs.forEach(pair => {
-		  const pickupOption = document.createElement('option');
-		  pickupOption.value = pair.pickup;
-		  pickupOption.textContent = pair.pickup;
-		  pickupLocationSelect.add(pickupOption);
-	  });
-
-	  // Populate the initial dropoff location options
-	  populateDropoffOptions();
-	}
-
-	function populateDropoffOptions() {
-	  const pickupLocationSelect = document.getElementById('pickup-location');
-	  const dropoffLocationSelect = document.getElementById('dropoff-location');
-
-	  // Clear the existing dropoff options
-	  dropoffLocationSelect.innerHTML = '';
-
-	  // Get the selected pickup location
-	  const selectedPickupLocation = pickupLocationSelect.value;
-
-	  
-	  // Add the dropoff options to the select element
-	  pairs.forEach(pair => {
-		  if (pair.pickup === selectedPickupLocation) {
-		  const dropoffOptions = pair.dropoff.split(',');
-		  dropoffOptions.forEach(option => {
-		    const dropoffOption = document.createElement('option');
-		    dropoffOption.value = option;
-		    dropoffOption.textContent = option;
-		    dropoffLocationSelect.add(dropoffOption);
-		  });
-		  }
-		});
-	}
 
 	// Switch Tabs
 	const switchTabs = document.querySelectorAll('.switch-tab');
