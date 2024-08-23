@@ -325,6 +325,7 @@
         .bindPopup(`<b>${stop.name}</b>`)
         .on('add', function() {
     		this.getElement().querySelector('.marker-label').textContent = stop.name;
+		console.log("stop.name", stop.name)
 	});
     });
 
