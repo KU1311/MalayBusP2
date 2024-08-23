@@ -317,7 +317,7 @@
     stopLocations.forEach(stop => {
       L.marker([stop.x, stop.y], { icon: L.divIcon({
 	      className: 'custom-marker',
-	      html: '<div><span class="marker-label">`<b>${stop.name}</b>`</span></div>',
+	      html: `<div><span class="marker-label"><b>${stop.name}</b></span></div>`,
 	      iconSize: [40, 40],
 	      iconAnchor: [20, 40]
 	    })
