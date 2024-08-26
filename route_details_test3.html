@@ -684,10 +684,10 @@
 		  })
 		.bindPopup(`<div class="current-location-label">Your Current Location</div>`)
 		.addTo(map);
-        })
+        },
         (error) => {
           console.error("Error getting user location:", error);
-        };
+        });
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
