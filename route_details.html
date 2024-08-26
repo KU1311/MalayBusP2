@@ -95,6 +95,110 @@
     .leaflet-routing-container {
       display: none;
     }
+
+
+  .custom-marker {
+	  background-color: rgb(74, 57, 242);
+	  border-radius: 50%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  color: white;
+	  font-weight: bold;
+	  transition: opacity 0.3s ease;
+	}
+	
+	.custom-marker.hidden {
+	  opacity: 0;
+	  pointer-events: none;
+	}
+	
+	.marker-container {
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  text-align: center;
+	  word-break: break-word;
+	  padding: 0.5rem;
+	}
+	
+	.marker-label {
+	  visibility: visible;
+	  transition: visibility 0.3s ease;
+	}
+	
+	.marker-label.hidden {
+	  visibility: hidden;
+	}
+	
+	.toggle-container {
+	  position: absolute;
+	  top: 10px;
+	  right: 10px;
+	  display: flex;
+	  align-items: center;
+	  background-color: white;
+	  border-radius: 20px;
+	  padding: 5px;
+	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	}
+	
+	.toggle-button {
+	  display: flex;
+	  align-items: center;
+	  background-color: #ccc;
+	  border: none;
+	  border-radius: 20px;
+	  padding: 5px 10px;
+	  cursor: pointer;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.toggle-button.active {
+	  background-color: rgb(74, 57, 242);
+	}
+	
+	.toggle-label {
+	  color: #333;
+	  font-size: 14px;
+	  margin-right: 5px;
+	}
+	
+	.toggle-switch {
+	  width: 20px;
+	  height: 20px;
+	  background-color: white;
+	  border-radius: 50%;
+	  transition: transform 0.3s ease;
+	}
+	
+	.toggle-button.active .toggle-switch {
+	  transform: translateX(12px);
+	}
+
+	.current-location-marker {
+	  background-color: rgba(73, 167, 223, 0.5);
+	  border-radius: 50%;
+	  width: 40px;
+	  height: 40px;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 12px;
+	  font-weight: bold;
+	  color: white;
+	}
+	
+	.current-location-label {
+	  
+	  padding: 4px 8px;
+	  border-radius: 4px;
+	  font-size: 12px;
+	  font-weight: bold;
+	}
+	  
   </style>
 </head>
 <body>
@@ -189,7 +293,7 @@
 	
 	// -------------------------------------------------------------------
 	// Load bus locations
-	
+	let markers = [];
 	async function getMatchedXY(routeInquiry,L) {
 	  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT51YqqiM3MQNbqvF2h86hucxl0kU-wrzctUqTJkDJirHZqVQM3dFeiNlMQkLYxSfMyha3tWbN37uvF/pub?output=csv';
 	  console.log("bus location lookup check")
@@ -260,10 +364,30 @@
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y,lastudt_time,at_stop });
 	  	console.log(matchedRecords)
+		  
 	      // add bus to the map
 	      matchedRecords.forEach(record => {
-	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${record.lastudt_time}`);
+
+		const labelText = "Bus";
+	  	const labelLength = labelText.length;
+	  	const iconSize = [40 + (labelLength * 8), 40];
+		// Create the marker icon
+		  const markerIcon = L.divIcon({
+		    className: 'custom-marker',
+		    html: `<div class="marker-container">
+		            <div class="marker-label">${labelText}</div>
+		          </div>`,
+		    iconSize: iconSize,
+		    iconAnchor: [iconSize[0] / 2, iconSize[1] / 2]
+		  });
+		      
+	       const marker = L.marker([record.X, record.Y], {
+		    icon: markerIcon
+		  })
+	        .bindPopup(`<b>Bus no: ${record.busID}</b><br>Last update: ${record.lastudt_time}`)
+		.addTo(map);
+		  
+		  markers.push(marker);
 	      });
 		  
 	    }
@@ -552,20 +676,18 @@
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const userLocationIcon = L.icon({
-            iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-blue.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          });
-
-          const userLocation = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map).bindPopup("<b>Your Location</b>");
+          const userLocationMarker = L.marker([position.coords.latitude, position.coords.longitude], {
+		    className: 'current-location-marker',
+		    html: 'You',
+		    iconSize: [50, 50],
+		    iconAnchor: [25, 25]
+		  })
+		.bindPopup(`<div class="current-location-label">Your Current Location</div>`)
+		.addTo(map);
         },
         (error) => {
           console.error("Error getting user location:", error);
-        }
-      );
+        });
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
