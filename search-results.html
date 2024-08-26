@@ -317,8 +317,9 @@
 	
     // Retrieve the query parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const pickupLocation = urlParams.get('pickup');
-    const dropoffLocation = urlParams.get('dropoff');
+//    const pickupLocation = urlParams.get('pickup');
+//   const dropoffLocation = urlParams.get('dropoff');
+    const routeid = urlParams.get('routeid');
 	const username = urlParams.get('username');
 	const phone = urlParams.get('phone');
 	;
@@ -353,6 +354,8 @@
     import { getRoutes } from './routes.js';
       let matchedRouteId;
       let matchedQuota;
+      let matchedPickup;
+      let matchedDropoff;
 
     async function displayFrequencyDetails() {
       const routes = await getRoutes();
@@ -376,8 +379,10 @@
       let matchedDepartureTimes = [];
       let matchedMidstops = [];
       routes.forEach(route => {
-        if (route.From === pickupLocation && route.To === dropoffLocation) {
+        if (route.id === routeid) {
           foundMatch = true;
+	  matchedPickup = route.From;
+	  matchedDropoff = route.To;
           matchedRouteId = route.id;
 	  matchedQuota = route.Quota;
           frequencyDaysElement.textContent = `${route.departureFrequency.days}, `;
