@@ -95,6 +95,88 @@
     .leaflet-routing-container {
       display: none;
     }
+
+
+  .custom-marker {
+	  background-color: rgb(74, 57, 242);
+	  border-radius: 50%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  color: white;
+	  font-weight: bold;
+	  transition: opacity 0.3s ease;
+	}
+	
+	.custom-marker.hidden {
+	  opacity: 0;
+	  pointer-events: none;
+	}
+	
+	.marker-container {
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  text-align: center;
+	  word-break: break-word;
+	  padding: 0.5rem;
+	}
+	
+	.marker-label {
+	  visibility: visible;
+	  transition: visibility 0.3s ease;
+	}
+	
+	.marker-label.hidden {
+	  visibility: hidden;
+	}
+	
+	.toggle-container {
+	  position: absolute;
+	  top: 10px;
+	  right: 10px;
+	  display: flex;
+	  align-items: center;
+	  background-color: white;
+	  border-radius: 20px;
+	  padding: 5px;
+	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	}
+	
+	.toggle-button {
+	  display: flex;
+	  align-items: center;
+	  background-color: #ccc;
+	  border: none;
+	  border-radius: 20px;
+	  padding: 5px 10px;
+	  cursor: pointer;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.toggle-button.active {
+	  background-color: rgb(74, 57, 242);
+	}
+	
+	.toggle-label {
+	  color: #333;
+	  font-size: 14px;
+	  margin-right: 5px;
+	}
+	
+	.toggle-switch {
+	  width: 20px;
+	  height: 20px;
+	  background-color: white;
+	  border-radius: 50%;
+	  transition: transform 0.3s ease;
+	}
+	
+	.toggle-button.active .toggle-switch {
+	  transform: translateX(12px);
+	}
   </style>
 </head>
 <body>
@@ -260,10 +342,30 @@
 	      console.log("Bus found: ",busID)
 	      matchedRecords.push({ busID, X, Y,lastudt_time,at_stop });
 	  	console.log(matchedRecords)
+		  
 	      // add bus to the map
 	      matchedRecords.forEach(record => {
-	      L.marker([record.X, record.Y]).addTo(map)
-	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${record.lastudt_time}`);
+
+		const labelText = record.busID;
+	  	const labelLength = labelText.length;
+	  	const iconSize = [40 + (labelLength * 8), 40];
+		// Create the marker icon
+		  const markerIcon = L.divIcon({
+		    className: 'custom-marker',
+		    html: `<div class="marker-container">
+		            <div class="marker-label">${labelText}</div>
+		          </div>`,
+		    iconSize: iconSize,
+		    iconAnchor: [iconSize[0] / 2, iconSize[1] / 2]
+		  });
+		      
+	       const marker = L.marker([record.X, record.Y], {
+		    icon: markerIcon
+		  })
+	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${record.lastudt_time}`)
+		.addTo(map);
+		  
+		  markers.push(marker);
 	      });
 		  
 	    }
