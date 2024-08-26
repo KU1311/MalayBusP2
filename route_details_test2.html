@@ -315,11 +315,14 @@
 
     // Add markers for the stop locations
     stopLocations.forEach(stop => {
+	  const labelText = stop.name;
+	  const labelLength = labelText.length;
+	  const iconSize = [40 + (labelLength * 8), 40];
       L.marker([stop.x, stop.y], { icon: L.divIcon({
 	      className: 'custom-marker',
 	      html: '<div><span class="marker-label"></span></div>',
-	      iconSize: [40, 40],
-	      iconAnchor: [20, 40]
+	      iconSize: iconSize,
+      	      iconAnchor: [iconSize[0] / 2, iconSize[1]]
 	    })
         })
         .bindPopup(`<b>${stop.name}</b>`)
