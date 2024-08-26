@@ -677,11 +677,11 @@
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLocationMarker = L.marker([position.coords.latitude, position.coords.longitude], {
-		    className: 'current-location-marker',
-		    html: 'You',
-		    iconSize: [50, 50],
-		    iconAnchor: [25, 25]
-		  })
+		     icon: L.divIcon({
+			        className: 'current-location-marker',
+			        iconSize: [50, 50]
+			      })
+			  })
 		.bindPopup(`<div class="current-location-label">Your Current Location</div>`)
 		.addTo(map);
         },
