@@ -117,6 +117,59 @@
 	  word-break: break-word;
 	  padding: 0.5rem;
 	}
+	
+	.marker-label {
+	  visibility: visible;
+	}
+	
+	.marker-label.hidden {
+	  visibility: hidden;
+	}
+	
+	.toggle-container {
+	  position: absolute;
+	  top: 10px;
+	  right: 10px;
+	  display: flex;
+	  align-items: center;
+	  background-color: white;
+	  border-radius: 20px;
+	  padding: 5px;
+	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	}
+	
+	.toggle-button {
+	  display: flex;
+	  align-items: center;
+	  background-color: #ccc;
+	  border: none;
+	  border-radius: 20px;
+	  padding: 5px 10px;
+	  cursor: pointer;
+	  transition: background-color 0.3s ease;
+	}
+	
+	.toggle-button.active {
+	  background-color: rgb(74, 57, 242);
+	}
+	
+	.toggle-label {
+	  color: #333;
+	  font-size: 14px;
+	  margin-right: 5px;
+	}
+	
+	.toggle-switch {
+	  width: 20px;
+	  height: 20px;
+	  background-color: white;
+	  border-radius: 50%;
+	  transition: transform 0.3s ease;
+	}
+	
+	.toggle-button.active .toggle-switch {
+	  transform: translateX(12px);
+	}
 	  
   </style>
 </head>
@@ -132,6 +185,12 @@
 	</div>
 
   <div id="map"></div>
+	<div class="toggle-container">
+	  <button id="toggleLabels" class="toggle-button">
+	    <span class="toggle-label">Labels</span>
+	    <span class="toggle-switch"></span>
+	  </button>
+	</div>
   <table id="stopLocationTable">
     <thead>
       <tr>
@@ -342,7 +401,9 @@
 	  const iconSize = [40 + (labelLength * 8), 40];
       L.marker([stop.x, stop.y], { icon: L.divIcon({
 	      className: 'custom-marker',
-	      html: '<div><span class="marker-label"></span></div>',
+	      html: `<div class="marker-container">
+	            <div class="marker-label">${labelText}</div>
+	          </div>`,
 	      iconSize: iconSize,
     		iconAnchor: [iconSize[0] / 2, iconSize[1] / 2]
 	    })
@@ -354,6 +415,18 @@
 	})
         .addTo(map);
     });
+
+    // Toggle Button
+	const toggleLabelsButton = document.getElementById('toggleLabels');
+	let labelsVisible = true;
+	
+	toggleLabelsButton.addEventListener('click', () => {
+	  labelsVisible = !labelsVisible;
+	  toggleLabelsButton.classList.toggle('active');
+	  markers.forEach(marker => {
+	    marker.getElement().querySelector('.marker-label').classList.toggle('hidden', !labelsVisible);
+	  });
+	});
 
     // Add CSS styles for the custom marker
     var css = `
