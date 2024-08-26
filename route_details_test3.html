@@ -177,6 +177,29 @@
 	.toggle-button.active .toggle-switch {
 	  transform: translateX(12px);
 	}
+
+	.current-location-marker {
+	  background-color: rgba(73, 167, 223, 0.5);
+	  border-radius: 50%;
+	  width: 40px;
+	  height: 40px;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 12px;
+	  font-weight: bold;
+	  color: white;
+	}
+	
+	.current-location-label {
+	  background-color: rgba(73, 167, 223, 1);
+	  color: white;
+	  padding: 4px 8px;
+	  border-radius: 4px;
+	  font-size: 12px;
+	  font-weight: bold;
+	}
+	  
   </style>
 </head>
 <body>
@@ -662,7 +685,15 @@
             shadowSize: [41, 41]
           });
 
-          const userLocation = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map).bindPopup("<b>Your Location</b>");
+          const userLocation = L.marker([position.coords.latitude, position.coords.longitude], {
+		  icon: L.divIcon({
+		    className: 'current-location-marker',
+		    iconSize: [40, 40],
+		    iconAnchor: [20, 20]
+		  })
+		})
+		.bindPopup(`<div class="current-location-label">Your Current Location</div>`)
+		.addTo(map);
         },
         (error) => {
           console.error("Error getting user location:", error);
