@@ -346,7 +346,7 @@
 	      // add bus to the map
 	      matchedRecords.forEach(record => {
 
-		const labelText = record.busID;
+		const labelText = "Bus";
 	  	const labelLength = labelText.length;
 	  	const iconSize = [40 + (labelLength * 8), 40];
 		// Create the marker icon
@@ -362,7 +362,7 @@
 	       const marker = L.marker([record.X, record.Y], {
 		    icon: markerIcon
 		  })
-	        .bindPopup(`<b>${record.busID}</b><br>Last update: ${record.lastudt_time}`)
+	        .bindPopup(`<b>Bus no: ${record.busID}</b><br>Last update: ${record.lastudt_time}`)
 		.addTo(map);
 		  
 		  markers.push(marker);
