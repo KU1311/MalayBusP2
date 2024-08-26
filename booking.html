@@ -132,13 +132,11 @@
       event.preventDefault();
 
       const selectedRoute = document.getElementById('pickup-location').value;
-      const [pickupLocation, dropoffLocation] = selectedRoute.split(" - ");
 
       const queryParams = new URLSearchParams({
         username: username,
-		phone: phone,
-        pickup: pickupLocation,
-        dropoff: dropoffLocation,
+	phone: phone,
+        routeid: selectedRoute
         // Include any other relevant parameters here
       });
 
