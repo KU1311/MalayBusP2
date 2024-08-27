@@ -1,96 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stops</title>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
+  <title>Malaybus Bookings</title>
 </head>
 <body>
-  <h1>Stops</h1>
+  <h1>Malaybus Bookings</h1>
+  <button id="download-csv">Download CSV</button>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Route ID</th>
-        <th>Stop</th>
-        <th>X</th>
-        <th>Y</th>
-      </tr>
-    </thead>
-    <tbody id="stops-container">
-    </tbody>
-  </table>
+  <script>
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w/pubhtml?widget=true&headers=false';
 
-  <script type="module">
-    import { getRoutes } from './routes.js';
-    const routes = await getRoutes();
+    async function fetchSheetData() {
+      const response = await fetch(sheetUrl);
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
 
-    const stops = getUniqueStops(routes);
+      const table = doc.querySelector('table');
+      const rows = table.querySelectorAll('tr');
 
-    const stopsContainer = document.getElementById('stops-container');
+      const data = [];
+      rows.forEach((row) => {
+        const columns = row.querySelectorAll('td');
+        const rowData = [];
+        columns.forEach((column) => {
+          rowData.push(column.textContent.trim());
+        });
+        data.push(rowData);
+      });
 
-    for (const stop of stops) {
-      const stopParts = stop.split(';');
-      const routeId = stopParts[0];
-
-      if (routeId === "1X") {
-        const row = document.createElement('tr');
-
-        const routeIdCell = document.createElement('td');
-        routeIdCell.textContent = routeId;
-        row.appendChild(routeIdCell);
-
-        const stopCell = document.createElement('td');
-        stopCell.textContent = stopParts[1];
-        row.appendChild(stopCell);
-
-        const xCell = document.createElement('td');
-        xCell.textContent = stopParts[2];
-        row.appendChild(xCell);
-
-        const yCell = document.createElement('td');
-        yCell.textContent = stopParts[3];
-        row.appendChild(yCell);
-
-        stopsContainer.appendChild(row);
-      }
+      return data;
     }
 
-    function getUniqueStops(routes) {
-      const allStops = [];
-
-      for (const route of routes) {
-        const routeId = route.id;
-        const midstops = route.Midstops;
-        const xs = route.XX;
-        const ys = route.YY;
-
-        for (let i = 0; i < midstops.length; i++) {
-          allStops.push(`${routeId};${midstops[i]};${xs[i]};${ys[i]}`);
-        }
-
-        // Add the last stop
-        const lastStopX = xs[xs.length - 1];
-        const lastStopY = ys[ys.length - 1];
-        allStops.push(`${routeId};${route.To};${lastStopX};${lastStopY}`);
-      }
-
-      return Array.from(new Set(allStops));
+    function downloadCSV(data) {
+      const csvContent = data.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'malaybus_bookings.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
+
+    document.getElementById('download-csv').addEventListener('click', async () => {
+      const data = await fetchSheetData();
+      downloadCSV(data);
+    });
   </script>
 </body>
 </html>
