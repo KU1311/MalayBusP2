@@ -14,11 +14,23 @@
     const SPREADSHEET_ID = '15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w';
     const RANGE = 'Sheet1!A1:J';
 
-    async function initGoogleAPI() {
-      await gapi.client.init({
-        apiKey: API_KEY,
-        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-        scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+    function initGoogleAPI() {
+      return new Promise((resolve, reject) => {
+        gapi.load('client', () => {
+          gapi.client.init({
+            apiKey: API_KEY,
+            discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+            scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+          })
+          .then(() => {
+            console.log('Google API initialized');
+            resolve();
+          })
+          .catch((error) => {
+            console.error('Error initializing Google API:', error);
+            reject(error);
+          });
+        });
       });
     }
 
@@ -44,8 +56,12 @@
     }
 
     document.getElementById('download-csv').addEventListener('click', async () => {
-      const data = await fetchSheetData();
-      downloadCSV(data);
+      try {
+        const data = await fetchSheetData();
+        downloadCSV(data);
+      } catch (error) {
+        console.error('Error fetching sheet data:', error);
+      }
     });
   </script>
 </body>
