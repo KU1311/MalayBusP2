@@ -2,34 +2,34 @@
 <html>
 <head>
   <title>Malaybus Bookings</title>
+  <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
   <h1>Malaybus Bookings</h1>
   <button id="download-csv">Download CSV</button>
 
   <script>
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w/pubhtml?widget=true&headers=false';
+    const CLIENT_ID = 'YOUR_CLIENT_ID';
+    const API_KEY = 'YOUR_API_KEY';
+    const SPREADSHEET_ID = '15EUV2jxrtympFa69tzhL7OiKnvEJx6N6bGueyUYAW5w';
+    const RANGE = 'Sheet1!A1:J';
+
+    async function initGoogleAPI() {
+      await gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+        scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+      });
+    }
 
     async function fetchSheetData() {
-      const response = await fetch(sheetUrl);
-      const html = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-
-      const table = doc.querySelector('table');
-      const rows = table.querySelectorAll('tr');
-
-      const data = [];
-      rows.forEach((row) => {
-        const columns = row.querySelectorAll('td');
-        const rowData = [];
-        columns.forEach((column) => {
-          rowData.push(column.textContent.trim());
-        });
-        data.push(rowData);
+      await initGoogleAPI();
+      const response = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: SPREADSHEET_ID,
+        range: RANGE,
       });
-
-      return data;
+      return response.result.values;
     }
 
     function downloadCSV(data) {
